@@ -1,0 +1,82 @@
+[gd_scene load_steps=8 format=3 uid="uid://buka5gc5gu4fa"]
+
+[ext_resource type="Texture2D" uid="uid://cl7pvm673ey60" path="res://Art/Tilesets/Wooden House.png" id="1_fmlxv"]
+[ext_resource type="Script" path="res://Level Items/door.gd" id="1_ky7b2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43ukd"]
+atlas = ExtResource("1_fmlxv")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0uesn"]
+atlas = ExtResource("1_fmlxv")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcck7"]
+atlas = ExtResource("1_fmlxv")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0nipq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43ukd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0uesn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcck7")
+}],
+"loop": false,
+"name": &"Close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcck7")
+}],
+"loop": true,
+"name": &"Closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcck7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0uesn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43ukd")
+}],
+"loop": false,
+"name": &"Open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43ukd")
+}],
+"loop": true,
+"name": &"Opened",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0nxsa"]
+radius = 3.0
+height = 54.0
+
+[node name="Door" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_0nipq")
+animation = &"Closed"
+script = ExtResource("1_ky7b2")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_0nxsa")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

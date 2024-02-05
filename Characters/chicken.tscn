@@ -1,0 +1,134 @@
+[gd_scene load_steps=14 format=3 uid="uid://dgns80dvd8r1h"]
+
+[ext_resource type="Script" path="res://Characters/chicken.gd" id="1_bbj4o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r75lw"]
+size = Vector2(15, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j2305"]
+radius = 20.025
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fuhcm"]
+radius = 12.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s8eb3"]
+load_path = "res://.godot/imported/Free Chicken Sprites.png-9916181749d583b750f1f225391ed5e4.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t74nr"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8ket"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c71ol"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mnqpy"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4an1l"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbh10"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_un8if"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t74nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8ket")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c71ol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mnqpy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4an1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbh10")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pbdmt"]
+radius = 5.0
+height = 10.0
+
+[node name="Chicken" type="CharacterBody2D"]
+position = Vector2(0, -7)
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_bbj4o")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Detection" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_r75lw")
+
+[node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="PlayerDetection" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("CircleShape2D_j2305")
+
+[node name="Area2D3" type="Area2D" parent="."]
+
+[node name="PlayerClose" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("CircleShape2D_fuhcm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_un8if")
+animation = &"Walking"
+frame_progress = 0.414901
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1)
+shape = SubResource("CapsuleShape2D_pbdmt")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="." method="_on_area_2d_2_body_exited"]
+[connection signal="body_entered" from="Area2D3" to="." method="_on_area_2d_3_body_entered"]
+[connection signal="body_exited" from="Area2D3" to="." method="_on_area_2d_3_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

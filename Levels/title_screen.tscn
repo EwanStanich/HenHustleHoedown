@@ -1,0 +1,479 @@
+[gd_scene load_steps=16 format=3 uid="uid://dguryrdn8htwe"]
+
+[ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
+
+[sub_resource type="GDScript" id="GDScript_7qdv6"]
+script/source = "extends Node2D
+
+@onready var anim = $ColorRect/AnimationPlayer
+
+func _ready():
+	print(Game.level2)
+	Utils.loadGame()
+	$Player.play(\"Run\")
+	$Chicken.play(\"Run\")
+	anim.play(\"Open\")
+	if Game.level1:
+		$\"Level_Buttons/Level 2\".disabled = false
+		$\"HS_Buttons/HS Level 1\".disabled = false
+	if Game.level2:
+		$\"HS_Buttons/HS Level 2\".disabled = false
+ 
+
+func _on_play_button_down():
+	$Level_Buttons.visible = true
+	$Buttons.visible = false	
+
+
+func _on_quit_button_down():
+	get_tree().quit()
+
+
+func _on_level_1_button_down():
+	get_tree().change_scene_to_file(\"res://Levels/game_level.tscn\")
+
+
+func _on_back_button_down():
+	$Level_Buttons.visible = false
+	$HS_Buttons.visible = false
+	$Buttons.visible = true
+
+
+func _on_level_2_button_down():
+	get_tree().change_scene_to_file(\"res://Levels/level_2.tscn\")
+
+
+func _on_high_score_button_down():
+	$Buttons.visible = false
+	$HS_Buttons.visible = true
+
+
+func _on_hs_back_button_down():
+	$HighScores.visible = false
+	$HS_Buttons.visible = true
+
+
+func _on_hs_level_1_button_down():
+	var HS = Game.level1HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 1\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+
+
+func _on_hs_level_2_button_down():
+	var HS = Game.level2HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 2\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fku64"]
+load_path = "res://.godot/imported/Basic Charakter Spritesheet.png-c907e9cd0d9d1a8de1a9c881d0f3187f.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv2o4"]
+atlas = SubResource("CompressedTexture2D_fku64")
+region = Rect2(96, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqtyh"]
+atlas = SubResource("CompressedTexture2D_fku64")
+region = Rect2(144, 144, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m84e7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv2o4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqtyh")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 8.0
+}]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s8eb3"]
+load_path = "res://.godot/imported/Free Chicken Sprites.png-9916181749d583b750f1f225391ed5e4.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x55r"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g50dl"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n44ff"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ria5m"]
+atlas = SubResource("CompressedTexture2D_s8eb3")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1b6dq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x55r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g50dl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n44ff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ria5m")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 9.0
+}]
+
+[sub_resource type="Animation" id="Animation_7jajh"]
+resource_name = "Open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y2ejn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hfq8c"]
+_data = {
+"Open": SubResource("Animation_7jajh"),
+"RESET": SubResource("Animation_y2ejn")
+}
+
+[node name="TitleScreen" type="Node2D"]
+script = SubResource("GDScript_7qdv6")
+
+[node name="TitleBG" parent="." instance=ExtResource("1_kqdix")]
+
+[node name="Player" type="AnimatedSprite2D" parent="."]
+position = Vector2(119, 184)
+sprite_frames = SubResource("SpriteFrames_m84e7")
+animation = &"Run"
+frame_progress = 0.0872033
+
+[node name="Chicken" type="AnimatedSprite2D" parent="."]
+position = Vector2(222, 186)
+sprite_frames = SubResource("SpriteFrames_1b6dq")
+animation = &"Run"
+frame_progress = 0.6503
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 480.0
+offset_bottom = 272.0
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorRect"]
+libraries = {
+"": SubResource("AnimationLibrary_hfq8c")
+}
+
+[node name="Buttons" type="Node2D" parent="."]
+
+[node name="Play" type="Button" parent="Buttons"]
+offset_left = 131.0
+offset_top = 31.0
+offset_right = 205.0
+offset_bottom = 62.0
+text = "Play"
+
+[node name="High Score" type="Button" parent="Buttons"]
+offset_left = 120.0
+offset_top = 73.0
+offset_right = 219.0
+offset_bottom = 104.0
+text = "High Scores"
+
+[node name="Quit" type="Button" parent="Buttons"]
+offset_left = 131.0
+offset_top = 114.0
+offset_right = 205.0
+offset_bottom = 145.0
+text = "Quit"
+
+[node name="Level_Buttons" type="Node2D" parent="."]
+visible = false
+position = Vector2(-7, 0)
+
+[node name="Level 1" type="Button" parent="Level_Buttons"]
+offset_left = 48.0
+offset_top = 14.0
+offset_right = 122.0
+offset_bottom = 45.0
+text = "Level 1
+"
+
+[node name="Level 2" type="Button" parent="Level_Buttons"]
+offset_left = 137.0
+offset_top = 14.0
+offset_right = 211.0
+offset_bottom = 45.0
+disabled = true
+text = "Level 2"
+
+[node name="Level 3" type="Button" parent="Level_Buttons"]
+offset_left = 226.0
+offset_top = 14.0
+offset_right = 300.0
+offset_bottom = 45.0
+disabled = true
+text = "Level 3"
+
+[node name="Level 4" type="Button" parent="Level_Buttons"]
+offset_left = 48.0
+offset_top = 61.0
+offset_right = 122.0
+offset_bottom = 92.0
+disabled = true
+text = "Level 4"
+
+[node name="Level 5" type="Button" parent="Level_Buttons"]
+offset_left = 137.0
+offset_top = 61.0
+offset_right = 211.0
+offset_bottom = 92.0
+disabled = true
+text = "Level 5"
+
+[node name="Level 6" type="Button" parent="Level_Buttons"]
+offset_left = 226.0
+offset_top = 61.0
+offset_right = 300.0
+offset_bottom = 92.0
+disabled = true
+text = "Level 6"
+
+[node name="Level 7" type="Button" parent="Level_Buttons"]
+offset_left = 48.0
+offset_top = 104.0
+offset_right = 122.0
+offset_bottom = 135.0
+disabled = true
+text = "Level 7"
+
+[node name="Level 8" type="Button" parent="Level_Buttons"]
+offset_left = 137.0
+offset_top = 104.0
+offset_right = 211.0
+offset_bottom = 135.0
+disabled = true
+text = "Level 8"
+
+[node name="Level 9" type="Button" parent="Level_Buttons"]
+offset_left = 226.0
+offset_top = 104.0
+offset_right = 300.0
+offset_bottom = 135.0
+disabled = true
+text = "Level 9"
+
+[node name="Back" type="Button" parent="Level_Buttons"]
+offset_left = 146.0
+offset_top = 147.0
+offset_right = 202.0
+offset_bottom = 178.0
+text = "Back
+"
+
+[node name="HS_Buttons" type="Node2D" parent="."]
+visible = false
+position = Vector2(-7, 0)
+
+[node name="HS Level 1" type="Button" parent="HS_Buttons"]
+offset_left = 48.0
+offset_top = 14.0
+offset_right = 122.0
+offset_bottom = 45.0
+disabled = true
+text = "Level 1
+"
+
+[node name="HS Level 2" type="Button" parent="HS_Buttons"]
+offset_left = 137.0
+offset_top = 14.0
+offset_right = 211.0
+offset_bottom = 45.0
+disabled = true
+text = "Level 2"
+
+[node name="HS Level 3" type="Button" parent="HS_Buttons"]
+offset_left = 226.0
+offset_top = 14.0
+offset_right = 300.0
+offset_bottom = 45.0
+disabled = true
+text = "Level 3"
+
+[node name="HS Level 4" type="Button" parent="HS_Buttons"]
+offset_left = 48.0
+offset_top = 61.0
+offset_right = 122.0
+offset_bottom = 92.0
+disabled = true
+text = "Level 4"
+
+[node name="HS Level 5" type="Button" parent="HS_Buttons"]
+offset_left = 137.0
+offset_top = 61.0
+offset_right = 211.0
+offset_bottom = 92.0
+disabled = true
+text = "Level 5"
+
+[node name="HS Level 6" type="Button" parent="HS_Buttons"]
+offset_left = 226.0
+offset_top = 61.0
+offset_right = 300.0
+offset_bottom = 92.0
+disabled = true
+text = "Level 6"
+
+[node name="HS Level 7" type="Button" parent="HS_Buttons"]
+offset_left = 48.0
+offset_top = 104.0
+offset_right = 122.0
+offset_bottom = 135.0
+disabled = true
+text = "Level 7"
+
+[node name="HS Level 8" type="Button" parent="HS_Buttons"]
+offset_left = 137.0
+offset_top = 104.0
+offset_right = 211.0
+offset_bottom = 135.0
+disabled = true
+text = "Level 8"
+
+[node name="HS Level 9" type="Button" parent="HS_Buttons"]
+offset_left = 226.0
+offset_top = 104.0
+offset_right = 300.0
+offset_bottom = 135.0
+disabled = true
+text = "Level 9"
+
+[node name="Back" type="Button" parent="HS_Buttons"]
+offset_left = 146.0
+offset_top = 147.0
+offset_right = 202.0
+offset_bottom = 178.0
+text = "Back
+"
+
+[node name="HighScores" type="Node2D" parent="."]
+visible = false
+position = Vector2(0, 19)
+
+[node name="ColorRect" type="ColorRect" parent="HighScores"]
+offset_left = 86.0
+offset_top = -9.0
+offset_right = 258.0
+offset_bottom = 137.0
+color = Color(0.0392157, 0.0392157, 0.0392157, 0.45098)
+
+[node name="HS1" type="Label" parent="HighScores"]
+offset_left = 113.0
+offset_top = 13.0
+offset_right = 231.0
+offset_bottom = 36.0
+text = "|"
+horizontal_alignment = 1
+
+[node name="HS2" type="Label" parent="HighScores"]
+offset_left = 113.0
+offset_top = 37.0
+offset_right = 231.0
+offset_bottom = 60.0
+text = "|"
+horizontal_alignment = 1
+
+[node name="HS3" type="Label" parent="HighScores"]
+offset_left = 113.0
+offset_top = 63.0
+offset_right = 231.0
+offset_bottom = 86.0
+text = "|"
+horizontal_alignment = 1
+
+[node name="HS4" type="Label" parent="HighScores"]
+offset_left = 113.0
+offset_top = 89.0
+offset_right = 231.0
+offset_bottom = 112.0
+text = "|"
+horizontal_alignment = 1
+
+[node name="HS5" type="Label" parent="HighScores"]
+offset_left = 113.0
+offset_top = 115.0
+offset_right = 231.0
+offset_bottom = 138.0
+text = "|"
+horizontal_alignment = 1
+
+[node name="LevelNum" type="Label" parent="HighScores"]
+offset_left = 76.0
+offset_top = -13.0
+offset_right = 237.0
+offset_bottom = 10.0
+scale = Vector2(1.18735, 1.18735)
+text = "|"
+horizontal_alignment = 1
+
+[node name="HSBack" type="Button" parent="HighScores"]
+offset_left = 151.0
+offset_top = 144.0
+offset_right = 207.0
+offset_bottom = 175.0
+scale = Vector2(0.745575, 0.708923)
+text = "Back
+"
+
+[connection signal="button_down" from="Buttons/Play" to="." method="_on_play_button_down"]
+[connection signal="button_down" from="Buttons/High Score" to="." method="_on_high_score_button_down"]
+[connection signal="button_down" from="Buttons/Quit" to="." method="_on_quit_button_down"]
+[connection signal="button_down" from="Level_Buttons/Level 1" to="." method="_on_level_1_button_down"]
+[connection signal="button_down" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_down"]
+[connection signal="button_down" from="Level_Buttons/Back" to="." method="_on_back_button_down"]
+[connection signal="button_down" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_down"]
+[connection signal="button_down" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_down"]
+[connection signal="button_down" from="HS_Buttons/Back" to="." method="_on_back_button_down"]
+[connection signal="button_down" from="HighScores/HSBack" to="." method="_on_hs_back_button_down"]

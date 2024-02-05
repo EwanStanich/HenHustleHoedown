@@ -1,0 +1,105 @@
+[gd_scene load_steps=11 format=3 uid="uid://devv3qoc372xl"]
+
+[ext_resource type="Script" path="res://Characters/cow.gd" id="1_jgslc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h2d23"]
+size = Vector2(31, 20)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vmsxq"]
+load_path = "res://.godot/imported/Free Cow Sprites.png-63678b433a14a3e2ffa6ca5c8e968545.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gu71v"]
+atlas = SubResource("CompressedTexture2D_vmsxq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rw4pl"]
+atlas = SubResource("CompressedTexture2D_vmsxq")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsont"]
+atlas = SubResource("CompressedTexture2D_vmsxq")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7q7k"]
+atlas = SubResource("CompressedTexture2D_vmsxq")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sud20"]
+atlas = SubResource("CompressedTexture2D_vmsxq")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_773hn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gu71v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rw4pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gu71v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rw4pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gu71v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rw4pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsont")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rw4pl")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7q7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sud20")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_drab4"]
+radius = 4.0
+height = 22.0
+
+[node name="Cow" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
+script = ExtResource("1_jgslc")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 7)
+
+[node name="Detection" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, -8)
+shape = SubResource("RectangleShape2D_h2d23")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -6)
+sprite_frames = SubResource("SpriteFrames_773hn")
+animation = &"Idle"
+frame_progress = 0.621778
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_drab4")
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

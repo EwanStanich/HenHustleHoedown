@@ -1,0 +1,172 @@
+[gd_scene load_steps=13 format=3 uid="uid://dcxvrqoiid8wr"]
+
+[ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_iydad"]
+[ext_resource type="Texture2D" uid="uid://be38mttk0ewmr" path="res://Art/Characters/Basic Charakter Spritesheet.png" id="2_t87fe"]
+[ext_resource type="Texture2D" uid="uid://credbmjegy6bi" path="res://Art/Characters/Free Chicken Sprites.png" id="3_nsvfv"]
+
+[sub_resource type="GDScript" id="GDScript_0ots3"]
+script/source = "extends Node2D
+
+
+func _ready():
+	$Player.play(\"Run\")
+	$Chicken.play(\"Run\")
+
+
+func _on_level_1_button_down():
+	get_tree().change_scene_to_file(\"res://Levels/game_level.tscn\")
+
+
+func _on_back_button_down():
+	get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv2o4"]
+atlas = ExtResource("2_t87fe")
+region = Rect2(96, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqtyh"]
+atlas = ExtResource("2_t87fe")
+region = Rect2(144, 144, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_76yia"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv2o4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqtyh")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 8.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7x55r"]
+atlas = ExtResource("3_nsvfv")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g50dl"]
+atlas = ExtResource("3_nsvfv")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n44ff"]
+atlas = ExtResource("3_nsvfv")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ria5m"]
+atlas = ExtResource("3_nsvfv")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fqj4e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7x55r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g50dl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n44ff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ria5m")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 9.0
+}]
+
+[node name="Levels" type="Node2D"]
+script = SubResource("GDScript_0ots3")
+
+[node name="TitleBG" parent="." instance=ExtResource("1_iydad")]
+
+[node name="Player" type="AnimatedSprite2D" parent="."]
+position = Vector2(119, 184)
+sprite_frames = SubResource("SpriteFrames_76yia")
+animation = &"Run"
+
+[node name="Chicken" type="AnimatedSprite2D" parent="."]
+position = Vector2(222, 186)
+sprite_frames = SubResource("SpriteFrames_fqj4e")
+animation = &"Run"
+
+[node name="Buttons" type="Node2D" parent="."]
+
+[node name="Level 1" type="Button" parent="Buttons"]
+offset_left = 48.0
+offset_top = 14.0
+offset_right = 122.0
+offset_bottom = 45.0
+text = "Level 1
+"
+
+[node name="Level 2" type="Button" parent="Buttons"]
+offset_left = 137.0
+offset_top = 14.0
+offset_right = 211.0
+offset_bottom = 45.0
+text = "Level 2"
+
+[node name="Level 3" type="Button" parent="Buttons"]
+offset_left = 226.0
+offset_top = 14.0
+offset_right = 300.0
+offset_bottom = 45.0
+text = "Level 3"
+
+[node name="Level 4" type="Button" parent="Buttons"]
+offset_left = 48.0
+offset_top = 61.0
+offset_right = 122.0
+offset_bottom = 92.0
+text = "Level 4"
+
+[node name="Level 5" type="Button" parent="Buttons"]
+offset_left = 137.0
+offset_top = 61.0
+offset_right = 211.0
+offset_bottom = 92.0
+text = "Level 5"
+
+[node name="Level 6" type="Button" parent="Buttons"]
+offset_left = 226.0
+offset_top = 61.0
+offset_right = 300.0
+offset_bottom = 92.0
+text = "Level 6"
+
+[node name="Level 7" type="Button" parent="Buttons"]
+offset_left = 48.0
+offset_top = 104.0
+offset_right = 122.0
+offset_bottom = 135.0
+text = "Level 7"
+
+[node name="Level 8" type="Button" parent="Buttons"]
+offset_left = 137.0
+offset_top = 104.0
+offset_right = 211.0
+offset_bottom = 135.0
+text = "Level 8"
+
+[node name="Level 9" type="Button" parent="Buttons"]
+offset_left = 226.0
+offset_top = 104.0
+offset_right = 300.0
+offset_bottom = 135.0
+text = "Level 9"
+
+[node name="Back" type="Button" parent="Buttons"]
+offset_left = 146.0
+offset_top = 147.0
+offset_right = 202.0
+offset_bottom = 178.0
+text = "Back
+"
+
+[connection signal="button_down" from="Buttons/Level 1" to="." method="_on_level_1_button_down"]
+[connection signal="button_down" from="Buttons/Back" to="." method="_on_back_button_down"]
