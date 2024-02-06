@@ -532,7 +532,7 @@ states/End/position = Vector2(926.5, 141.594)
 states/Idle/node = SubResource("AnimationNodeBlendSpace2D_w6rul")
 states/Idle/position = Vector2(302.9, 142.758)
 states/Sleep/node = SubResource("AnimationNodeAnimation_cgrpa")
-states/Sleep/position = Vector2(386.9, 49.1325)
+states/Sleep/position = Vector2(386.4, 48.6325)
 states/Start/position = Vector2(140.5, 141.492)
 states/Walk/node = SubResource("AnimationNodeBlendSpace2D_7cesb")
 states/Walk/position = Vector2(475.4, 141.742)
@@ -546,6 +546,7 @@ size = Vector2(8, 16)
 script = ExtResource("1_rblef")
 
 [node name="Arrow" type="Line2D" parent="."]
+visible = false
 y_sort_enabled = true
 position = Vector2(-1.90735e-06, -2.58089e-22)
 rotation = 6.28319

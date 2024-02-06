@@ -9,6 +9,7 @@ const blend2 = "parameters/Walk/blend_position"
 @onready var state_machine =  anim.get("parameters/playback")
 var sleeping = false
 var game_over = false
+var paused = false
 var arrowShowing = false
 var bedPosition = Vector2(0,0)
 
@@ -16,7 +17,7 @@ func _ready():
 	anim.set(blend, starting_anim)
 
 func _physics_process(_delta):
-	if game_over:
+	if game_over or paused:
 		return
 	var input_direction = Vector2(
 		Input.get_action_strength("right") - Input.get_action_strength("left"),
@@ -68,3 +69,17 @@ func set_camera_limits(b, t, r, l):
 	$Camera2D.limit_top = t
 	$Camera2D.limit_right = r
 	$Camera2D.limit_left = l
+
+
+func get_camera_position():
+	return $Camera2D.get_screen_center_position()
+
+
+func pause():
+	paused = true
+	anim.active = false
+
+
+func play():
+	anim.active = true
+	paused = false

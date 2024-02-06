@@ -8,7 +8,7 @@ script/source = "extends Node2D
 @onready var anim = $ColorRect/AnimationPlayer
 
 func _ready():
-	print(Game.level2)
+	#Utils.saveGame()
 	Utils.loadGame()
 	$Player.play(\"Run\")
 	$Chicken.play(\"Run\")

@@ -8,6 +8,7 @@ var touchingPlayer = false
 var touchingAnimal = false
 var touchingTileMap = false
 var playerClose = false
+var paused = false
 var startingPosition
 var player
 @onready var timer = $Timer
@@ -23,7 +24,8 @@ func _ready():
 		anim.flip_h = true
 
 func _physics_process(_delta):
-	
+	if paused:
+		return
 	if isMoving or touchingPlayer:
 		velocity = move_speed * move_direction
 	else:
@@ -152,3 +154,13 @@ func _on_area_2d_3_body_entered(body):
 func _on_area_2d_3_body_exited(body):
 	if "Player" in body.name:
 		playerClose = false
+
+
+func pause():
+	paused = true
+	anim.pause()
+
+
+func play():
+	anim.play()
+	paused = false

@@ -7,6 +7,7 @@ var isMoving = false
 var touchingPlayer = false
 var touchingAnimal = false
 var touchingTileMap = false
+var paused = false
 var startingPosition
 @onready var timer = $Timer
 @onready var anim = $AnimatedSprite2D
@@ -21,6 +22,8 @@ func _ready():
 		anim.flip_h = true
 
 func _physics_process(_delta):
+	if paused:
+		return
 	
 	if isMoving:
 		velocity = move_speed * move_direction
@@ -112,3 +115,13 @@ func wall_bounce():
 	else:
 		move_direction.y = randf_range(0, 1)
 	startingPosition = position
+
+
+func pause():
+	paused = true
+	anim.pause()
+
+
+func play():
+	anim.play()
+	paused = false

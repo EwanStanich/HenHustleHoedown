@@ -5,7 +5,10 @@ var totalChickens = 0
 var playerSleeping = false
 var gameOver = false
 var isEnteringName = false
+var paused = false
 var player
+var chickens = []
+var cows = []
 var time = 0
 var mins
 var secs
@@ -15,19 +18,21 @@ var totalTime
 
 
 func _ready():
+	for chicken in $Characters/Chickens.get_children():
+		chickens.append(chicken)
+		totalChickens += 1
+	for cow in $Characters/Cows.get_children():
+		chickens.append(cow)
 	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = "x " + str(capturedChickens)
 	$UI/ChicknIcon.play("Icon")
-	for child in get_node("Characters/Chickens").get_children():
-		if "Chicken" in child.name:
-			totalChickens += 1
 	player.set_camera_limits(369,5,514,6)
 	label = $GameOver/Name
 
 
 func _physics_process(delta):
-	if !gameOver:
+	if !gameOver and !paused:
 		time += delta
 		msecs = fmod(time, 1) * 100
 		secs = fmod(time, 60)
@@ -41,28 +46,27 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-	if isEnteringName:
-		if event is InputEventKey and event.is_pressed():
-			var key_text = event.as_text()
-			print(label.text.length())
-			print(key_text)
-			print(key_text.length())			
-			if key_text == "Backspace":
-				var new_text = label.text.substr(0, label.text.length() - 1)
-				label.text = new_text
-			elif key_text == "Enter":
-				Game.level1 = true
-				update_time(totalTime, label.text)
-				Utils.saveGame()
-				get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
-			elif label.text.length() > 6:
-				pass
-			elif "Shift" in key_text and key_text.length() == 7:
-				label.text += key_text.right(1).to_upper()
-			elif key_text.length() > 1:
-				pass
-			else:
-				label.text += key_text.to_lower()
+		if Input.is_key_pressed(KEY_TAB) and !paused:
+			pause_game()
+		if isEnteringName:
+			if event is InputEventKey and event.is_pressed():
+				var key_text = event.as_text()			
+				if key_text == "Backspace":
+					var new_text = label.text.substr(0, label.text.length() - 1)
+					label.text = new_text
+				elif key_text == "Enter":
+					Game.level1 = true
+					update_time(totalTime, label.text)
+					Utils.saveGame()
+					get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
+				elif label.text.length() > 6:
+					pass
+				elif "Shift" in key_text and key_text.length() == 7:
+					label.text += key_text.right(1).to_upper()
+				elif key_text.length() > 1:
+					pass
+				else:
+					label.text += key_text.to_lower()
 
 
 func _on_roof_area_body_entered(body):
@@ -89,8 +93,7 @@ func _on_gate_detector_body_entered(body):
 
 
 func game_over():
-	#if capturedChickens == totalChickens:
-	if true:
+	if capturedChickens == totalChickens:
 		gameOver = true
 		format_time()
 		$UI.queue_free()
@@ -151,3 +154,36 @@ func _on_arrow_bed_area_body_entered(body):
 func _on_arrow_bed_area_body_exited(body):
 	if capturedChickens == totalChickens:
 		player.arrowShowing = true
+
+
+func pause_game():
+	paused = true
+	$Pause/Buttons.position = player.get_camera_position()
+	$Pause.visible = true
+	player.pause()
+	for cow in cows:
+		cow.pause()
+	for chicken in chickens:
+		chicken.pause()
+
+
+func play_game():
+	$Pause.visible = false
+	player.play()
+	for cow in cows:
+		cow.play()
+	for chicken in chickens:
+		chicken.play()
+	paused = false
+
+
+func _on_play_button_down():
+	play_game()
+
+
+func _on_quit_button_down():
+	get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
+
+
+func _on_restart_button_down():
+	get_tree().reload_current_scene()

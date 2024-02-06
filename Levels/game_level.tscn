@@ -2806,11 +2806,11 @@ shape = SubResource("RectangleShape2D_rvjxr")
 y_sort_enabled = true
 
 [node name="Roofs" type="TileMap" parent="TileMaps"]
-visible = false
 y_sort_enabled = true
 position = Vector2(3, 4)
 tile_set = SubResource("TileSet_t0w5i")
 format = 2
+layer_0/modulate = Color(1, 1, 1, 0.301961)
 layer_0/y_sort_enabled = true
 layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179673, 327680, 2, 1179674, 327680, 2, 1179675, 327680, 2, 1179676, 327680, 2, 1179677, 327680, 2, 1179672, 327682, 2, 1179678, 327682, 2, 1179679, 393218, 2, 1245208, 327682, 3, 1245209, 327680, 3, 1245210, 327680, 3, 1245211, 327680, 3, 1245212, 327680, 3, 1245213, 327680, 3, 1245214, 327682, 3, 1245215, 393218, 3, 1310751, 393218, 3, 1310750, 327682, 3, 1310749, 327680, 3, 1310748, 327680, 3, 1310747, 327680, 3, 1310746, 327680, 3, 1310745, 327680, 3, 983067, 327680, 0, 983068, 327680, 0, 983069, 327680, 0, 983070, 327682, 0, 1048607, 393218, 1, 1114143, 393218, 1, 1048603, 327680, 1, 1114139, 327680, 1, 1048604, 327680, 1, 1114140, 327680, 1, 1048605, 327680, 1, 1114141, 327680, 1, 1048606, 327682, 1, 1114142, 327682, 1, 983071, 393218, 0, 1310744, 327682, 3, 1376287, 393218, 4, 1376281, 327680, 4, 1376282, 327680, 4, 1376283, 327680, 4, 1376284, 327680, 4, 1376285, 327680, 4, 1376286, 327682, 4, 1376280, 327682, 4, 1179671, 262146, 2, 1245207, 262146, 3, 1310743, 262146, 3, 1376279, 262146, 4, 1114138, 327680, 1, 1048602, 327680, 1, 1048601, 327680, 1, 1114137, 327680, 1, 1114136, 327680, 1, 1048600, 327680, 1, 983066, 327680, 0, 983065, 327680, 0, 983064, 327680, 0, 983063, 262144, 0, 1048599, 262144, 1, 1114135, 262144, 1)
@@ -2978,6 +2978,43 @@ offset_bottom = -20.0
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
+[node name="Pause" type="Node2D" parent="."]
+visible = false
+z_index = 6
+y_sort_enabled = true
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="ColorRect" type="ColorRect" parent="Pause"]
+y_sort_enabled = true
+offset_right = 519.0
+offset_bottom = 375.0
+color = Color(0.121569, 0.121569, 0.121569, 0.694118)
+
+[node name="Buttons" type="Node2D" parent="Pause"]
+position = Vector2(-80, 149)
+
+[node name="Play" type="Button" parent="Pause/Buttons"]
+offset_left = -55.0
+offset_top = -75.0
+offset_right = 55.0
+offset_bottom = -31.0
+text = "Play"
+
+[node name="Quit" type="Button" parent="Pause/Buttons"]
+offset_left = -55.0
+offset_top = 33.0
+offset_right = 55.0
+offset_bottom = 77.0
+text = "Quit
+"
+
+[node name="Restart" type="Button" parent="Pause/Buttons"]
+offset_left = -55.0
+offset_top = -21.0
+offset_right = 55.0
+offset_bottom = 23.0
+text = "Restart"
+
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -2985,3 +3022,6 @@ horizontal_alignment = 1
 [connection signal="body_shape_exited" from="Detectors/BedDetector" to="." method="_on_bed_detector_body_shape_exited"]
 [connection signal="body_entered" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_entered"]
 [connection signal="body_exited" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_exited"]
+[connection signal="button_down" from="Pause/Buttons/Play" to="." method="_on_play_button_down"]
+[connection signal="button_down" from="Pause/Buttons/Quit" to="." method="_on_quit_button_down"]
+[connection signal="button_down" from="Pause/Buttons/Restart" to="." method="_on_restart_button_down"]

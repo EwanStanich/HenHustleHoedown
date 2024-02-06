@@ -15,7 +15,10 @@ var totalChickens = 0
 var playerSleeping = false
 var gameOver = false
 var isEnteringName = false
+var paused = false
 var player
+var chickens = []
+var cows = []
 var time = 0
 var mins
 var secs
@@ -25,19 +28,21 @@ var totalTime
 
 
 func _ready():
+	for chicken in $Characters/Chickens.get_children():
+		chickens.append(chicken)
+		totalChickens += 1
+	for cow in $Characters/Cows.get_children():
+		chickens.append(cow)
 	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = \"x \" + str(capturedChickens)
 	$UI/ChicknIcon.play(\"Icon\")
-	for child in get_node(\"Characters/Chickens\").get_children():
-		if \"Chicken\" in child.name:
-			totalChickens += 1
 	player.set_camera_limits(369, 6, 578, 6)
 	label = $GameOver/Name
 
 
 func _physics_process(delta):
-	if !gameOver:
+	if !gameOver and !paused:
 		time += delta
 		msecs = fmod(time, 1) * 100
 		secs = fmod(time, 60)
@@ -51,28 +56,30 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-	if isEnteringName:
-		if event is InputEventKey and event.is_pressed():
-			var key_text = event.as_text()
-			print(label.text.length())
-			print(key_text)
-			print(key_text.length())			
-			if key_text == \"Backspace\":
-				var new_text = label.text.substr(0, label.text.length() - 1)
-				label.text = new_text
-			elif key_text == \"Enter\":
-				Game.level2 = true
-				update_time(totalTime, label.text)
-				Utils.saveGame()
-				get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
-			elif label.text.length() > 6:
-				pass
-			elif \"Shift\" in key_text and key_text.length() == 7:
-				label.text += key_text.right(1).to_upper()
-			elif key_text.length() > 1:
-				pass
-			else:
-				label.text += key_text.to_lower()
+		if Input.is_key_pressed(KEY_TAB) and !paused:
+			pause_game()
+		if isEnteringName:
+			if event is InputEventKey and event.is_pressed():
+				var key_text = event.as_text()
+				print(label.text.length())
+				print(key_text)
+				print(key_text.length())			
+				if key_text == \"Backspace\":
+					var new_text = label.text.substr(0, label.text.length() - 1)
+					label.text = new_text
+				elif key_text == \"Enter\":
+					Game.level2 = true
+					update_time(totalTime, label.text)
+					Utils.saveGame()
+					get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
+				elif label.text.length() > 6:
+					pass
+				elif \"Shift\" in key_text and key_text.length() == 7:
+					label.text += key_text.right(1).to_upper()
+				elif key_text.length() > 1:
+					pass
+				else:
+					label.text += key_text.to_lower()
 
 
 func _on_roof_area_body_entered(body):
@@ -99,8 +106,7 @@ func _on_gate_detector_body_entered(body):
 
 
 func game_over():
-	#if capturedChickens == totalChickens:
-	if true:
+	if capturedChickens == totalChickens:
 		gameOver = true
 		format_time()
 		$UI.queue_free()
@@ -161,6 +167,40 @@ func _on_arrow_bed_area_body_entered(body):
 func _on_arrow_bed_area_body_exited(body):
 	if capturedChickens == totalChickens:
 		player.arrowShowing = true
+
+
+func pause_game():
+	paused = true
+	$Pause/Buttons.position = player.get_camera_position()
+	$Pause.visible = true
+	player.pause()
+	for cow in cows:
+		cow.pause()
+	for chicken in chickens:
+		chicken.pause()
+
+
+func play_game():
+	$Pause.visible = false
+	player.play()
+	for cow in cows:
+		cow.play()
+	for chicken in chickens:
+		chicken.play()
+	paused = false
+
+
+func _on_play_button_down():
+	play_game()
+
+
+func _on_quit_button_down():
+	get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
+
+
+func _on_restart_button_down():
+	get_tree().reload_current_scene()
+
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
@@ -2957,6 +2997,7 @@ y_sort_enabled = true
 position = Vector2(-212, -26)
 tile_set = SubResource("TileSet_t0w5i")
 format = 2
+layer_0/modulate = Color(1, 1, 1, 0.301961)
 layer_0/y_sort_enabled = true
 layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179665, 327680, 2, 1179666, 327680, 2, 1179667, 327680, 2, 1179668, 327680, 2, 1179669, 327680, 2, 1179670, 327680, 2, 1114135, 393216, 1, 1114129, 327680, 1, 1048593, 327680, 0, 1245201, 327680, 3, 1310737, 327680, 4, 1048594, 327680, 0, 1114130, 327680, 1, 1245202, 327680, 3, 1310738, 327680, 4, 1048595, 327680, 0, 1114131, 327680, 1, 1245203, 327680, 3, 1310739, 327680, 4, 1048596, 327680, 0, 1114132, 327680, 1, 1245204, 327680, 3, 1310740, 327680, 4, 1048597, 327680, 0, 1114133, 327680, 1, 1245205, 327680, 3, 1310741, 327680, 4, 1048598, 327680, 0, 1114134, 327680, 1, 1245206, 327680, 3, 1310742, 327680, 4, 1048599, 393216, 0, 1179671, 393216, 2, 1245207, 393216, 3, 1310743, 393216, 4, 1048592, 327680, 0, 1114128, 327680, 1, 1179664, 327680, 2, 1245200, 327680, 3, 1310736, 327680, 4, 1048591, 262144, 0, 1114127, 262144, 1, 1179663, 262144, 2, 1245199, 262144, 3, 1310735, 262144, 4)
@@ -3140,6 +3181,43 @@ offset_bottom = -20.0
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
+[node name="Pause" type="Node2D" parent="."]
+visible = false
+z_index = 6
+y_sort_enabled = true
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="ColorRect" type="ColorRect" parent="Pause"]
+y_sort_enabled = true
+offset_right = 583.0
+offset_bottom = 375.0
+color = Color(0.121569, 0.121569, 0.121569, 0.694118)
+
+[node name="Buttons" type="Node2D" parent="Pause"]
+position = Vector2(-80, 149)
+
+[node name="Play" type="Button" parent="Pause/Buttons"]
+offset_left = -55.0
+offset_top = -75.0
+offset_right = 55.0
+offset_bottom = -31.0
+text = "Play"
+
+[node name="Quit" type="Button" parent="Pause/Buttons"]
+offset_left = -55.0
+offset_top = 33.0
+offset_right = 55.0
+offset_bottom = 77.0
+text = "Quit
+"
+
+[node name="Restart" type="Button" parent="Pause/Buttons"]
+offset_left = -55.0
+offset_top = -21.0
+offset_right = 55.0
+offset_bottom = 23.0
+text = "Restart"
+
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -3147,3 +3225,6 @@ horizontal_alignment = 1
 [connection signal="body_shape_exited" from="Detectors/BedDetector" to="." method="_on_bed_detector_body_shape_exited"]
 [connection signal="body_entered" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_entered"]
 [connection signal="body_exited" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_exited"]
+[connection signal="button_down" from="Pause/Buttons/Play" to="." method="_on_play_button_down"]
+[connection signal="button_down" from="Pause/Buttons/Quit" to="." method="_on_quit_button_down"]
+[connection signal="button_down" from="Pause/Buttons/Restart" to="." method="_on_restart_button_down"]
