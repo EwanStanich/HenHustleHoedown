@@ -24,6 +24,7 @@ Utils="*res://Global/Utils.gd"
 
 window/size/viewport_width=1352
 window/size/viewport_height=878
+window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/scale=4.0
 

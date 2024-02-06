@@ -98,7 +98,8 @@ func _on_roof_area_body_exited(body):
 func _on_gate_detector_body_entered(body):
 	if \"Chicken\" in body.name and !isEnteringName:
 		body.set_collision_mask_value(2, true)
-		capturedChickens += 1
+		if capturedChickens < totalChickens:
+			capturedChickens += 1
 		$UI/Chickns.text = \"x \" + str(capturedChickens)
 		if capturedChickens == totalChickens:
 			player.arrowShowing = true
@@ -975,6 +976,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 0:0/0/physics_layer_1/angular_velocity = 0.0
 0:0/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_2/angular_velocity = 0.0
+0:0/0/physics_layer_2/polygon_0/points = PackedVector2Array(-8, -8, 1, -8, -8, 1)
 1:0/0 = 0
 1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 1:0/0/physics_layer_0/angular_velocity = 0.0
@@ -991,6 +993,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 2:0/0/physics_layer_1/angular_velocity = 0.0
 2:0/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 2:0/0/physics_layer_2/angular_velocity = 0.0
+2:0/0/physics_layer_2/polygon_0/points = PackedVector2Array(8, -8, 8, 1, -1, -8)
 3:0/0 = 0
 3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 3:0/0/physics_layer_0/angular_velocity = 0.0
@@ -1120,6 +1123,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 0:2/0/physics_layer_1/angular_velocity = 0.0
 0:2/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 0:2/0/physics_layer_2/angular_velocity = 0.0
+0:2/0/physics_layer_2/polygon_0/points = PackedVector2Array(-7, -8, 2, -2, -7, -2)
 1:2/0 = 0
 1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 1:2/0/physics_layer_0/angular_velocity = 0.0
@@ -1136,6 +1140,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 2:2/0/physics_layer_1/angular_velocity = 0.0
 2:2/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 2:2/0/physics_layer_2/angular_velocity = 0.0
+2:2/0/physics_layer_2/polygon_0/points = PackedVector2Array(7, -8, -2, -2, 7, -2)
 3:2/0 = 0
 3:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 3:2/0/physics_layer_0/angular_velocity = 0.0

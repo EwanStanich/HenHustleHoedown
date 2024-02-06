@@ -7,6 +7,7 @@ const blend = "parameters/Idle/blend_position"
 const blend2 = "parameters/Walk/blend_position"
 @onready var anim = $AnimationTree
 @onready var state_machine =  anim.get("parameters/playback")
+@onready var timer = $Flicker
 var sleeping = false
 var game_over = false
 var paused = false
@@ -14,6 +15,7 @@ var arrowShowing = false
 var bedPosition = Vector2(0,0)
 
 func _ready():
+	timer.start()
 	anim.set(blend, starting_anim)
 
 func _physics_process(_delta):
@@ -83,3 +85,27 @@ func pause():
 func play():
 	anim.active = true
 	paused = false
+	Light2D
+
+
+func set_light_layer(layer):
+	if layer == 1:
+		$OutsideLight.visible = false
+		$HillLight.visible = false
+		$InsideLight.visible = true
+	elif layer == 2:
+		$OutsideLight.visible = true
+		$HillLight.visible = false
+		$InsideLight.visible = false
+	elif layer == 3:
+		$OutsideLight.visible = false
+		$HillLight.visible = true
+		$InsideLight.visible = false
+
+
+func _on_flicker_timeout():
+	var energy = randf_range(1.1, 1.4)
+	$OutsideLight.energy = energy
+	$HillLight.energy = energy
+	$InsideLight.energy = energy
+	timer.start()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://dqafxopvsh23"]
+[gd_scene load_steps=54 format=3 uid="uid://dqafxopvsh23"]
 
 [ext_resource type="Script" path="res://Characters/player.gd" id="1_rblef"]
 
@@ -542,6 +542,16 @@ graph_offset = Vector2(69.8998, 11.6325)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kdnid"]
 size = Vector2(8, 16)
 
+[sub_resource type="Gradient" id="Gradient_x6itj"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4vca7"]
+gradient = SubResource("Gradient_x6itj")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.810976, 0.219512)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_rblef")
 
@@ -591,4 +601,46 @@ limit_bottom = 369
 [node name="RoofDetector" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_kdnid")
 
+[node name="InsideLight" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+color = Color(0.996078, 0.764706, 0, 1)
+energy = 1.2
+range_z_max = 5
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_filter = 1
+shadow_filter_smooth = 15.9
+texture = SubResource("GradientTexture2D_4vca7")
+
+[node name="OutsideLight" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+color = Color(0.996078, 0.764706, 0, 1)
+energy = 1.2
+range_z_max = 5
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_filter = 1
+shadow_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_4vca7")
+
+[node name="HillLight" type="PointLight2D" parent="."]
+visible = false
+scale = Vector2(1.5, 1.5)
+color = Color(1, 0.729412, 0, 1)
+energy = 1.2
+range_z_max = 5
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 1)
+shadow_filter = 1
+shadow_item_cull_mask = 4
+texture = SubResource("GradientTexture2D_4vca7")
+
+[node name="Flicker" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+autostart = true
+
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="timeout" from="Flicker" to="." method="_on_flicker_timeout"]

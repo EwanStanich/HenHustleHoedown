@@ -10,7 +10,9 @@ func saveGame():
 		"level1": Game.level1,
 		"level1HS": Game.level1HS,
 		"level2": Game.level2,
-		"level2HS": Game.level2HS
+		"level2HS": Game.level2HS,
+		"level3": Game.level3,
+		"level3HS": Game.level3HS
 	} 
 	var jstr = JSON.stringify(data)
 	file.store_line(jstr)
@@ -26,3 +28,5 @@ func loadGame():
 				Game.level1HS = current_line["level1HS"]
 				Game.level2 = current_line["level2"]
 				Game.level2HS = current_line["level2HS"]
+				Game.level3 = current_line["level3"]
+				Game.level3HS = current_line["level3HS"]

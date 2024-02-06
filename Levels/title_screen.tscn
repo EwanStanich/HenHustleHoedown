@@ -18,6 +18,9 @@ func _ready():
 		$\"HS_Buttons/HS Level 1\".disabled = false
 	if Game.level2:
 		$\"HS_Buttons/HS Level 2\".disabled = false
+		$\"Level_Buttons/Level 3\".disabled = false
+	if Game.level3:
+		$\"HS_Buttons/HS Level 3\".disabled = false
  
 
 func _on_play_button_down():
@@ -41,6 +44,10 @@ func _on_back_button_down():
 
 func _on_level_2_button_down():
 	get_tree().change_scene_to_file(\"res://Levels/level_2.tscn\")
+
+
+func _on_level_3_button_down():
+		get_tree().change_scene_to_file(\"res://Levels/level_3.tscn\")
 
 
 func _on_high_score_button_down():
@@ -70,6 +77,20 @@ func _on_hs_level_2_button_down():
 	var HS = Game.level2HS
 	print(HS)
 	$HighScores/LevelNum.text = \"Level 2\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+
+
+
+func _on_hs_level_3_button_down():
+	var HS = Game.level3HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 3\"
 	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
 	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
 	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
@@ -472,8 +493,10 @@ text = "Back
 [connection signal="button_down" from="Buttons/Quit" to="." method="_on_quit_button_down"]
 [connection signal="button_down" from="Level_Buttons/Level 1" to="." method="_on_level_1_button_down"]
 [connection signal="button_down" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_down"]
+[connection signal="button_down" from="Level_Buttons/Level 3" to="." method="_on_level_3_button_down"]
 [connection signal="button_down" from="Level_Buttons/Back" to="." method="_on_back_button_down"]
 [connection signal="button_down" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_down"]
 [connection signal="button_down" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_down"]
+[connection signal="button_down" from="HS_Buttons/HS Level 3" to="." method="_on_hs_level_3_button_down"]
 [connection signal="button_down" from="HS_Buttons/Back" to="." method="_on_back_button_down"]
 [connection signal="button_down" from="HighScores/HSBack" to="." method="_on_hs_back_button_down"]

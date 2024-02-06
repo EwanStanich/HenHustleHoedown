@@ -20,6 +20,7 @@ func _ready():
 	anim.play("Idle")
 	if randf() > 0.5:
 		anim.flip_h = true
+	startingPosition = position
 
 func _physics_process(_delta):
 	if paused:

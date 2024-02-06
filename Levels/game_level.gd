@@ -85,7 +85,8 @@ func _on_roof_area_body_exited(body):
 func _on_gate_detector_body_entered(body):
 	if "Chicken" in body.name and !isEnteringName:
 		body.set_collision_mask_value(2, true)
-		capturedChickens += 1
+		if capturedChickens < totalChickens:
+			capturedChickens += 1
 		$UI/Chickns.text = "x " + str(capturedChickens)
 		if capturedChickens == totalChickens:
 			player.arrowShowing = true

@@ -14,4 +14,4 @@ export_presets.cfg
 data_*/
 mono_crash.*.json
 
-*.bin
+/top-down/savegame.bin
