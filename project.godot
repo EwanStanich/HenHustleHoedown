@@ -27,6 +27,8 @@ window/size/viewport_height=878
 window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/scale=4.0
+mouse_cursor/custom_image="res://Art/Cursor-Sheet.png"
+mouse_cursor/custom_image_hotspot=Vector2(9, 2.08165e-12)
 
 [input]
 

@@ -18,6 +18,7 @@ var totalTime
 
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
@@ -54,7 +55,7 @@ func _input(event):
 				if key_text == "Backspace":
 					var new_text = label.text.substr(0, label.text.length() - 1)
 					label.text = new_text
-				elif key_text == "Enter":
+				elif key_text == "Enter" and !label.text.is_empty():
 					Game.level1 = true
 					update_time(totalTime, label.text)
 					Utils.saveGame()
@@ -89,7 +90,7 @@ func _on_gate_detector_body_entered(body):
 			capturedChickens += 1
 		$UI/Chickns.text = "x " + str(capturedChickens)
 		if capturedChickens == totalChickens:
-			player.arrowShowing = true
+			player.showArrow()
 
 
 
@@ -149,15 +150,16 @@ func _on_bed_detector_body_shape_exited(body_rid, body, body_shape_index, local_
 
 
 func _on_arrow_bed_area_body_entered(body):
-	player.arrowShowing = false
+	player.hide_arrow()
 
 
 func _on_arrow_bed_area_body_exited(body):
 	if capturedChickens == totalChickens:
-		player.arrowShowing = true
+		player.show_arrow
 
 
 func pause_game():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	paused = true
 	$Pause/Buttons.position = player.get_camera_position()
 	$Pause.visible = true
@@ -176,15 +178,16 @@ func play_game():
 	for chicken in chickens:
 		chicken.play()
 	paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)		
 
 
-func _on_play_button_down():
+func _on_play_button_up():
 	play_game()
 
 
-func _on_quit_button_down():
+func _on_quit_button_up():
 	get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
 
 
-func _on_restart_button_down():
+func _on_restart_button_up():
 	get_tree().reload_current_scene()

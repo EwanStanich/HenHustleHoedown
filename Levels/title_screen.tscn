@@ -1,6 +1,32 @@
-[gd_scene load_steps=16 format=3 uid="uid://dguryrdn8htwe"]
+[gd_scene load_steps=42 format=3 uid="uid://dguryrdn8htwe"]
 
 [ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
+[ext_resource type="Texture2D" uid="uid://cvgwkl3xwibwr" path="res://Art/Buttons/HighScore/HighScoreSign-Sheet.png" id="2_hcdii"]
+[ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="2_hppke"]
+[ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="3_2mspn"]
+[ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="3_ho6ye"]
+[ext_resource type="Texture2D" uid="uid://cyar0kii7d8d8" path="res://Art/Buttons/HighScore/PressedHS-Sheet.png" id="3_tr67y"]
+[ext_resource type="Texture2D" uid="uid://c5cud8o62lqw6" path="res://Art/Buttons/HighScore/HoveredHS-Sheet.png" id="4_gl8m5"]
+[ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="5_bgdln"]
+[ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="6_mvrak"]
+[ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="7_sl6ta"]
+[ext_resource type="Texture2D" uid="uid://dpjrxwtcijxkf" path="res://Art/Buttons/Back/BackSign-Sheet.png" id="11_u6pyl"]
+[ext_resource type="Texture2D" uid="uid://bf01ynwbvryq7" path="res://Art/Buttons/Back/PressedBack-Sheet.png" id="12_p0bmo"]
+[ext_resource type="Texture2D" uid="uid://cnmq4y2sf4v2g" path="res://Art/Buttons/Back/HoveredBack-Sheet.png" id="13_uetc5"]
+[ext_resource type="Texture2D" uid="uid://bf3hxtyke7fwn" path="res://Art/Buttons/HighScore/HighScoresTitle-Sheet.png" id="14_4hl8b"]
+[ext_resource type="Texture2D" uid="uid://bcum4pcup726b" path="res://Art/Buttons/Play/LevelsTitle-Sheet.png" id="14_n4i67"]
+[ext_resource type="Texture2D" uid="uid://bb4oj8td3p1uc" path="res://Art/Buttons/Levels/L2/Level2Sign-Sheet.png" id="14_tu4y5"]
+[ext_resource type="Texture2D" uid="uid://bcicwxut37iu7" path="res://Art/Buttons/Levels/L1/Level1Sign-Sheet.png" id="15_8l85k"]
+[ext_resource type="Texture2D" uid="uid://1ihph7yrq71a" path="res://Art/Buttons/Levels/L2/PressedL2-Sheet.png" id="15_ij2ei"]
+[ext_resource type="Texture2D" uid="uid://bmduievk22jwd" path="res://Art/Buttons/Levels/L1/PressedL1-Sheet.png" id="16_1qal0"]
+[ext_resource type="Texture2D" uid="uid://53kguinepxby" path="res://Art/Buttons/Levels/L2/HoveredL2-Sheet.png" id="16_3v4bg"]
+[ext_resource type="Texture2D" uid="uid://cyujeu6xwhgxr" path="res://Art/Buttons/Levels/L2/DisabledL2-Sheet.png" id="17_1lwd3"]
+[ext_resource type="Texture2D" uid="uid://wsibld2no2bx" path="res://Art/Buttons/Levels/L1/HoveredL1-Sheet.png" id="17_eavb8"]
+[ext_resource type="Texture2D" uid="uid://6w045sq8no7r" path="res://Art/Buttons/Levels/L3/Level3Sign-Sheet.png" id="18_vfsfd"]
+[ext_resource type="Texture2D" uid="uid://x0dy43ckeay" path="res://Art/Buttons/Levels/L3/PressedL3-Sheet.png" id="19_g74i6"]
+[ext_resource type="Texture2D" uid="uid://71d0ebh1yhtv" path="res://Art/Buttons/Levels/L3/HoveredL3-Sheet.png" id="20_pdtyl"]
+[ext_resource type="Texture2D" uid="uid://wb3fh8vd0f2y" path="res://Art/Buttons/Levels/L3/DisabledL3-Sheet.png" id="21_2844k"]
+[ext_resource type="Texture2D" uid="uid://dmf14fad78hiu" path="res://Art/Buttons/Levels/L1/DisabledL1-Sheet.png" id="27_0fs33"]
 
 [sub_resource type="GDScript" id="GDScript_7qdv6"]
 script/source = "extends Node2D
@@ -10,6 +36,7 @@ script/source = "extends Node2D
 func _ready():
 	#Utils.saveGame()
 	Utils.loadGame()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)			
 	$Player.play(\"Run\")
 	$Chicken.play(\"Run\")
 	anim.play(\"Open\")
@@ -23,34 +50,34 @@ func _ready():
 		$\"HS_Buttons/HS Level 3\".disabled = false
  
 
-func _on_play_button_down():
+func _on_play_button_up():
 	$Level_Buttons.visible = true
 	$Buttons.visible = false	
 
 
-func _on_quit_button_down():
+func _on_quit_button_up():
 	get_tree().quit()
 
 
-func _on_level_1_button_down():
+func _on_level_1_button_up():
 	get_tree().change_scene_to_file(\"res://Levels/game_level.tscn\")
 
 
-func _on_back_button_down():
+func _on_back_button_up():
 	$Level_Buttons.visible = false
 	$HS_Buttons.visible = false
 	$Buttons.visible = true
 
 
-func _on_level_2_button_down():
+func _on_level_2_button_up():
 	get_tree().change_scene_to_file(\"res://Levels/level_2.tscn\")
 
 
-func _on_level_3_button_down():
+func _on_level_3_button_up():
 		get_tree().change_scene_to_file(\"res://Levels/level_3.tscn\")
 
 
-func _on_high_score_button_down():
+func _on_high_score_button_up():
 	$Buttons.visible = false
 	$HS_Buttons.visible = true
 
@@ -60,7 +87,7 @@ func _on_hs_back_button_down():
 	$HS_Buttons.visible = true
 
 
-func _on_hs_level_1_button_down():
+func _on_hs_level_1_button_up():
 	var HS = Game.level1HS
 	print(HS)
 	$HighScores/LevelNum.text = \"Level 1\"
@@ -73,7 +100,7 @@ func _on_hs_level_1_button_down():
 	$HS_Buttons.visible = false
 
 
-func _on_hs_level_2_button_down():
+func _on_hs_level_2_button_up():
 	var HS = Game.level2HS
 	print(HS)
 	$HighScores/LevelNum.text = \"Level 2\"
@@ -87,7 +114,7 @@ func _on_hs_level_2_button_down():
 
 
 
-func _on_hs_level_3_button_down():
+func _on_hs_level_3_button_up():
 	var HS = Game.level3HS
 	print(HS)
 	$HighScores/LevelNum.text = \"Level 3\"
@@ -218,6 +245,7 @@ animation = &"Run"
 frame_progress = 0.6503
 
 [node name="ColorRect" type="ColorRect" parent="."]
+z_index = 1
 offset_right = 480.0
 offset_bottom = 272.0
 color = Color(0, 0, 0, 1)
@@ -229,195 +257,233 @@ libraries = {
 
 [node name="Buttons" type="Node2D" parent="."]
 
-[node name="Play" type="Button" parent="Buttons"]
-offset_left = 131.0
-offset_top = 31.0
-offset_right = 205.0
-offset_bottom = 62.0
-text = "Play"
-
-[node name="High Score" type="Button" parent="Buttons"]
-offset_left = 120.0
+[node name="HighScore" type="TextureButton" parent="Buttons"]
+offset_left = 92.0
 offset_top = 73.0
-offset_right = 219.0
-offset_bottom = 104.0
-text = "High Scores"
+offset_right = 244.0
+offset_bottom = 105.0
+texture_normal = ExtResource("2_hcdii")
+texture_pressed = ExtResource("3_tr67y")
+texture_hover = ExtResource("4_gl8m5")
 
-[node name="Quit" type="Button" parent="Buttons"]
+[node name="Play" type="TextureButton" parent="Buttons"]
+offset_left = 132.0
+offset_top = 32.0
+offset_right = 206.0
+offset_bottom = 62.0
+texture_normal = ExtResource("2_hppke")
+texture_pressed = ExtResource("3_2mspn")
+texture_hover = ExtResource("3_ho6ye")
+
+[node name="Quit" type="TextureButton" parent="Buttons"]
 offset_left = 131.0
-offset_top = 114.0
+offset_top = 115.0
 offset_right = 205.0
 offset_bottom = 145.0
-text = "Quit"
+texture_normal = ExtResource("5_bgdln")
+texture_pressed = ExtResource("6_mvrak")
+texture_hover = ExtResource("7_sl6ta")
 
 [node name="Level_Buttons" type="Node2D" parent="."]
 visible = false
-position = Vector2(-7, 0)
+position = Vector2(-7, 18)
 
-[node name="Level 1" type="Button" parent="Level_Buttons"]
-offset_left = 48.0
-offset_top = 14.0
-offset_right = 122.0
-offset_bottom = 45.0
-text = "Level 1
-"
+[node name="Title" type="Sprite2D" parent="Level_Buttons"]
+position = Vector2(176, 6)
+texture = ExtResource("14_n4i67")
 
-[node name="Level 2" type="Button" parent="Level_Buttons"]
-offset_left = 137.0
-offset_top = 14.0
-offset_right = 211.0
-offset_bottom = 45.0
+[node name="Level 1" type="TextureButton" parent="Level_Buttons"]
+offset_left = 13.0
+offset_top = 32.0
+offset_right = 117.0
+offset_bottom = 64.0
+texture_normal = ExtResource("15_8l85k")
+texture_pressed = ExtResource("16_1qal0")
+texture_hover = ExtResource("17_eavb8")
+
+[node name="Level 2" type="TextureButton" parent="Level_Buttons"]
+offset_left = 124.0
+offset_top = 32.0
+offset_right = 228.0
+offset_bottom = 64.0
 disabled = true
-text = "Level 2"
+texture_normal = ExtResource("14_tu4y5")
+texture_pressed = ExtResource("15_ij2ei")
+texture_hover = ExtResource("16_3v4bg")
+texture_disabled = ExtResource("17_1lwd3")
 
-[node name="Level 3" type="Button" parent="Level_Buttons"]
-offset_left = 226.0
-offset_top = 14.0
-offset_right = 300.0
-offset_bottom = 45.0
+[node name="Level 3" type="TextureButton" parent="Level_Buttons"]
+offset_left = 235.0
+offset_top = 32.0
+offset_right = 339.0
+offset_bottom = 64.0
 disabled = true
-text = "Level 3"
+texture_normal = ExtResource("18_vfsfd")
+texture_pressed = ExtResource("19_g74i6")
+texture_hover = ExtResource("20_pdtyl")
+texture_disabled = ExtResource("21_2844k")
 
 [node name="Level 4" type="Button" parent="Level_Buttons"]
 offset_left = 48.0
-offset_top = 61.0
+offset_top = 79.0
 offset_right = 122.0
-offset_bottom = 92.0
+offset_bottom = 110.0
 disabled = true
 text = "Level 4"
 
 [node name="Level 5" type="Button" parent="Level_Buttons"]
 offset_left = 137.0
-offset_top = 61.0
+offset_top = 79.0
 offset_right = 211.0
-offset_bottom = 92.0
+offset_bottom = 110.0
 disabled = true
 text = "Level 5"
 
 [node name="Level 6" type="Button" parent="Level_Buttons"]
 offset_left = 226.0
-offset_top = 61.0
+offset_top = 79.0
 offset_right = 300.0
-offset_bottom = 92.0
+offset_bottom = 110.0
 disabled = true
 text = "Level 6"
 
 [node name="Level 7" type="Button" parent="Level_Buttons"]
 offset_left = 48.0
-offset_top = 104.0
+offset_top = 122.0
 offset_right = 122.0
-offset_bottom = 135.0
+offset_bottom = 153.0
 disabled = true
 text = "Level 7"
 
 [node name="Level 8" type="Button" parent="Level_Buttons"]
 offset_left = 137.0
-offset_top = 104.0
+offset_top = 122.0
 offset_right = 211.0
-offset_bottom = 135.0
+offset_bottom = 153.0
 disabled = true
 text = "Level 8"
 
 [node name="Level 9" type="Button" parent="Level_Buttons"]
 offset_left = 226.0
-offset_top = 104.0
+offset_top = 122.0
 offset_right = 300.0
-offset_bottom = 135.0
+offset_bottom = 153.0
 disabled = true
 text = "Level 9"
 
-[node name="Back" type="Button" parent="Level_Buttons"]
-offset_left = 146.0
-offset_top = 147.0
-offset_right = 202.0
-offset_bottom = 178.0
-text = "Back
-"
+[node name="Back" type="TextureButton" parent="Level_Buttons"]
+offset_left = 136.0
+offset_top = 165.0
+offset_right = 212.0
+offset_bottom = 197.0
+texture_normal = ExtResource("11_u6pyl")
+texture_pressed = ExtResource("12_p0bmo")
+texture_hover = ExtResource("13_uetc5")
 
 [node name="HS_Buttons" type="Node2D" parent="."]
 visible = false
-position = Vector2(-7, 0)
+position = Vector2(-7, 18)
 
-[node name="HS Level 1" type="Button" parent="HS_Buttons"]
-offset_left = 48.0
-offset_top = 14.0
-offset_right = 122.0
-offset_bottom = 45.0
-disabled = true
-text = "Level 1
-"
+[node name="HS Title" type="Sprite2D" parent="HS_Buttons"]
+position = Vector2(176, 6)
+texture = ExtResource("14_4hl8b")
 
-[node name="HS Level 2" type="Button" parent="HS_Buttons"]
-offset_left = 137.0
-offset_top = 14.0
-offset_right = 211.0
-offset_bottom = 45.0
+[node name="HS Level 1" type="TextureButton" parent="HS_Buttons"]
+offset_left = 13.0
+offset_top = 32.0
+offset_right = 117.0
+offset_bottom = 64.0
 disabled = true
-text = "Level 2"
+texture_normal = ExtResource("15_8l85k")
+texture_pressed = ExtResource("16_1qal0")
+texture_hover = ExtResource("17_eavb8")
+texture_disabled = ExtResource("27_0fs33")
 
-[node name="HS Level 3" type="Button" parent="HS_Buttons"]
-offset_left = 226.0
-offset_top = 14.0
-offset_right = 300.0
-offset_bottom = 45.0
+[node name="HS Level 2" type="TextureButton" parent="HS_Buttons"]
+offset_left = 124.0
+offset_top = 32.0
+offset_right = 228.0
+offset_bottom = 64.0
 disabled = true
-text = "Level 3"
+texture_normal = ExtResource("14_tu4y5")
+texture_pressed = ExtResource("15_ij2ei")
+texture_hover = ExtResource("16_3v4bg")
+texture_disabled = ExtResource("17_1lwd3")
+
+[node name="HS Level 3" type="TextureButton" parent="HS_Buttons"]
+offset_left = 235.0
+offset_top = 32.0
+offset_right = 339.0
+offset_bottom = 64.0
+disabled = true
+texture_normal = ExtResource("18_vfsfd")
+texture_pressed = ExtResource("19_g74i6")
+texture_hover = ExtResource("20_pdtyl")
+texture_disabled = ExtResource("21_2844k")
 
 [node name="HS Level 4" type="Button" parent="HS_Buttons"]
 offset_left = 48.0
-offset_top = 61.0
+offset_top = 79.0
 offset_right = 122.0
-offset_bottom = 92.0
+offset_bottom = 110.0
 disabled = true
 text = "Level 4"
+metadata/_edit_use_anchors_ = true
 
 [node name="HS Level 5" type="Button" parent="HS_Buttons"]
 offset_left = 137.0
-offset_top = 61.0
+offset_top = 79.0
 offset_right = 211.0
-offset_bottom = 92.0
+offset_bottom = 110.0
 disabled = true
 text = "Level 5"
+metadata/_edit_use_anchors_ = true
 
 [node name="HS Level 6" type="Button" parent="HS_Buttons"]
 offset_left = 226.0
-offset_top = 61.0
+offset_top = 79.0
 offset_right = 300.0
-offset_bottom = 92.0
+offset_bottom = 110.0
 disabled = true
 text = "Level 6"
+metadata/_edit_use_anchors_ = true
 
 [node name="HS Level 7" type="Button" parent="HS_Buttons"]
 offset_left = 48.0
-offset_top = 104.0
+offset_top = 122.0
 offset_right = 122.0
-offset_bottom = 135.0
+offset_bottom = 153.0
 disabled = true
 text = "Level 7"
+metadata/_edit_use_anchors_ = true
 
 [node name="HS Level 8" type="Button" parent="HS_Buttons"]
 offset_left = 137.0
-offset_top = 104.0
+offset_top = 122.0
 offset_right = 211.0
-offset_bottom = 135.0
+offset_bottom = 153.0
 disabled = true
 text = "Level 8"
+metadata/_edit_use_anchors_ = true
 
 [node name="HS Level 9" type="Button" parent="HS_Buttons"]
 offset_left = 226.0
-offset_top = 104.0
+offset_top = 122.0
 offset_right = 300.0
-offset_bottom = 135.0
+offset_bottom = 153.0
 disabled = true
 text = "Level 9"
+metadata/_edit_use_anchors_ = true
 
-[node name="Back" type="Button" parent="HS_Buttons"]
-offset_left = 146.0
-offset_top = 147.0
-offset_right = 202.0
-offset_bottom = 178.0
-text = "Back
-"
+[node name="Back" type="TextureButton" parent="HS_Buttons"]
+offset_left = 136.0
+offset_top = 165.0
+offset_right = 212.0
+offset_bottom = 197.0
+texture_normal = ExtResource("11_u6pyl")
+texture_pressed = ExtResource("12_p0bmo")
+texture_hover = ExtResource("13_uetc5")
+metadata/_edit_use_anchors_ = true
 
 [node name="HighScores" type="Node2D" parent="."]
 visible = false
@@ -488,15 +554,15 @@ scale = Vector2(0.745575, 0.708923)
 text = "Back
 "
 
-[connection signal="button_down" from="Buttons/Play" to="." method="_on_play_button_down"]
-[connection signal="button_down" from="Buttons/High Score" to="." method="_on_high_score_button_down"]
-[connection signal="button_down" from="Buttons/Quit" to="." method="_on_quit_button_down"]
-[connection signal="button_down" from="Level_Buttons/Level 1" to="." method="_on_level_1_button_down"]
-[connection signal="button_down" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_down"]
-[connection signal="button_down" from="Level_Buttons/Level 3" to="." method="_on_level_3_button_down"]
-[connection signal="button_down" from="Level_Buttons/Back" to="." method="_on_back_button_down"]
-[connection signal="button_down" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_down"]
-[connection signal="button_down" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_down"]
-[connection signal="button_down" from="HS_Buttons/HS Level 3" to="." method="_on_hs_level_3_button_down"]
-[connection signal="button_down" from="HS_Buttons/Back" to="." method="_on_back_button_down"]
+[connection signal="button_up" from="Buttons/HighScore" to="." method="_on_high_score_button_up"]
+[connection signal="button_up" from="Buttons/Play" to="." method="_on_play_button_up"]
+[connection signal="button_up" from="Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 1" to="." method="_on_level_1_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 3" to="." method="_on_level_3_button_up"]
+[connection signal="button_up" from="Level_Buttons/Back" to="." method="_on_back_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 3" to="." method="_on_hs_level_3_button_up"]
+[connection signal="button_up" from="HS_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_down" from="HighScores/HSBack" to="." method="_on_hs_back_button_down"]

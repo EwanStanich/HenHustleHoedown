@@ -29,10 +29,7 @@ func _physics_process(_delta):
 	velocity = input_direction * move_speed
 	
 	if arrowShowing:
-		$Arrow.visible = true
-		$Arrow.rotation = angle_between_points(bedPosition, position)
-	else:
-		$Arrow.visible = false
+		$ArrowPointer.rotation = angle_between_points(bedPosition, position)
 	
 	update_animation(input_direction)
 	move_and_slide()
@@ -109,3 +106,14 @@ func _on_flicker_timeout():
 	$HillLight.energy = energy
 	$InsideLight.energy = energy
 	timer.start()
+
+
+func show_arrow():
+	arrowShowing = true
+	$ArrowPointer.visible = true
+	$ArrowPointer/Arrow.play("Point")
+
+
+func hide_arrow():
+	$ArrowPointer.visible = false
+	arrowShowing = false

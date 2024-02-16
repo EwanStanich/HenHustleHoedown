@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://bbj0geamsl50k"]
+[gd_scene load_steps=92 format=3 uid="uid://bbj0geamsl50k"]
 
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="2_rwn8s"]
 [ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="3_4e4ey"]
@@ -6,6 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="5_aiiqk"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="6_rc3ll"]
 [ext_resource type="PackedScene" uid="uid://2gexcf0bkll6" path="res://Level Items/bed.tscn" id="7_pe37g"]
+[ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="7_sgpa6"]
+[ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="8_l0uxu"]
+[ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="9_pgtut"]
+[ext_resource type="Texture2D" uid="uid://07c5q7hgs3hw" path="res://Art/Buttons/Restart/RestartSign-Sheet.png" id="10_t5546"]
+[ext_resource type="Texture2D" uid="uid://cr8hevqvrxvau" path="res://Art/Buttons/Restart/PressedRestart-Sheet.png" id="11_fin54"]
+[ext_resource type="Texture2D" uid="uid://cbjviu7ree11k" path="res://Art/Buttons/Restart/HoveredRestart-Sheet.png" id="12_u7kdg"]
+[ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="13_je3tj"]
+[ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="14_6g68i"]
+[ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="15_cjofm"]
 
 [sub_resource type="GDScript" id="GDScript_o3rs4"]
 script/source = "extends Node2D
@@ -28,6 +37,7 @@ var totalTime
 
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
@@ -65,7 +75,7 @@ func _input(event):
 				if key_text == \"Backspace\":
 					var new_text = label.text.substr(0, label.text.length() - 1)
 					label.text = new_text
-				elif key_text == \"Enter\":
+				elif key_text == \"Enter\" and !label.text.is_empty():
 					Game.level3 = true
 					update_time(totalTime, label.text)
 					Utils.saveGame()
@@ -173,6 +183,7 @@ func _on_arrow_bed_area_body_exited(body):
 
 
 func pause_game():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	paused = true
 	$Pause/Buttons.position = player.get_camera_position()
 	$Pause.visible = true
@@ -191,17 +202,18 @@ func play_game():
 	for chicken in chickens:
 		chicken.play()
 	paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)	
 
 
-func _on_play_button_down():
+func _on_play_button_up():
 	play_game()
 
 
-func _on_quit_button_down():
+func _on_quit_button_up():
 	get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
 
 
-func _on_restart_button_down():
+func _on_restart_button_up():
 	get_tree().reload_current_scene()
 
 
@@ -1004,17 +1016,23 @@ polygon = PackedVector2Array(4, -8, -8, -8, -8, -4, -1, -4, 2, -5, 4, -7)
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_j3da1"]
 polygon = PackedVector2Array(-4, 8, 4, 8, 4, -8, -4, -8)
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ra610"]
+polygon = PackedVector2Array(-4, -8, -3, -5, 0, -4, 3, -5, 4, -8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_srcpp"]
+polygon = PackedVector2Array(-4, -8, -4, 8, 4, 8, 4, 3, 4, -1, 5, -3, 8, -4, 8, -8)
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_key2e"]
 polygon = PackedVector2Array(8, -4, 8, -8, -8, -8, -8, 8, 4, 8, 4, 0, 5, -3, 7, -4)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_du4ua"]
-polygon = PackedVector2Array(4, -8, 5, -5, 8, -4, 8, 8, -8, 8, -8, -8)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_v7e3p"]
+polygon = PackedVector2Array(8, -5, 7, -5, 5, -6, 4, -8, -8, -8, -8, 8, 8, 8)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_h236j"]
 polygon = PackedVector2Array(-8, -4, -8, -8, 8, -8, 8, 8, -4, 8, -4, 0, -5, -3, -7, -4)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_4pnny"]
-polygon = PackedVector2Array(-4, -8, -5, -5, -8, -4, -8, 8, 8, 8, 8, -8)
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_31t82"]
+polygon = PackedVector2Array(-8, -5, -7, -5, -5, -6, -4, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_t2e7u"]
 polygon = PackedVector2Array(-8, -4, -8, -8, 4, -8, 4, 8, -4, 8, -4, 0, -5, -3, -7, -4)
@@ -1144,6 +1162,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 3:1/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 3:1/0/physics_layer_2/angular_velocity = 0.0
 4:1/0 = 0
+4:1/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_srcpp")
 4:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 4:1/0/physics_layer_0/angular_velocity = 0.0
 4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-5, -8, -7, -8, -7, 8, -5, 8)
@@ -1224,6 +1243,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 2:2/0/physics_layer_2/angular_velocity = 0.0
 2:2/0/physics_layer_2/polygon_0/points = PackedVector2Array(7, -2, -2, -2, 7, -8)
 3:2/0 = 0
+3:2/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_ra610")
 3:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 3:2/0/physics_layer_0/angular_velocity = 0.0
 3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-7, -8, -6, -3, -6, 4, -5, 6, -2, 8, 2, 8, 5, 6, 6, 4, 6, -3, 7, -5, 7, -8, 5, -8, 4, -4, 2, -2, -2, -2, -4, -4, -5, -8)
@@ -1241,7 +1261,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 4:2/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 4:2/0/physics_layer_2/angular_velocity = 0.0
 5:2/0 = 0
-5:2/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_du4ua")
+5:2/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_v7e3p")
 5:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 5:2/0/physics_layer_0/angular_velocity = 0.0
 5:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(4, -8, 8, -5, 8, -8)
@@ -1250,7 +1270,7 @@ texture = SubResource("CompressedTexture2D_ka6xc")
 5:2/0/physics_layer_2/linear_velocity = Vector2(0, 0)
 5:2/0/physics_layer_2/angular_velocity = 0.0
 6:2/0 = 0
-6:2/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_4pnny")
+6:2/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_31t82")
 6:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 6:2/0/physics_layer_0/angular_velocity = 0.0
 6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -8, -8, -5, -8, -8)
@@ -3099,6 +3119,23 @@ animations = [{
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_htuva"]
 light_mode = 1
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wdob8"]
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_epc4p"]
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6mrd"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_aio3u"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_eh0qk"]
+gradient = SubResource("Gradient_aio3u")
+fill = 1
+fill_from = Vector2(0.534188, 0.50641)
+
 [node name="GameLevel" type="Node2D"]
 y_sort_enabled = true
 script = SubResource("GDScript_o3rs4")
@@ -3356,31 +3393,42 @@ color = Color(0.121569, 0.121569, 0.121569, 0.694118)
 material = SubResource("CanvasItemMaterial_htuva")
 position = Vector2(-80, 149)
 
-[node name="Play" type="Button" parent="Pause/Buttons"]
-y_sort_enabled = true
-use_parent_material = true
-offset_left = -55.0
-offset_top = -75.0
-offset_right = 55.0
-offset_bottom = -31.0
-text = "Play"
+[node name="Play" type="TextureButton" parent="Pause/Buttons"]
+material = SubResource("CanvasItemMaterial_wdob8")
+offset_left = -39.0
+offset_top = -70.0
+offset_right = 37.0
+offset_bottom = -38.0
+texture_normal = ExtResource("7_sgpa6")
+texture_pressed = ExtResource("8_l0uxu")
+texture_hover = ExtResource("9_pgtut")
 
-[node name="Quit" type="Button" parent="Pause/Buttons"]
-use_parent_material = true
-offset_left = -55.0
-offset_top = 33.0
-offset_right = 55.0
-offset_bottom = 77.0
-text = "Quit
-"
+[node name="Restart" type="TextureButton" parent="Pause/Buttons"]
+material = SubResource("CanvasItemMaterial_epc4p")
+offset_left = -57.0
+offset_top = -15.0
+offset_right = 57.0
+offset_bottom = 17.0
+texture_normal = ExtResource("10_t5546")
+texture_pressed = ExtResource("11_fin54")
+texture_hover = ExtResource("12_u7kdg")
 
-[node name="Restart" type="Button" parent="Pause/Buttons"]
-use_parent_material = true
-offset_left = -55.0
-offset_top = -21.0
-offset_right = 55.0
-offset_bottom = 23.0
-text = "Restart"
+[node name="Quit" type="TextureButton" parent="Pause/Buttons"]
+material = SubResource("CanvasItemMaterial_w6mrd")
+offset_left = -38.0
+offset_top = 38.0
+offset_right = 38.0
+offset_bottom = 70.0
+texture_normal = ExtResource("13_je3tj")
+texture_pressed = ExtResource("14_6g68i")
+texture_hover = ExtResource("15_cjofm")
+
+[node name="DebugLight" type="PointLight2D" parent="."]
+position = Vector2(288, 142)
+editor_only = true
+shadow_enabled = true
+shadow_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_eh0qk")
 
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
@@ -3391,6 +3439,6 @@ text = "Restart"
 [connection signal="body_exited" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_exited"]
 [connection signal="body_entered" from="Detectors/HillDetector" to="." method="_on_hill_detector_body_entered"]
 [connection signal="body_exited" from="Detectors/HillDetector" to="." method="_on_hill_detector_body_exited"]
-[connection signal="button_down" from="Pause/Buttons/Play" to="." method="_on_play_button_down"]
-[connection signal="button_down" from="Pause/Buttons/Quit" to="." method="_on_quit_button_down"]
-[connection signal="button_down" from="Pause/Buttons/Restart" to="." method="_on_restart_button_down"]
+[connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
+[connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
+[connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]

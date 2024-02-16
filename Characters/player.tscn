@@ -1,6 +1,129 @@
-[gd_scene load_steps=54 format=3 uid="uid://dqafxopvsh23"]
+[gd_scene load_steps=68 format=3 uid="uid://dqafxopvsh23"]
 
 [ext_resource type="Script" path="res://Characters/player.gd" id="1_rblef"]
+[ext_resource type="Texture2D" uid="uid://dfxcdklnvrspl" path="res://Art/Arrow-Sheet.png" id="2_t7px6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdpcb"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(0, 0, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpcnv"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(48, 0, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggb2w"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(96, 0, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5au42"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(144, 0, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgahi"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(0, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wb1or"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(48, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ykpp"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(96, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_daeh2"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(144, 24, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kt4n"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(0, 48, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4od5b"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(48, 48, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re3i6"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(96, 48, 48, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw5f3"]
+atlas = ExtResource("2_t7px6")
+region = Rect2(144, 48, 48, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4br6s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdpcb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpcnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggb2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5au42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgahi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb1or")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ykpp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_daeh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kt4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4od5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re3i6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw5f3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re3i6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4od5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5kt4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_daeh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ykpp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wb1or")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgahi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5au42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggb2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpcnv")
+}],
+"loop": true,
+"name": &"Point",
+"speed": 20.0
+}]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fku64"]
 load_path = "res://.godot/imported/Basic Charakter Spritesheet.png-c907e9cd0d9d1a8de1a9c881d0f3187f.ctex"
@@ -555,15 +678,15 @@ fill_to = Vector2(0.810976, 0.219512)
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_rblef")
 
-[node name="Arrow" type="Line2D" parent="."]
+[node name="ArrowPointer" type="Node2D" parent="."]
 visible = false
-y_sort_enabled = true
-position = Vector2(-1.90735e-06, -2.58089e-22)
-rotation = 6.28319
-scale = Vector2(1.24935, 1)
-points = PackedVector2Array(17.6092, -9.82604e-05, 17.6092, 2.9999, 21.6112, -0.000120592, 17.6091, -3.0001, 17.6092, -9.82604e-05, 0, 0)
-width = 2.3
-default_color = Color(1, 0, 0, 1)
+
+[node name="Arrow" type="AnimatedSprite2D" parent="ArrowPointer"]
+position = Vector2(20, -4.76837e-07)
+scale = Vector2(0.5, 0.416667)
+sprite_frames = SubResource("SpriteFrames_4br6s")
+animation = &"Point"
+frame_progress = 0.618095
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_022il")

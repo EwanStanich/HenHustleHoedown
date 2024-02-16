@@ -1,12 +1,21 @@
-[gd_scene load_steps=46 format=3 uid="uid://3rmpedv2x3c4"]
+[gd_scene load_steps=55 format=3 uid="uid://3rmpedv2x3c4"]
 
 [ext_resource type="Script" path="res://Levels/game_level.gd" id="1_kg8y8"]
 [ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="1_m8igd"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="3_v4amm"]
+[ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="8_1deh8"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="8_ylx8i"]
 [ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="9_06pg2"]
+[ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="9_or86v"]
+[ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="10_sorqa"]
+[ext_resource type="Texture2D" uid="uid://07c5q7hgs3hw" path="res://Art/Buttons/Restart/RestartSign-Sheet.png" id="11_flywm"]
+[ext_resource type="Texture2D" uid="uid://cr8hevqvrxvau" path="res://Art/Buttons/Restart/PressedRestart-Sheet.png" id="12_f2mih"]
+[ext_resource type="Texture2D" uid="uid://cbjviu7ree11k" path="res://Art/Buttons/Restart/HoveredRestart-Sheet.png" id="13_vicas"]
+[ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="14_c7lwp"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="14_dm0ip"]
 [ext_resource type="PackedScene" uid="uid://2gexcf0bkll6" path="res://Level Items/bed.tscn" id="14_hdp6g"]
+[ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="15_fyuao"]
+[ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="16_y4vxu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
 shader = ExtResource("14_dm0ip")
@@ -2993,27 +3002,32 @@ color = Color(0.121569, 0.121569, 0.121569, 0.694118)
 [node name="Buttons" type="Node2D" parent="Pause"]
 position = Vector2(-80, 149)
 
-[node name="Play" type="Button" parent="Pause/Buttons"]
-offset_left = -55.0
-offset_top = -75.0
-offset_right = 55.0
-offset_bottom = -31.0
-text = "Play"
+[node name="Play" type="TextureButton" parent="Pause/Buttons"]
+offset_left = -39.0
+offset_top = -70.0
+offset_right = 37.0
+offset_bottom = -38.0
+texture_normal = ExtResource("8_1deh8")
+texture_pressed = ExtResource("9_or86v")
+texture_hover = ExtResource("10_sorqa")
 
-[node name="Quit" type="Button" parent="Pause/Buttons"]
-offset_left = -55.0
-offset_top = 33.0
-offset_right = 55.0
-offset_bottom = 77.0
-text = "Quit
-"
+[node name="Restart" type="TextureButton" parent="Pause/Buttons"]
+offset_left = -57.0
+offset_top = -15.0
+offset_right = 57.0
+offset_bottom = 17.0
+texture_normal = ExtResource("11_flywm")
+texture_pressed = ExtResource("12_f2mih")
+texture_hover = ExtResource("13_vicas")
 
-[node name="Restart" type="Button" parent="Pause/Buttons"]
-offset_left = -55.0
-offset_top = -21.0
-offset_right = 55.0
-offset_bottom = 23.0
-text = "Restart"
+[node name="Quit" type="TextureButton" parent="Pause/Buttons"]
+offset_left = -38.0
+offset_top = 38.0
+offset_right = 38.0
+offset_bottom = 70.0
+texture_normal = ExtResource("14_c7lwp")
+texture_pressed = ExtResource("15_fyuao")
+texture_hover = ExtResource("16_y4vxu")
 
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
@@ -3022,6 +3036,6 @@ text = "Restart"
 [connection signal="body_shape_exited" from="Detectors/BedDetector" to="." method="_on_bed_detector_body_shape_exited"]
 [connection signal="body_entered" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_entered"]
 [connection signal="body_exited" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_exited"]
-[connection signal="button_down" from="Pause/Buttons/Play" to="." method="_on_play_button_down"]
-[connection signal="button_down" from="Pause/Buttons/Quit" to="." method="_on_quit_button_down"]
-[connection signal="button_down" from="Pause/Buttons/Restart" to="." method="_on_restart_button_down"]
+[connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
+[connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
+[connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
