@@ -676,6 +676,7 @@ fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.810976, 0.219512)
 
 [node name="Player" type="CharacterBody2D"]
+platform_floor_layers = 0
 script = ExtResource("1_rblef")
 
 [node name="ArrowPointer" type="Node2D" parent="."]
@@ -686,7 +687,7 @@ position = Vector2(20, -4.76837e-07)
 scale = Vector2(0.5, 0.416667)
 sprite_frames = SubResource("SpriteFrames_4br6s")
 animation = &"Point"
-frame_progress = 0.618095
+frame_progress = 0.334373
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_022il")

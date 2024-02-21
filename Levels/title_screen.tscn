@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://dguryrdn8htwe"]
+[gd_scene load_steps=68 format=3 uid="uid://dguryrdn8htwe"]
 
 [ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
 [ext_resource type="Texture2D" uid="uid://cvgwkl3xwibwr" path="res://Art/Buttons/HighScore/HighScoreSign-Sheet.png" id="2_hcdii"]
@@ -26,7 +26,33 @@
 [ext_resource type="Texture2D" uid="uid://x0dy43ckeay" path="res://Art/Buttons/Levels/L3/PressedL3-Sheet.png" id="19_g74i6"]
 [ext_resource type="Texture2D" uid="uid://71d0ebh1yhtv" path="res://Art/Buttons/Levels/L3/HoveredL3-Sheet.png" id="20_pdtyl"]
 [ext_resource type="Texture2D" uid="uid://wb3fh8vd0f2y" path="res://Art/Buttons/Levels/L3/DisabledL3-Sheet.png" id="21_2844k"]
+[ext_resource type="Texture2D" uid="uid://pyowsbi2w5y2" path="res://Art/Buttons/Levels/L4/Level4Sign-Sheet.png" id="23_01fjx"]
+[ext_resource type="Texture2D" uid="uid://c4ao1eifne1on" path="res://Art/Buttons/Levels/L4/PressedL4-Sheet.png" id="24_p7by0"]
+[ext_resource type="Texture2D" uid="uid://crci0en6ecg4h" path="res://Art/Buttons/Levels/L4/HoveredL4-Sheet.png" id="25_1w4p8"]
+[ext_resource type="Texture2D" uid="uid://dwn83xo5ajxvs" path="res://Art/Buttons/Levels/L4/DisabledL4-Sheet.png" id="26_da5oo"]
 [ext_resource type="Texture2D" uid="uid://dmf14fad78hiu" path="res://Art/Buttons/Levels/L1/DisabledL1-Sheet.png" id="27_0fs33"]
+[ext_resource type="Texture2D" uid="uid://c5d347w5l6nn5" path="res://Art/Buttons/Levels/L5/Level5Sign-Sheet.png" id="27_kc8gw"]
+[ext_resource type="Texture2D" uid="uid://e8gyvt6puuq3" path="res://Art/HSBoard-Sheet.png" id="28_7obc0"]
+[ext_resource type="Texture2D" uid="uid://donqd0j3cshnc" path="res://Art/Buttons/Levels/L5/PressedL5-Sheet.png" id="28_h6qc1"]
+[ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="29_ilqtw"]
+[ext_resource type="Texture2D" uid="uid://c64dwrh7ealln" path="res://Art/Buttons/Levels/L5/HoveredL5-Sheet.png" id="29_tt4r2"]
+[ext_resource type="Texture2D" uid="uid://ci12rl4v3fwny" path="res://Art/Buttons/Levels/L5/DisabledL5-Sheet.png" id="30_dbpja"]
+[ext_resource type="Texture2D" uid="uid://8kbr0gvvnvya" path="res://Art/Buttons/Levels/L6/Level6Sign-Sheet.png" id="31_kn1rr"]
+[ext_resource type="Texture2D" uid="uid://dttuwqnlerrnw" path="res://Art/Buttons/Levels/L6/PressedL6-Sheet.png" id="32_5part"]
+[ext_resource type="Texture2D" uid="uid://djwaaxiikre41" path="res://Art/Buttons/Levels/L6/HoveredL6-Sheet.png" id="33_3mxhd"]
+[ext_resource type="Texture2D" uid="uid://b6j2wvdgckejp" path="res://Art/Buttons/Levels/L6/DisabledL6-Sheet.png" id="34_27cjv"]
+[ext_resource type="Texture2D" uid="uid://dfl3khnlnml75" path="res://Art/Buttons/Levels/L7/Level7Sign-Sheet.png" id="40_0ip3g"]
+[ext_resource type="Texture2D" uid="uid://c6exjd0e8g3oj" path="res://Art/Buttons/Levels/L7/PressedL7-Sheet.png" id="41_rqa7u"]
+[ext_resource type="Texture2D" uid="uid://dpxjeqwrplwsk" path="res://Art/Buttons/Levels/L7/HoveredL7-Sheet.png" id="42_c32b5"]
+[ext_resource type="Texture2D" uid="uid://cilllgdugu4ny" path="res://Art/Buttons/Levels/L7/DisabledL7-Sheet.png" id="43_d5d65"]
+[ext_resource type="Texture2D" uid="uid://bsdup662pxurr" path="res://Art/Buttons/Levels/L8/Level8Sign-Sheet.png" id="44_6ooma"]
+[ext_resource type="Texture2D" uid="uid://gsswh2cmb1yo" path="res://Art/Buttons/Levels/L8/PressedL8-Sheet.png" id="45_5si7e"]
+[ext_resource type="Texture2D" uid="uid://cu4ej0phhgju" path="res://Art/Buttons/Levels/L8/HoveredL8-Sheet.png" id="46_86e5v"]
+[ext_resource type="Texture2D" uid="uid://b80rik21cpy3m" path="res://Art/Buttons/Levels/L8/DisabledL8-Sheet.png" id="47_e0ya2"]
+[ext_resource type="Texture2D" uid="uid://7g28vugsct38" path="res://Art/Buttons/Levels/L9/Level9Sign-Sheet.png" id="48_3upmn"]
+[ext_resource type="Texture2D" uid="uid://bmt2qaptxl5jw" path="res://Art/Buttons/Levels/L9/PressedL9-Sheet.png" id="49_0cthm"]
+[ext_resource type="Texture2D" uid="uid://n82hk32wqsb0" path="res://Art/Buttons/Levels/L9/HoveredL9-Sheet.png" id="50_eg26d"]
+[ext_resource type="Texture2D" uid="uid://bmvpb1sfnwdsd" path="res://Art/Buttons/Levels/L9/DisabledL9-Sheet.png" id="51_kc732"]
 
 [sub_resource type="GDScript" id="GDScript_7qdv6"]
 script/source = "extends Node2D
@@ -48,6 +74,9 @@ func _ready():
 		$\"Level_Buttons/Level 3\".disabled = false
 	if Game.level3:
 		$\"HS_Buttons/HS Level 3\".disabled = false
+		$\"Level_Buttons/Level 4\".disabled = false
+	if Game.level4:
+		$\"HS_Buttons/HS Level 4\".disabled = false
  
 
 func _on_play_button_up():
@@ -74,7 +103,11 @@ func _on_level_2_button_up():
 
 
 func _on_level_3_button_up():
-		get_tree().change_scene_to_file(\"res://Levels/level_3.tscn\")
+	get_tree().change_scene_to_file(\"res://Levels/level_3.tscn\")
+
+
+func _on_level_4_button_up():
+	get_tree().change_scene_to_file(\"res://Levels/level_4.tscn\")
 
 
 func _on_high_score_button_up():
@@ -82,7 +115,7 @@ func _on_high_score_button_up():
 	$HS_Buttons.visible = true
 
 
-func _on_hs_back_button_down():
+func _on_hs_back_button_up():
 	$HighScores.visible = false
 	$HS_Buttons.visible = true
 
@@ -118,6 +151,19 @@ func _on_hs_level_3_button_up():
 	var HS = Game.level3HS
 	print(HS)
 	$HighScores/LevelNum.text = \"Level 3\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+
+
+func _on_hs_level_4_button_up():
+	var HS = Game.level4HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 4\"
 	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
 	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
 	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
@@ -323,53 +369,71 @@ texture_pressed = ExtResource("19_g74i6")
 texture_hover = ExtResource("20_pdtyl")
 texture_disabled = ExtResource("21_2844k")
 
-[node name="Level 4" type="Button" parent="Level_Buttons"]
-offset_left = 48.0
-offset_top = 79.0
-offset_right = 122.0
+[node name="Level 4" type="TextureButton" parent="Level_Buttons"]
+offset_left = 13.0
+offset_top = 78.0
+offset_right = 117.0
 offset_bottom = 110.0
 disabled = true
-text = "Level 4"
+texture_normal = ExtResource("23_01fjx")
+texture_pressed = ExtResource("24_p7by0")
+texture_hover = ExtResource("25_1w4p8")
+texture_disabled = ExtResource("26_da5oo")
 
-[node name="Level 5" type="Button" parent="Level_Buttons"]
-offset_left = 137.0
-offset_top = 79.0
-offset_right = 211.0
+[node name="Level 5" type="TextureButton" parent="Level_Buttons"]
+offset_left = 124.0
+offset_top = 78.0
+offset_right = 228.0
 offset_bottom = 110.0
 disabled = true
-text = "Level 5"
+texture_normal = ExtResource("27_kc8gw")
+texture_pressed = ExtResource("28_h6qc1")
+texture_hover = ExtResource("29_tt4r2")
+texture_disabled = ExtResource("30_dbpja")
 
-[node name="Level 6" type="Button" parent="Level_Buttons"]
-offset_left = 226.0
-offset_top = 79.0
-offset_right = 300.0
+[node name="Level 6" type="TextureButton" parent="Level_Buttons"]
+offset_left = 235.0
+offset_top = 78.0
+offset_right = 339.0
 offset_bottom = 110.0
 disabled = true
-text = "Level 6"
+texture_normal = ExtResource("31_kn1rr")
+texture_pressed = ExtResource("32_5part")
+texture_hover = ExtResource("33_3mxhd")
+texture_disabled = ExtResource("34_27cjv")
 
-[node name="Level 7" type="Button" parent="Level_Buttons"]
-offset_left = 48.0
+[node name="Level 7" type="TextureButton" parent="Level_Buttons"]
+offset_left = 13.0
 offset_top = 122.0
-offset_right = 122.0
-offset_bottom = 153.0
+offset_right = 117.0
+offset_bottom = 154.0
 disabled = true
-text = "Level 7"
+texture_normal = ExtResource("40_0ip3g")
+texture_pressed = ExtResource("41_rqa7u")
+texture_hover = ExtResource("42_c32b5")
+texture_disabled = ExtResource("43_d5d65")
 
-[node name="Level 8" type="Button" parent="Level_Buttons"]
-offset_left = 137.0
+[node name="Level 8" type="TextureButton" parent="Level_Buttons"]
+offset_left = 124.0
 offset_top = 122.0
-offset_right = 211.0
-offset_bottom = 153.0
+offset_right = 228.0
+offset_bottom = 154.0
 disabled = true
-text = "Level 8"
+texture_normal = ExtResource("44_6ooma")
+texture_pressed = ExtResource("45_5si7e")
+texture_hover = ExtResource("46_86e5v")
+texture_disabled = ExtResource("47_e0ya2")
 
-[node name="Level 9" type="Button" parent="Level_Buttons"]
-offset_left = 226.0
+[node name="Level 9" type="TextureButton" parent="Level_Buttons"]
+offset_left = 235.0
 offset_top = 122.0
-offset_right = 300.0
-offset_bottom = 153.0
+offset_right = 339.0
+offset_bottom = 154.0
 disabled = true
-text = "Level 9"
+texture_normal = ExtResource("48_3upmn")
+texture_pressed = ExtResource("49_0cthm")
+texture_hover = ExtResource("50_eg26d")
+texture_disabled = ExtResource("51_kc732")
 
 [node name="Back" type="TextureButton" parent="Level_Buttons"]
 offset_left = 136.0
@@ -421,59 +485,71 @@ texture_pressed = ExtResource("19_g74i6")
 texture_hover = ExtResource("20_pdtyl")
 texture_disabled = ExtResource("21_2844k")
 
-[node name="HS Level 4" type="Button" parent="HS_Buttons"]
-offset_left = 48.0
-offset_top = 79.0
-offset_right = 122.0
+[node name="HS Level 4" type="TextureButton" parent="HS_Buttons"]
+offset_left = 13.0
+offset_top = 78.0
+offset_right = 117.0
 offset_bottom = 110.0
 disabled = true
-text = "Level 4"
-metadata/_edit_use_anchors_ = true
+texture_normal = ExtResource("23_01fjx")
+texture_pressed = ExtResource("24_p7by0")
+texture_hover = ExtResource("25_1w4p8")
+texture_disabled = ExtResource("26_da5oo")
 
-[node name="HS Level 5" type="Button" parent="HS_Buttons"]
-offset_left = 137.0
-offset_top = 79.0
-offset_right = 211.0
+[node name="HS Level 5" type="TextureButton" parent="HS_Buttons"]
+offset_left = 124.0
+offset_top = 78.0
+offset_right = 228.0
 offset_bottom = 110.0
 disabled = true
-text = "Level 5"
-metadata/_edit_use_anchors_ = true
+texture_normal = ExtResource("27_kc8gw")
+texture_pressed = ExtResource("28_h6qc1")
+texture_hover = ExtResource("29_tt4r2")
+texture_disabled = ExtResource("30_dbpja")
 
-[node name="HS Level 6" type="Button" parent="HS_Buttons"]
-offset_left = 226.0
-offset_top = 79.0
-offset_right = 300.0
+[node name="HS Level 6" type="TextureButton" parent="HS_Buttons"]
+offset_left = 235.0
+offset_top = 78.0
+offset_right = 339.0
 offset_bottom = 110.0
 disabled = true
-text = "Level 6"
-metadata/_edit_use_anchors_ = true
+texture_normal = ExtResource("31_kn1rr")
+texture_pressed = ExtResource("32_5part")
+texture_hover = ExtResource("33_3mxhd")
+texture_disabled = ExtResource("34_27cjv")
 
-[node name="HS Level 7" type="Button" parent="HS_Buttons"]
-offset_left = 48.0
+[node name="HS Level 7" type="TextureButton" parent="HS_Buttons"]
+offset_left = 13.0
 offset_top = 122.0
-offset_right = 122.0
-offset_bottom = 153.0
+offset_right = 117.0
+offset_bottom = 154.0
 disabled = true
-text = "Level 7"
-metadata/_edit_use_anchors_ = true
+texture_normal = ExtResource("40_0ip3g")
+texture_pressed = ExtResource("41_rqa7u")
+texture_hover = ExtResource("42_c32b5")
+texture_disabled = ExtResource("43_d5d65")
 
-[node name="HS Level 8" type="Button" parent="HS_Buttons"]
-offset_left = 137.0
+[node name="HS Level 8" type="TextureButton" parent="HS_Buttons"]
+offset_left = 124.0
 offset_top = 122.0
-offset_right = 211.0
-offset_bottom = 153.0
+offset_right = 228.0
+offset_bottom = 154.0
 disabled = true
-text = "Level 8"
-metadata/_edit_use_anchors_ = true
+texture_normal = ExtResource("44_6ooma")
+texture_pressed = ExtResource("45_5si7e")
+texture_hover = ExtResource("46_86e5v")
+texture_disabled = ExtResource("47_e0ya2")
 
-[node name="HS Level 9" type="Button" parent="HS_Buttons"]
-offset_left = 226.0
+[node name="HS Level 9" type="TextureButton" parent="HS_Buttons"]
+offset_left = 235.0
 offset_top = 122.0
-offset_right = 300.0
-offset_bottom = 153.0
+offset_right = 339.0
+offset_bottom = 154.0
 disabled = true
-text = "Level 9"
-metadata/_edit_use_anchors_ = true
+texture_normal = ExtResource("48_3upmn")
+texture_pressed = ExtResource("49_0cthm")
+texture_hover = ExtResource("50_eg26d")
+texture_disabled = ExtResource("51_kc732")
 
 [node name="Back" type="TextureButton" parent="HS_Buttons"]
 offset_left = 136.0
@@ -489,70 +565,93 @@ metadata/_edit_use_anchors_ = true
 visible = false
 position = Vector2(0, 19)
 
-[node name="ColorRect" type="ColorRect" parent="HighScores"]
-offset_left = 86.0
-offset_top = -9.0
-offset_right = 258.0
-offset_bottom = 137.0
-color = Color(0.0392157, 0.0392157, 0.0392157, 0.45098)
+[node name="Sprite2D" type="Sprite2D" parent="HighScores"]
+position = Vector2(170, 71)
+scale = Vector2(0.943182, 0.943182)
+texture = ExtResource("28_7obc0")
 
 [node name="HS1" type="Label" parent="HighScores"]
-offset_left = 113.0
-offset_top = 13.0
-offset_right = 231.0
-offset_bottom = 36.0
+offset_left = 66.0
+offset_top = 30.0
+offset_right = 274.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
 text = "|"
 horizontal_alignment = 1
 
 [node name="HS2" type="Label" parent="HighScores"]
-offset_left = 113.0
-offset_top = 37.0
-offset_right = 231.0
-offset_bottom = 60.0
+offset_left = 66.0
+offset_top = 54.0
+offset_right = 274.0
+offset_bottom = 77.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
 text = "|"
 horizontal_alignment = 1
 
 [node name="HS3" type="Label" parent="HighScores"]
-offset_left = 113.0
-offset_top = 63.0
-offset_right = 231.0
-offset_bottom = 86.0
+offset_left = 66.0
+offset_top = 80.0
+offset_right = 274.0
+offset_bottom = 103.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
 text = "|"
 horizontal_alignment = 1
 
 [node name="HS4" type="Label" parent="HighScores"]
-offset_left = 113.0
-offset_top = 89.0
-offset_right = 231.0
-offset_bottom = 112.0
+offset_left = 66.0
+offset_top = 106.0
+offset_right = 274.0
+offset_bottom = 129.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
 text = "|"
 horizontal_alignment = 1
 
 [node name="HS5" type="Label" parent="HighScores"]
-offset_left = 113.0
-offset_top = 115.0
-offset_right = 231.0
-offset_bottom = 138.0
+offset_left = 66.0
+offset_top = 132.0
+offset_right = 274.0
+offset_bottom = 155.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
 text = "|"
 horizontal_alignment = 1
 
 [node name="LevelNum" type="Label" parent="HighScores"]
-offset_left = 76.0
-offset_top = -13.0
-offset_right = 237.0
-offset_bottom = 10.0
+offset_left = 67.0
+offset_right = 241.0
+offset_bottom = 23.0
 scale = Vector2(1.18735, 1.18735)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("29_ilqtw")
 text = "|"
 horizontal_alignment = 1
 
-[node name="HSBack" type="Button" parent="HighScores"]
-offset_left = 151.0
-offset_top = 144.0
-offset_right = 207.0
-offset_bottom = 175.0
-scale = Vector2(0.745575, 0.708923)
-text = "Back
-"
+[node name="HSBack" type="TextureButton" parent="HighScores"]
+offset_left = 141.0
+offset_top = 169.0
+offset_right = 217.0
+offset_bottom = 201.0
+scale = Vector2(0.76, 0.76)
+texture_normal = ExtResource("11_u6pyl")
+texture_pressed = ExtResource("12_p0bmo")
+texture_hover = ExtResource("13_uetc5")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="button_up" from="Buttons/HighScore" to="." method="_on_high_score_button_up"]
 [connection signal="button_up" from="Buttons/Play" to="." method="_on_play_button_up"]
@@ -560,9 +659,11 @@ text = "Back
 [connection signal="button_up" from="Level_Buttons/Level 1" to="." method="_on_level_1_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 3" to="." method="_on_level_3_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 4" to="." method="_on_level_4_button_up"]
 [connection signal="button_up" from="Level_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 3" to="." method="_on_hs_level_3_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 4" to="." method="_on_hs_level_4_button_up"]
 [connection signal="button_up" from="HS_Buttons/Back" to="." method="_on_back_button_up"]
-[connection signal="button_down" from="HighScores/HSBack" to="." method="_on_hs_back_button_down"]
+[connection signal="button_up" from="HighScores/HSBack" to="." method="_on_hs_back_button_up"]

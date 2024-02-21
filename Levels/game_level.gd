@@ -90,7 +90,7 @@ func _on_gate_detector_body_entered(body):
 			capturedChickens += 1
 		$UI/Chickns.text = "x " + str(capturedChickens)
 		if capturedChickens == totalChickens:
-			player.showArrow()
+			player.show_arrow()
 
 
 
@@ -155,7 +155,7 @@ func _on_arrow_bed_area_body_entered(body):
 
 func _on_arrow_bed_area_body_exited(body):
 	if capturedChickens == totalChickens:
-		player.show_arrow
+		player.show_arrow()
 
 
 func pause_game():

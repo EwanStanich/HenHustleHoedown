@@ -95,6 +95,7 @@ height = 10.0
 position = Vector2(0, -7)
 collision_layer = 4
 collision_mask = 4
+platform_floor_layers = 0
 script = ExtResource("1_bbj4o")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -125,6 +126,8 @@ shape = SubResource("CapsuleShape2D_pbdmt")
 
 [node name="Timer" type="Timer" parent="."]
 
+[node name="LightningTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
@@ -132,3 +135,4 @@ shape = SubResource("CapsuleShape2D_pbdmt")
 [connection signal="body_entered" from="Area2D3" to="." method="_on_area_2d_3_body_entered"]
 [connection signal="body_exited" from="Area2D3" to="." method="_on_area_2d_3_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="LightningTimer" to="." method="_on_lightning_timer_timeout"]

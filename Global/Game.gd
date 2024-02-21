@@ -1,17 +1,22 @@
 extends Node
 
-var level1 = false
-var level2 = false
-var level3 = false
+#var level1 = false
+#var level2 = false
+#var level3 = false
+#var level4 = false
+
 
 # Test
-#var level1 = true
-#var level2 = true
-#var level3 = true
+var level1 = true
+var level2 = true
+var level3 = true
+var level4 = true
+
 
 var level1HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level2HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level3HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
+var level4HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 
 
 func compare_times(a, b):

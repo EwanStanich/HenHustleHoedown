@@ -11,6 +11,7 @@ var playerClose = false
 var paused = false
 var startingPosition
 var player
+var isLightning = false
 @onready var timer = $Timer
 @onready var anim = $AnimatedSprite2D
 
@@ -22,23 +23,30 @@ func _ready():
 	anim.play("Idle")
 	if randf() > 0.5:
 		anim.flip_h = true
+	while move_direction.length() < 0.2:	
+		move_direction = Vector2(
+			randf_range(-1, 1),
+			randf_range(-1, 1)
+		)
 	startingPosition = position
+	
 
 func _physics_process(_delta):
 	if paused:
 		return
-	if isMoving or touchingPlayer:
+	if isLightning:
+		move_speed = 200
+	if isMoving or touchingPlayer or isLightning:
 		velocity = move_speed * move_direction
 	else:
 		velocity = Vector2.ZERO
 	
 	if touchingPlayer:
-		if playerClose:
-			move_speed = 120
-		else:
-			move_speed = 95
-		print("Player: " + str(player.position))
-		print("Chicken: " + str(position))
+		if !isLightning:
+			if playerClose:
+				move_speed = 120
+			else:
+				move_speed = 95
 		var direction_from_player = player.position - position
 		if player.position.x < position.x:
 			direction_from_player.x += 1.85
@@ -89,9 +97,11 @@ func _on_area_2d_body_entered(body):
 			startingPosition = position
 		if "TileMap" in body.name and !touchingPlayer:
 			touchingTileMap = true
-			isMoving = false
-			timer.wait_time = 0.5
-			anim.play("Idle")
+			if isLightning:
+				wall_bounce()
+			else:
+				timer.wait_time = 0.5
+				anim.play("Idle")
 
 
 func _on_area_2d_body_exited(body):
@@ -165,3 +175,14 @@ func pause():
 func play():
 	anim.play()
 	paused = false
+
+
+func lightning():
+	isLightning = true
+	$LightningTimer.wait_time = 4
+	$LightningTimer.start()
+
+
+func _on_lightning_timer_timeout():
+	isLightning = false
+	move_speed = 50

@@ -31,7 +31,7 @@ func _physics_process(_delta):
 	else:
 		velocity = Vector2.ZERO
 	
-	if touchingPlayer:
+	if touchingPlayer or touchingAnimal:
 		anim.play("Idle")
 		move_and_collide(Vector2.ZERO)
 	else:
