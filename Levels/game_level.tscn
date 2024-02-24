@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://cbjviu7ree11k" path="res://Art/Buttons/Restart/HoveredRestart-Sheet.png" id="13_vicas"]
 [ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="14_c7lwp"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="14_dm0ip"]
-[ext_resource type="PackedScene" uid="uid://2gexcf0bkll6" path="res://Level Items/bed.tscn" id="14_hdp6g"]
+[ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="14_hdp6g"]
 [ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="15_fyuao"]
 [ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="16_y4vxu"]
 
@@ -60,7 +60,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s7g6s"]
-size = Vector2(170, 100)
+size = Vector2(135, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_72y4m"]
 size = Vector2(82, 80)
@@ -2788,7 +2788,7 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/RoofArea"]
 z_index = 1
-position = Vector2(440.5, 303)
+position = Vector2(438.5, 303)
 shape = SubResource("RectangleShape2D_s7g6s")
 one_way_collision_margin = 0.0
 
@@ -2900,12 +2900,6 @@ position = Vector2(416, 144)
 [node name="Cow10" parent="Characters/Cows" instance=ExtResource("8_ylx8i")]
 position = Vector2(224, 200)
 
-[node name="Cow11" parent="Characters/Cows" instance=ExtResource("8_ylx8i")]
-position = Vector2(286, 235)
-
-[node name="Cow12" parent="Characters/Cows" instance=ExtResource("8_ylx8i")]
-position = Vector2(313, 279)
-
 [node name="LevelItems" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -2918,11 +2912,13 @@ position = Vector2(477, 281)
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Chickns" type="Label" parent="UI"]
-offset_left = 22.0
-offset_right = 78.0
+offset_left = 20.0
+offset_top = 9.0
+offset_right = 40.0
 offset_bottom = 23.0
-text = "Testing
-"
+scale = Vector2(0.65, 0.65)
+theme_override_fonts/font = ExtResource("8_hprt8")
+text = "x0"
 
 [node name="ChicknIcon" type="AnimatedSprite2D" parent="UI"]
 position = Vector2(12, 12)
@@ -2931,10 +2927,11 @@ animation = &"Icon"
 frame_progress = 0.544098
 
 [node name="Timer" type="Panel" parent="UI"]
-offset_left = -42.0
-offset_top = -5.0
-offset_right = -2.0
-offset_bottom = 35.0
+offset_left = -33.0
+offset_top = 8.0
+offset_right = 6.0
+offset_bottom = 38.0
+scale = Vector2(0.833833, 0.833833)
 
 [node name="Minutes" type="Label" parent="UI/Timer"]
 layout_mode = 0
@@ -2942,23 +2939,26 @@ offset_left = 45.0
 offset_top = 20.0
 offset_right = 90.0
 offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("8_hprt8")
 text = "00:
 "
 
 [node name="Seconds" type="Label" parent="UI/Timer"]
 layout_mode = 0
-offset_left = 67.0
+offset_left = 76.0
 offset_top = 20.0
-offset_right = 107.0
+offset_right = 116.0
 offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("8_hprt8")
 text = "00."
 
 [node name="Milliseconds" type="Label" parent="UI/Timer"]
 layout_mode = 0
-offset_left = 89.0
+offset_left = 104.0
 offset_top = 20.0
-offset_right = 129.0
+offset_right = 144.0
 offset_bottom = 43.0
+theme_override_fonts/font = ExtResource("8_hprt8")
 text = "00"
 
 [node name="GameOver" type="Node2D" parent="."]

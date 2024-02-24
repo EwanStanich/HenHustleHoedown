@@ -280,6 +280,7 @@ animation = &"Panic"
 frame_progress = 0.937561
 
 [node name="Debug" type="Node2D" parent="."]
+visible = false
 
 [node name="Debug Bounce" type="Node2D" parent="Debug"]
 

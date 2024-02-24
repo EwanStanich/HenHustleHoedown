@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bopqy6vpmhrqh"]
+[gd_scene load_steps=21 format=3 uid="uid://dl5c2d62386im"]
 
 [ext_resource type="Script" path="res://Characters/blue_chicken.gd" id="1_6ekke"]
 [ext_resource type="Texture2D" uid="uid://2nssa1d3aaqi" path="res://Art/Characters/BlueChicken-Sheet.png" id="2_c7gpb"]
