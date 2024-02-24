@@ -78,6 +78,12 @@ func _ready():
 		$\"Level_Buttons/Level 4\".disabled = false
 	if Game.level4:
 		$\"HS_Buttons/HS Level 4\".disabled = false
+		$\"Level_Buttons/Level 5\".disabled = false		
+	if Game.level5:
+		$\"HS_Buttons/HS Level 5\".disabled = false
+		$\"Level_Buttons/Level 6\".disabled = false
+	if Game.level6:
+		$\"HS_Buttons/HS Level 6\".disabled = false
  
 
 func _on_play_button_up():
@@ -109,6 +115,14 @@ func _on_level_3_button_up():
 
 func _on_level_4_button_up():
 	get_tree().change_scene_to_file(\"res://Levels/level_4.tscn\")
+
+
+func _on_level_5_button_up():
+	get_tree().change_scene_to_file(\"res://Levels/level_5.tscn\")
+
+
+func _on_level_6_button_up():
+	get_tree().change_scene_to_file(\"res://Levels/level_6.tscn\")
 
 
 func _on_high_score_button_up():
@@ -172,6 +186,34 @@ func _on_hs_level_4_button_up():
 	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
 	$HighScores.visible = true
 	$HS_Buttons.visible = false
+
+
+func _on_hs_level_5_button_up():
+	var HS = Game.level5HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 5\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+
+
+
+func _on_hs_level_6_button_up():
+	var HS = Game.level6HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 6\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ncxj7"]
@@ -660,10 +702,14 @@ metadata/_edit_use_anchors_ = true
 [connection signal="button_up" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 3" to="." method="_on_level_3_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 4" to="." method="_on_level_4_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 5" to="." method="_on_level_5_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 6" to="." method="_on_level_6_button_up"]
 [connection signal="button_up" from="Level_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 3" to="." method="_on_hs_level_3_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 4" to="." method="_on_hs_level_4_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 5" to="." method="_on_hs_level_5_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 6" to="." method="_on_hs_level_6_button_up"]
 [connection signal="button_up" from="HS_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_up" from="HighScores/HSBack" to="." method="_on_hs_back_button_up"]

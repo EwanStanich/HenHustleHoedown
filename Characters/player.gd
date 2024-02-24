@@ -122,3 +122,7 @@ func hide_arrow():
 
 func show_sleep():
 	$Sleep.visible = true
+
+
+func hide_sleep():
+	$Sleep.visible = false
