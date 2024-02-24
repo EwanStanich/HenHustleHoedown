@@ -20,6 +20,7 @@ var totalTime
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
+		print(chicken)
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
@@ -60,7 +61,7 @@ func _input(event):
 					update_time(totalTime, label.text)
 					Utils.saveGame()
 					get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
-				elif label.text.length() > 6:
+				elif label.text.length() > 9:
 					pass
 				elif "Shift" in key_text and key_text.length() == 7:
 					label.text += key_text.right(1).to_upper()
@@ -91,6 +92,7 @@ func _on_gate_detector_body_entered(body):
 		$UI/Chickns.text = "x " + str(capturedChickens)
 		if capturedChickens == totalChickens:
 			player.show_arrow()
+			player.show_sleep()
 
 
 

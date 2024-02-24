@@ -17,7 +17,6 @@ var isLightning = false
 
 
 func _ready():
-	$"Debug/Debug Bounce/DebugArrow".play("default")
 	timer.wait_time = randf_range(1.5, 4)
 	timer.one_shot = true
 	timer.start()
@@ -42,12 +41,6 @@ func _physics_process(_delta):
 		velocity = move_speed * move_direction
 	else:
 		velocity = Vector2.ZERO
-
-	var angle = atan2(move_direction.y, move_direction.x)
-	if angle < 0:
-		angle += 2 * PI
-	$"Debug/Debug Bounce".rotation = angle
-	$Debug/DebugDirection.text = str(move_direction)
 	
 	if touchingPlayer:
 		if !isLightning:
@@ -67,9 +60,7 @@ func _physics_process(_delta):
 	pick_state()
 
 
-func move_chicken():
-	if !touchingPlayer and !isLightning:
-		move_speed = 50
+func move_chicken():	
 	if touchingTileMap:
 		wall_bounce()
 	elif touchingAnimal:
@@ -110,7 +101,7 @@ func _on_area_2d_body_entered(body):
 			if isLightning:
 				wall_bounce()
 			else:
-				isMoving = false
+				timer.wait_time = 0.5
 				anim.play("Idle")
 
 
@@ -150,7 +141,6 @@ func wall_bounce():
 		move_direction.y = randf_range(-1, 0)
 	else:
 		move_direction.y = randf_range(0, 1)
-	
 	startingPosition = position
 
 

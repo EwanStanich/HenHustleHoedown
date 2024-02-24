@@ -2900,6 +2900,12 @@ position = Vector2(416, 144)
 [node name="Cow10" parent="Characters/Cows" instance=ExtResource("8_ylx8i")]
 position = Vector2(224, 200)
 
+[node name="Cow11" parent="Characters/Cows" instance=ExtResource("8_ylx8i")]
+position = Vector2(286, 235)
+
+[node name="Cow12" parent="Characters/Cows" instance=ExtResource("8_ylx8i")]
+position = Vector2(313, 279)
+
 [node name="LevelItems" type="Node2D" parent="."]
 y_sort_enabled = true
 

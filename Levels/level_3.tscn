@@ -81,7 +81,7 @@ func _input(event):
 					update_time(totalTime, label.text)
 					Utils.saveGame()
 					get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
-				elif label.text.length() > 6:
+				elif label.text.length() > 9:
 					pass
 				elif \"Shift\" in key_text and key_text.length() == 7:
 					label.text += key_text.right(1).to_upper()
@@ -114,6 +114,7 @@ func _on_gate_detector_body_entered(body):
 		$UI/Chickns.text = \"x \" + str(capturedChickens)
 		if capturedChickens == totalChickens:
 			player.show_arrow()
+			player.show_sleep()
 
 
 
@@ -3428,7 +3429,8 @@ texture_pressed = ExtResource("14_6g68i")
 texture_hover = ExtResource("15_cjofm")
 
 [node name="DebugLight" type="PointLight2D" parent="."]
-position = Vector2(183, 218)
+position = Vector2(75, 291)
+scale = Vector2(2.14062, 1.89062)
 editor_only = true
 shadow_enabled = true
 shadow_item_cull_mask = 3

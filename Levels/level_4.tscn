@@ -52,7 +52,6 @@ func _ready():
 	$UI/ChicknIcon.play(\"Icon\")
 	player.set_camera_limits(449,5,674,6)
 	label = $GameOver/Name
-	timer.wait_time = randf_range(8, 15)
 
 
 func _physics_process(delta):
@@ -83,7 +82,7 @@ func _input(event):
 					update_time(totalTime, label.text)
 					Utils.saveGame()
 					get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
-				elif label.text.length() > 6:
+				elif label.text.length() > 9:
 					pass
 				elif \"Shift\" in key_text and key_text.length() == 7:
 					label.text += key_text.right(1).to_upper()
@@ -114,6 +113,7 @@ func _on_gate_detector_body_entered(body):
 		$UI/Chickns.text = \"x \" + str(capturedChickens)
 		if capturedChickens == totalChickens:
 			player.show_arrow()
+			player.show_sleep()
 
 
 
@@ -229,7 +229,7 @@ func _on_lightning_timer_timeout():
 		chicken.lightning()
 	await anim.animation_finished
 	$Rain/Lightning.visible = false
-	timer.wait_time = randf_range(15, 25)
+	timer.wait_time = randf_range(10, 20)
 	timer.start()
 "
 
@@ -242,6 +242,21 @@ radial_accel_min = 0.5
 radial_accel_max = 0.7
 scale_max = 2.0
 color = Color(0.847059, 0.945098, 1, 1)
+
+[sub_resource type="Animation" id="Animation_lc4gw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_rg2tx"]
 resource_name = "flash"
@@ -257,21 +272,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_lc4gw"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_nuees"]
@@ -3052,7 +3052,7 @@ libraries = {
 }
 
 [node name="LightningTimer" type="Timer" parent="Rain"]
-wait_time = 0.05
+wait_time = 3.0
 autostart = true
 
 [node name="EndGame" type="ColorRect" parent="."]

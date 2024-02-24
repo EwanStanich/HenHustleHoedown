@@ -31,9 +31,11 @@ func _physics_process(_delta):
 	else:
 		velocity = Vector2.ZERO
 	
-	if touchingPlayer or touchingAnimal:
+	if touchingPlayer:
 		anim.play("Idle")
 		move_and_collide(Vector2.ZERO)
+	elif touchingAnimal:
+		move_and_collide(velocity * _delta)
 	else:
 		move_and_slide()
 	
@@ -72,6 +74,7 @@ func pick_state():
 
 func _on_area_2d_body_entered(body):
 	if body.get_node("CollisionShape2D") != get_node("CollisionShape2D"):
+		var a = body.name
 		if ("Cow" in body.name or "Chicken" in body.name) and body != $CollisionShape2D:
 			touchingAnimal = true
 			move_direction = -(body.position - position).normalized()

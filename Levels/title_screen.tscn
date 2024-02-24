@@ -1,6 +1,7 @@
 [gd_scene load_steps=68 format=3 uid="uid://dguryrdn8htwe"]
 
 [ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
+[ext_resource type="Texture2D" uid="uid://bdw5nha5on2l8" path="res://Art/Characters/Character2Final-Sheet.png" id="2_6upjg"]
 [ext_resource type="Texture2D" uid="uid://cvgwkl3xwibwr" path="res://Art/Buttons/HighScore/HighScoreSign-Sheet.png" id="2_hcdii"]
 [ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="2_hppke"]
 [ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="3_2mspn"]
@@ -173,29 +174,26 @@ func _on_hs_level_4_button_up():
 	$HS_Buttons.visible = false
 "
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fku64"]
-load_path = "res://.godot/imported/Basic Charakter Spritesheet.png-c907e9cd0d9d1a8de1a9c881d0f3187f.ctex"
+[sub_resource type="AtlasTexture" id="AtlasTexture_ncxj7"]
+atlas = ExtResource("2_6upjg")
+region = Rect2(32, 54, 16, 18)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uv2o4"]
-atlas = SubResource("CompressedTexture2D_fku64")
-region = Rect2(96, 144, 48, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lqtyh"]
-atlas = SubResource("CompressedTexture2D_fku64")
-region = Rect2(144, 144, 48, 48)
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqro6"]
+atlas = ExtResource("2_6upjg")
+region = Rect2(48, 54, 16, 18)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_m84e7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uv2o4")
+"texture": SubResource("AtlasTexture_ncxj7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lqtyh")
+"texture": SubResource("AtlasTexture_yqro6")
 }],
 "loop": true,
 "name": &"Run",
-"speed": 8.0
+"speed": 5.0
 }]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s8eb3"]
@@ -279,10 +277,11 @@ script = SubResource("GDScript_7qdv6")
 [node name="TitleBG" parent="." instance=ExtResource("1_kqdix")]
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
-position = Vector2(119, 184)
+position = Vector2(114, 180.12)
+scale = Vector2(1.47856, 1.47856)
 sprite_frames = SubResource("SpriteFrames_m84e7")
 animation = &"Run"
-frame_progress = 0.0872033
+frame_progress = 0.387704
 
 [node name="Chicken" type="AnimatedSprite2D" parent="."]
 position = Vector2(222, 186)
@@ -291,6 +290,7 @@ animation = &"Run"
 frame_progress = 0.6503
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = 1
 offset_right = 480.0
 offset_bottom = 272.0

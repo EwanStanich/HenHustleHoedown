@@ -1,0 +1,197 @@
+[gd_scene load_steps=21 format=3 uid="uid://bopqy6vpmhrqh"]
+
+[ext_resource type="Script" path="res://Characters/blue_chicken.gd" id="1_6ekke"]
+[ext_resource type="Texture2D" uid="uid://2nssa1d3aaqi" path="res://Art/Characters/BlueChicken-Sheet.png" id="2_c7gpb"]
+[ext_resource type="Texture2D" uid="uid://dexnttfjxfuv6" path="res://Art/Characters/Exclamation-Sheet.png" id="3_okfdq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r75lw"]
+size = Vector2(15, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j2305"]
+radius = 20.025
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fuhcm"]
+radius = 12.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohs6w"]
+atlas = ExtResource("2_c7gpb")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emgyk"]
+atlas = ExtResource("2_c7gpb")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okrk4"]
+atlas = ExtResource("2_c7gpb")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_juni4"]
+atlas = ExtResource("2_c7gpb")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d20rq"]
+atlas = ExtResource("2_c7gpb")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwbsk"]
+atlas = ExtResource("2_c7gpb")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_un8if"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohs6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emgyk")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okrk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_juni4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d20rq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwbsk")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pbdmt"]
+radius = 5.0
+height = 10.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxnlp"]
+atlas = ExtResource("3_okfdq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmvgp"]
+atlas = ExtResource("3_okfdq")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmm1y"]
+atlas = ExtResource("3_okfdq")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8r5gm"]
+atlas = ExtResource("3_okfdq")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqo36"]
+atlas = ExtResource("3_okfdq")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kgtj4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxnlp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmvgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fmm1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmvgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxnlp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8r5gm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qqo36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8r5gm")
+}],
+"loop": true,
+"name": &"Panic",
+"speed": 10.0
+}]
+
+[node name="BlueChicken" type="CharacterBody2D"]
+position = Vector2(0, -7)
+collision_layer = 4
+collision_mask = 4
+platform_floor_layers = 0
+script = ExtResource("1_6ekke")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="Detection" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_r75lw")
+
+[node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="PlayerDetection" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("CircleShape2D_j2305")
+
+[node name="Area2D3" type="Area2D" parent="."]
+
+[node name="PlayerClose" type="CollisionShape2D" parent="Area2D3"]
+shape = SubResource("CircleShape2D_fuhcm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_un8if")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1)
+shape = SubResource("CapsuleShape2D_pbdmt")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="LightningTimer" type="Timer" parent="."]
+
+[node name="Exclamation" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(-0.999998, -12)
+scale = Vector2(0.34375, 0.34375)
+sprite_frames = SubResource("SpriteFrames_kgtj4")
+animation = &"Panic"
+frame_progress = 0.937561
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
+[connection signal="body_exited" from="Area2D2" to="." method="_on_area_2d_2_body_exited"]
+[connection signal="body_entered" from="Area2D3" to="." method="_on_area_2d_3_body_entered"]
+[connection signal="body_exited" from="Area2D3" to="." method="_on_area_2d_3_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="LightningTimer" to="." method="_on_lightning_timer_timeout"]

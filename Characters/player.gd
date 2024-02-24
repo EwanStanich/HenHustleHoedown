@@ -15,6 +15,7 @@ var arrowShowing = false
 var bedPosition = Vector2(0,0)
 
 func _ready():
+	$Sleep.play("Sleep")
 	timer.start()
 	anim.set(blend, starting_anim)
 
@@ -117,3 +118,7 @@ func show_arrow():
 func hide_arrow():
 	$ArrowPointer.visible = false
 	arrowShowing = false
+
+
+func show_sleep():
+	$Sleep.visible = true
