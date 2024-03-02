@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="4_2hktv"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="5_em7i8"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="6_kqk7h"]
-[ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="7_elfw8"]
+[ext_resource type="PackedScene" uid="uid://bl64urunaijq3" path="res://Level Items/bed_right.tscn" id="7_sff1w"]
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="8_8uybe"]
 [ext_resource type="PackedScene" uid="uid://ccforbqshmwn3" path="res://Level Items/fence_gate.tscn" id="8_q8xcr"]
 [ext_resource type="Texture2D" uid="uid://c4ygfbqtt7qbh" path="res://Art/Objects/Lever-Sheet.png" id="9_0w6sp"]
@@ -2914,7 +2914,7 @@ position = Vector2(340, 89)
 position = Vector2(519, 39)
 
 [node name="Chicken6" parent="Characters/Chickens" instance=ExtResource("4_2hktv")]
-position = Vector2(163, 144)
+position = Vector2(127, 133)
 
 [node name="Chicken7" parent="Characters/Chickens" instance=ExtResource("4_2hktv")]
 position = Vector2(81, 242)
@@ -2991,10 +2991,12 @@ y_sort_enabled = true
 [node name="Door" parent="LevelItems" instance=ExtResource("6_kqk7h")]
 position = Vector2(556, 395)
 
-[node name="Bed" parent="LevelItems" instance=ExtResource("7_elfw8")]
+[node name="Bed" parent="LevelItems" instance=ExtResource("7_sff1w")]
 position = Vector2(459, 377)
 
 [node name="FenceGate" parent="LevelItems" instance=ExtResource("8_q8xcr")]
+z_index = 1
+y_sort_enabled = true
 position = Vector2(92, 347)
 
 [node name="Lever" type="AnimatedSprite2D" parent="LevelItems"]
@@ -3003,6 +3005,7 @@ sprite_frames = SubResource("SpriteFrames_ge6wy")
 animation = &"Off"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="LevelItems/Lever"]
+collision_layer = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelItems/Lever/StaticBody2D"]
 position = Vector2(0, 1.5)
@@ -3014,6 +3017,7 @@ sprite_frames = SubResource("SpriteFrames_ge6wy")
 animation = &"Off"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="LevelItems/Lever2"]
+collision_layer = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelItems/Lever2/StaticBody2D"]
 position = Vector2(0, 1.5)

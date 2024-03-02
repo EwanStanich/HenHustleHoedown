@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cfax6ed2cvlhv" path="res://Art/Objects/Basic_Furniture.png" id="1_ulqn7"]
 
 [node name="Bed" type="Node2D"]
+z_index = 1
 y_sort_enabled = true
 
 [node name="Top" type="Sprite2D" parent="."]

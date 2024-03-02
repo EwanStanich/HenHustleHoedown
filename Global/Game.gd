@@ -4,6 +4,9 @@ extends Node
 #var level2 = false
 #var level3 = false
 #var level4 = false
+#var level5 = false
+#var level6 = false
+#var level7 = false
 
 
 # Test
@@ -13,6 +16,7 @@ var level3 = true
 var level4 = true
 var level5 = true
 var level6 = true
+var level7 = true
 
 
 var level1HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
@@ -21,6 +25,7 @@ var level3HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--
 var level4HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level5HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level6HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
+var level7HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 
 
 func compare_times(a, b):

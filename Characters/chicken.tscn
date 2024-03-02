@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://dgns80dvd8r1h"]
+[gd_scene load_steps=36 format=3 uid="uid://dgns80dvd8r1h"]
 
 [ext_resource type="Script" path="res://Characters/chicken.gd" id="1_bbj4o"]
 [ext_resource type="Texture2D" uid="uid://dexnttfjxfuv6" path="res://Art/Characters/Exclamation-Sheet.png" id="2_6ch1h"]
@@ -13,6 +13,9 @@ radius = 20.025
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fuhcm"]
 radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_es3yi"]
+radius = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ivxct"]
 atlas = ExtResource("2_rvj71")
@@ -236,6 +239,8 @@ animations = [{
 }]
 
 [node name="Chicken" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
 position = Vector2(0, -7)
 collision_layer = 4
 collision_mask = 4
@@ -243,28 +248,45 @@ platform_floor_layers = 0
 script = ExtResource("1_bbj4o")
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -1)
 
 [node name="Detection" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1.5, 0)
 shape = SubResource("RectangleShape2D_r75lw")
 
 [node name="Area2D2" type="Area2D" parent="."]
+position = Vector2(0, -1)
 collision_layer = 2
 
 [node name="PlayerDetection" type="CollisionShape2D" parent="Area2D2"]
 shape = SubResource("CircleShape2D_j2305")
 
 [node name="Area2D3" type="Area2D" parent="."]
+position = Vector2(0, -1)
 
 [node name="PlayerClose" type="CollisionShape2D" parent="Area2D3"]
 shape = SubResource("CircleShape2D_fuhcm")
+
+[node name="Area2D4" type="Area2D" parent="."]
+position = Vector2(0, -1)
+
+[node name="Magnet" type="CollisionShape2D" parent="Area2D4"]
+shape = SubResource("CircleShape2D_es3yi")
+
+[node name="Area2D5" type="Area2D" parent="."]
+position = Vector2(0, -1)
+
+[node name="Magnet2" type="CollisionShape2D" parent="Area2D5"]
+position = Vector2(0, 1)
+scale = Vector2(0.57, 0.57)
+shape = SubResource("CircleShape2D_es3yi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_un8if")
 animation = &"Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 1)
+position = Vector2(-1, 0)
 shape = SubResource("CapsuleShape2D_pbdmt")
 
 [node name="Timer" type="Timer" parent="."]
@@ -304,5 +326,9 @@ text = "place"
 [connection signal="body_exited" from="Area2D2" to="." method="_on_area_2d_2_body_exited"]
 [connection signal="body_entered" from="Area2D3" to="." method="_on_area_2d_3_body_entered"]
 [connection signal="body_exited" from="Area2D3" to="." method="_on_area_2d_3_body_exited"]
+[connection signal="body_entered" from="Area2D4" to="." method="_on_area_2d_4_body_entered"]
+[connection signal="body_exited" from="Area2D4" to="." method="_on_area_2d_4_body_exited"]
+[connection signal="body_entered" from="Area2D5" to="." method="_on_area_2d_5_body_entered"]
+[connection signal="body_exited" from="Area2D5" to="." method="_on_area_2d_5_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="LightningTimer" to="." method="_on_lightning_timer_timeout"]

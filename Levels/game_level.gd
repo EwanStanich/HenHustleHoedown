@@ -27,7 +27,7 @@ func _ready():
 		chickens.append(cow)
 	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
-	$UI/Chickns.text = "x " + str(capturedChickens)
+	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
 	player.set_camera_limits(369,5,514,6)
 	label = $GameOver/Name
@@ -48,7 +48,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if Input.is_key_pressed(KEY_TAB) and !paused:
+		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
@@ -89,7 +89,7 @@ func _on_gate_detector_body_entered(body):
 		body.set_collision_mask_value(2, true)
 		if capturedChickens < totalChickens:
 			capturedChickens += 1
-		$UI/Chickns.text = "x " + str(capturedChickens)
+		$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 		if capturedChickens == totalChickens:
 			player.show_arrow()
 			player.show_sleep()

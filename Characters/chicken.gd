@@ -12,8 +12,14 @@ var paused = false
 var startingPosition
 var player
 var isLightning = false
+var isMagnet = true
+var onPlayer = false
+var rightOnPlayer = false
+var inPen = false
 @onready var timer = $Timer
 @onready var anim = $AnimatedSprite2D
+var isSliding = false
+var slideDirection = Vector2(0,0)
 
 
 func _ready():
@@ -36,12 +42,19 @@ func _ready():
 func _physics_process(_delta):
 	if paused:
 		return
-	if isLightning:
-		move_speed = 200
-	if isMoving or touchingPlayer or isLightning:
-		velocity = move_speed * move_direction
+	if isSliding:
+		velocity = slideDirection * 50
 	else:
-		velocity = Vector2.ZERO
+		if isLightning:
+			move_speed = 200
+		elif !touchingPlayer:
+			move_speed = 50
+		elif rightOnPlayer:
+			move_speed = 0
+		if isMoving or touchingPlayer or isLightning:
+			velocity = move_speed * move_direction
+		else:
+			velocity = Vector2.ZERO
 
 	var angle = atan2(move_direction.y, move_direction.x)
 	if angle < 0:
@@ -51,8 +64,13 @@ func _physics_process(_delta):
 	
 	if touchingPlayer:
 		if !isLightning:
-			if playerClose:
-				move_speed = 120
+			if playerClose and !isMagnet:
+				move_speed += 1
+			elif isMagnet:
+				if onPlayer:
+					move_speed = 20
+				else:
+					move_speed = 100
 			else:
 				move_speed = 95
 		var direction_from_player = player.position - position
@@ -61,15 +79,16 @@ func _physics_process(_delta):
 		if player.position.y < position.y:
 			direction_from_player.y += 3
 			
-		move_direction = -(direction_from_player).normalized()
+		if isMagnet and !inPen:
+			move_direction = (direction_from_player).normalized()
+		else:
+			move_direction = -(direction_from_player).normalized()			
 	
 	move_and_slide()
 	pick_state()
 
 
 func move_chicken():
-	if !touchingPlayer and !isLightning:
-		move_speed = 50
 	if touchingTileMap:
 		wall_bounce()
 	elif touchingAnimal:
@@ -87,7 +106,7 @@ func move_chicken():
 
 
 func pick_state():
-	if isMoving:
+	if isMoving and !rightOnPlayer:
 		anim.play("Walking")
 	else:
 		anim.play("Idle")
@@ -178,6 +197,26 @@ func _on_area_2d_3_body_exited(body):
 		playerClose = false
 
 
+func _on_area_2d_4_body_entered(body):
+	if "Player" in body.name:
+		onPlayer = true
+
+
+func _on_area_2d_4_body_exited(body):
+	if "Player" in body.name:
+		onPlayer = false
+
+
+func _on_area_2d_5_body_entered(body):
+	if "Player" in body.name:
+		rightOnPlayer = true
+
+
+func _on_area_2d_5_body_exited(body):
+	if "Player" in body.name:
+		rightOnPlayer = false
+
+
 func pause():
 	paused = true
 	anim.pause()
@@ -199,3 +238,7 @@ func _on_lightning_timer_timeout():
 	isLightning = false
 	$Exclamation.visible = false	
 	move_speed = 50
+
+func mudslide(awayPos):
+	isSliding = true
+	slideDirection = -(awayPos - position).normalized()

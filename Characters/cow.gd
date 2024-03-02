@@ -11,6 +11,8 @@ var paused = false
 var startingPosition
 @onready var timer = $Timer
 @onready var anim = $AnimatedSprite2D
+var isSliding = false
+var slideDirection = Vector2(0,0)
 
 
 func _ready():
@@ -26,7 +28,9 @@ func _physics_process(_delta):
 	if paused:
 		return
 	
-	if isMoving:
+	if isSliding:
+		velocity = slideDirection * 50
+	elif isMoving:
 		velocity = move_speed * move_direction
 	else:
 		velocity = Vector2.ZERO
@@ -129,3 +133,8 @@ func pause():
 func play():
 	anim.play()
 	paused = false
+
+
+func mudslide(awayPos):
+	isSliding = true
+	slideDirection = -(awayPos - position).normalized()

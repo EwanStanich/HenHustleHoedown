@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://c83ymb8lb3tm3"]
+
+[ext_resource type="Texture2D" uid="uid://bpu6l5gdmj5q4" path="res://Art/Objects/Magnet-Sheet.png" id="1_l41as"]
+[ext_resource type="Script" path="res://Level Items/magnet.gd" id="2_3x43l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylvir"]
+atlas = ExtResource("1_l41as")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsqkj"]
+atlas = ExtResource("1_l41as")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uve1"]
+atlas = ExtResource("1_l41as")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2cw47"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylvir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsqkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uve1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsqkj")
+}],
+"loop": true,
+"name": &"Float",
+"speed": 3.0
+}]
+
+[node name="Magnet" type="AnimatedSprite2D"]
+z_index = 1
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_2cw47")
+animation = &"Float"
+frame_progress = 0.973158
+script = ExtResource("2_3x43l")

@@ -51,7 +51,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if Input.is_key_pressed(KEY_TAB) and !paused:
+		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
@@ -93,7 +93,7 @@ func _on_blue_detector_body_entered(body):
 		if capturedChickens < totalChickens:
 			blueCapturedChickens += 1
 			capturedChickens += 1
-		$UI/BlueChickns.text = "x " + str(blueCapturedChickens)
+		$UI/BlueChickns.text = str(blueCapturedChickens) + "/3"
 		if capturedChickens == totalChickens:
 			player.show_arrow()
 			player.show_sleep()
@@ -105,7 +105,7 @@ func _on_red_detector_body_entered(body):
 		if capturedChickens < totalChickens:
 			redCapturedChickens += 1
 			capturedChickens += 1
-		$UI/RedChickns.text = "x " + str(redCapturedChickens)
+		$UI/RedChickns.text = str(redCapturedChickens) + "/3"
 		if capturedChickens == totalChickens:
 			player.show_arrow()
 			player.show_sleep()
@@ -118,7 +118,7 @@ func _on_green_detector_body_entered(body):
 		if capturedChickens < totalChickens:
 			greenCapturedChickens += 1
 			capturedChickens += 1
-		$UI/GreenChickns.text = "x " + str(greenCapturedChickens)
+		$UI/GreenChickns.text = str(greenCapturedChickens) + "/3"
 		if capturedChickens == totalChickens:
 			player.show_arrow()
 			player.show_sleep()
@@ -129,7 +129,7 @@ func _on_purple_detector_body_entered(body):
 		if capturedChickens < totalChickens:
 			purpleCapturedChickens += 1
 			capturedChickens += 1
-		$UI/PurpleChickns.text = "x " + str(purpleCapturedChickens)
+		$UI/PurpleChickns.text = str(purpleCapturedChickens) + "/3"
 		if capturedChickens == totalChickens:
 			player.show_arrow()
 			player.show_sleep()
@@ -239,7 +239,8 @@ func start_ui():
 	$UI/GreenChicknIcon.play("Icon")
 	$UI/PurpleChicknIcon.play("Icon")
 	$UI/BlueChicknIcon.play("Icon")
-	$UI/BlueChickns.text = "x " + str(blueCapturedChickens)
-	$UI/RedChickns.text = "x " + str(redCapturedChickens)
-	$UI/GreenChickns.text = "x " + str(greenCapturedChickens)
-	$UI/PurpleChickns.text = "x " + str(purpleCapturedChickens)
+
+	$UI/BlueChickns.text = str(blueCapturedChickens) + "/3"
+	$UI/RedChickns.text = str(redCapturedChickens) + "/3" 
+	$UI/GreenChickns.text = str(greenCapturedChickens) + "/3"
+	$UI/PurpleChickns.text = str(purpleCapturedChickens) + "/3"
