@@ -15,29 +15,22 @@ var secs
 var msecs
 var label
 var totalTime
-var gateAnim
-var canOpen = false
-var isOpening = false
-var gateOpen = false
+var lightning = false
 
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
-		print(chicken)
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
-		chickens.append(cow)
+		cows.append(cow)
 	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
-	player.set_camera_limits(433,5,610,6)
+	player.set_camera_limits(529,5,722,6)
 	label = $GameOver/Name
-	gateAnim = $LevelItems/FenceGate.get_child(0)
-	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")
 
 
 func _physics_process(delta):
@@ -55,10 +48,6 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if Input.is_key_pressed(KEY_E) and canOpen and gateOpen:
-			close_gate()
-		elif Input.is_key_pressed(KEY_E) and canOpen and !gateOpen:
-			open_gate()
 		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
 			pause_game()
 		if isEnteringName:
@@ -68,7 +57,7 @@ func _input(event):
 					var new_text = label.text.substr(0, label.text.length() - 1)
 					label.text = new_text
 				elif key_text == "Enter" and !label.text.is_empty():
-					Game.level6 = true
+					Game.level7 = true
 					update_time(totalTime, label.text)
 					Utils.saveGame()
 					get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
@@ -97,6 +86,7 @@ func _on_roof_area_body_exited(body):
 
 func _on_gate_detector_body_entered(body):
 	if "Chicken" in body.name and !isEnteringName:
+		body.set_collision_mask_value(2, true)
 		if capturedChickens < totalChickens:
 			capturedChickens += 1
 		$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
@@ -105,20 +95,12 @@ func _on_gate_detector_body_entered(body):
 			player.show_sleep()
 
 
-func _on_gate_detector_body_exited(body):
-	if "Chicken" in body.name and !isEnteringName:
-		if capturedChickens > 0:
-			capturedChickens -= 1
-		$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
-		if capturedChickens < totalChickens:
-			player.hide_arrow()
-			player.hide_sleep()
-
 
 func game_over():
 	if capturedChickens == totalChickens:
 		gameOver = true
 		format_time()
+		$Pause.queue_free()
 		$UI.queue_free()
 		$TileMaps/Roofs.queue_free()
 		player.game_over = true
@@ -136,7 +118,7 @@ func game_over():
 		final_time.text = totalTime
 		player.position = $GameOver.position
 		camera.zoom = Vector2(1.2, 1.2)
-		player.set_camera_limits(187.5, -10, 953, 650)
+		player.set_camera_limits(187.5, -10, 1061, 757)
 
 
 func format_time():
@@ -147,7 +129,7 @@ func format_time():
 
 
 func update_time(time, name):
-	Game.update_HS(Game.level6HS, time, name)
+	Game.update_HS(Game.level7HS, time, name)
 	Utils.saveGame()
 
 
@@ -171,16 +153,16 @@ func _on_bed_detector_body_shape_exited(body_rid, body, body_shape_index, local_
 
 
 func _on_arrow_bed_area_body_entered(body):
-	if "Player" in body.name:
-		player.hide_arrow()
+	player.hide_arrow()
 
 
 func _on_arrow_bed_area_body_exited(body):
-	if "Player" in body.name and capturedChickens == totalChickens:
+	if capturedChickens == totalChickens:
 		player.show_arrow()
 
 
 func pause_game():
+	$Rain/Raindrops.speed_scale = 0
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	paused = true
 	$Pause/Buttons.position = player.get_camera_position()
@@ -199,6 +181,7 @@ func play_game():
 		cow.play()
 	for chicken in chickens:
 		chicken.play()
+	$Rain/Raindrops.speed_scale = 1.5
 	paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)		
 
@@ -213,38 +196,3 @@ func _on_quit_button_up():
 
 func _on_restart_button_up():
 	get_tree().reload_current_scene()
-
-
-func _on_gate_open_detector_body_entered(body):
-	if "Player" in body.name:
-		canOpen = true
-
-
-func _on_gate_open_detector_body_exited(body):
-	if "Player" in body.name:
-		canOpen = false
-
-
-func open_gate():
-	$LevelItems/Lever.play("On")	
-	$LevelItems/Lever2.play("On")	
-	isOpening = true
-	gateAnim.play("Opening")
-	await gateAnim.animation_finished
-	gateAnim.play("Open")
-	gateOpen = true
-	isOpening = false
-
-
-func close_gate():
-	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")			
-	isOpening = true
-	gateAnim.play("Closing")
-	await gateAnim.animation_finished
-	gateAnim.play("Closed")	
-	gateOpen = false
-	isOpening = false
-
-
-

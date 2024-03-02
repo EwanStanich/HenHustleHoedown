@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8ev61syr7pdi"]
+
+[ext_resource type="Texture2D" uid="uid://r57akr1yr4pr" path="res://Art/Objects/MudslideDown-Sheet.png" id="1_7dd88"]
+[ext_resource type="Script" path="res://Level Items/mudslide.gd" id="2_qylfk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s372f"]
+atlas = ExtResource("1_7dd88")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nox0e"]
+atlas = ExtResource("1_7dd88")
+region = Rect2(64, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nrao"]
+atlas = ExtResource("1_7dd88")
+region = Rect2(0, 48, 64, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q1rwd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s372f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nox0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nrao")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="MudslideDown" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_q1rwd")
+frame_progress = 0.279815
+script = ExtResource("2_qylfk")
+
+[node name="SlipZone" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="SlipZone"]
+rotation = 1.5708
+polygon = PackedVector2Array(-14, -8, -13, -13, -6, -11, -1, -14, 8, -23, 15, -29, 19, -25, 17, -12, 18, -6, 20, -8.74228e-07, 17, 11, 21, 17, 17, 26, 9, 27, 7, 16, -3, 12, -7, 14, -16, 11, -16, 2)
+
+[node name="AwayFrom" type="Node2D" parent="."]
+position = Vector2(25, -34)
+
+[node name="AwayFrom2" type="Node2D" parent="."]
+position = Vector2(-26, -34)
+
+[connection signal="body_entered" from="SlipZone" to="." method="_on_slip_zone_body_entered"]
+[connection signal="body_exited" from="SlipZone" to="." method="_on_slip_zone_body_exited"]

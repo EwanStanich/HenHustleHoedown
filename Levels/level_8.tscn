@@ -1,225 +1,26 @@
-[gd_scene load_steps=55 format=3 uid="uid://bavblbc4fwhxd"]
+[gd_scene load_steps=57 format=3 uid="uid://m2nhdglir5hh"]
 
-[ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="2_3n4q7"]
-[ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="2_motld"]
-[ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="7_arbwp"]
-[ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="7_f4rsk"]
-[ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="8_gabmy"]
-[ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="9_istrj"]
-[ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="10_op6bd"]
-[ext_resource type="Texture2D" uid="uid://07c5q7hgs3hw" path="res://Art/Buttons/Restart/RestartSign-Sheet.png" id="10_tunbh"]
-[ext_resource type="Texture2D" uid="uid://cr8hevqvrxvau" path="res://Art/Buttons/Restart/PressedRestart-Sheet.png" id="11_8w8d7"]
-[ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="11_r2h52"]
-[ext_resource type="Texture2D" uid="uid://cbjviu7ree11k" path="res://Art/Buttons/Restart/HoveredRestart-Sheet.png" id="12_ku5bs"]
-[ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="13_edhgw"]
-[ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="13_uibhp"]
-[ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="14_3i0g4"]
-[ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="14_diwv7"]
-[ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="15_bcjgp"]
-
-[sub_resource type="GDScript" id="GDScript_a6xlf"]
-script/source = "extends Node2D
-
-@onready var capturedChickens = 0
-var totalChickens = 0
-var playerSleeping = false
-var gameOver = false
-var isEnteringName = false
-var paused = false
-var player
-var chickens = []
-var cows = []
-var time = 0
-var mins
-var secs
-var msecs
-var label
-var totalTime
-
-
-func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	for chicken in $Characters/Chickens.get_children():
-		chickens.append(chicken)
-		totalChickens += 1
-	for cow in $Characters/Cows.get_children():
-		cows.append(cow)
-	player = $Characters/Player
-	player.set_bed($LevelItems/Bed.position)
-	$UI/Chickns.text = str(capturedChickens) + \"/\" + str(totalChickens)
-	$UI/ChicknIcon.play(\"Icon\")
-	player.set_camera_limits(369, 6, 578, 6)
-	label = $GameOver/Name
-
-
-func _physics_process(delta):
-	if !gameOver and !paused:
-		time += delta
-		msecs = fmod(time, 1) * 100
-		secs = fmod(time, 60)
-		mins = fmod(time, 3600) / 60
-		$UI/Timer/Minutes.text = \"%02d:\" % mins
-		$UI/Timer/Seconds.text = \"%02d.\" % secs
-		$UI/Timer/Milliseconds.text = \"%02d\" % msecs
-
-
-func _input(event):
-	if event is InputEventKey:
-		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
-			game_over()
-		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
-			pause_game()
-		if isEnteringName:
-			if event is InputEventKey and event.is_pressed():
-				var key_text = event.as_text()
-				print(label.text.length())
-				print(key_text)
-				print(key_text.length())			
-				if key_text == \"Backspace\":
-					var new_text = label.text.substr(0, label.text.length() - 1)
-					label.text = new_text
-				elif key_text == \"Enter\" and !label.text.is_empty():
-					Game.level2 = true
-					update_time(totalTime, label.text)
-					Utils.saveGame()
-					get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
-				elif label.text.length() > 9:
-					pass
-				elif \"Shift\" in key_text and key_text.length() == 7:
-					label.text += key_text.right(1).to_upper()
-				elif key_text.length() > 1:
-					pass
-				else:
-					label.text += key_text.to_lower()
-
-
-func _on_roof_area_body_entered(body):
-	if body.name == \"Player\":
-		var roof = get_node(\"TileMaps/Roofs\")
-		roof.set_layer_modulate(0, Color(1, 1, 1, 0.3))
-
-
-func _on_roof_area_body_exited(body):
-	if body.name == \"Player\":
-		var roof = get_node(\"TileMaps/Roofs\")
-		if roof:
-			roof.set_layer_modulate(0, Color(1, 1, 1, 1))
-
-
-func _on_gate_detector_body_entered(body):
-	if \"Chicken\" in body.name and !isEnteringName:
-		body.set_collision_mask_value(2, true)
-		if capturedChickens < totalChickens:
-			capturedChickens += 1
-		$UI/Chickns.text = str(capturedChickens) + \"/\" + str(totalChickens)
-		if capturedChickens == totalChickens:
-			player.show_arrow()
-			player.show_sleep()
-
-
-
-func game_over():
-	if capturedChickens == totalChickens:
-		gameOver = true
-		format_time()
-		$UI.queue_free()
-		$TileMaps/Roofs.queue_free()
-		player.game_over = true
-		var camera:Camera2D = player.get_node(\"Camera2D\")
-		var tween = get_tree().create_tween()
-		tween.tween_property(camera, \"zoom\", Vector2(4,4), 3.5)
-		await tween.finished
-		var anim:AnimationPlayer = $EndGame/AnimationPlayer
-		anim.play(\"Close\")
-		await anim.animation_finished
-		isEnteringName = true
-		var final_time:Label = $GameOver/FinalTime
-		label.text = \"\"
-		label.grab_focus()
-		final_time.text = totalTime
-		player.position = $GameOver.position
-		camera.zoom = Vector2(1.2, 1.2)
-		player.set_camera_limits(187.5, -10, 953, 650)
-
-
-func format_time():
-	var min = format_time_component(mins)
-	var sec = format_time_component(secs)
-	var msec = format_time_component(msecs)
-	totalTime = min + \":\" + sec + \".\" + msec
-
-
-func update_time(time, name):
-	Game.update_HS(Game.level2HS, time, name)
-	Utils.saveGame()
-
-
-func format_time_component(value):
-	if value < 10:
-		return \"0\" + str(floor(value))
-	else:
-		return str(floor(value))
-
-
-func _on_bed_detector_body_entered(body):
-	if \"Player\" in body.name:
-		body.sleeping = true
-		playerSleeping = true
-
-
-func _on_bed_detector_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
-	if \"Player\" in body.name:
-		body.sleeping = false
-		playerSleeping = false
-
-
-func _on_arrow_bed_area_body_entered(body):
-	player.hide_arrow()
-
-
-func _on_arrow_bed_area_body_exited(body):
-	if capturedChickens == totalChickens:
-		player.show_arrow()
-
-
-func pause_game():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	paused = true
-	$Pause/Buttons.position = player.get_camera_position()
-	$Pause.visible = true
-	player.pause()
-	for cow in cows:
-		cow.pause()
-	for chicken in chickens:
-		chicken.pause()
-
-
-func play_game():
-	$Pause.visible = false
-	player.play()
-	for cow in cows:
-		cow.play()
-	for chicken in chickens:
-		chicken.play()
-	paused = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)	
-
-
-func _on_play_button_up():
-	play_game()
-
-
-func _on_quit_button_up():
-	get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
-
-
-func _on_restart_button_up():
-	get_tree().reload_current_scene()
-
-"
+[ext_resource type="Script" path="res://Levels/level_8.gd" id="1_k4jn4"]
+[ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="1_l30yd"]
+[ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="2_gnveg"]
+[ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="3_nwpsu"]
+[ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="4_3ymwq"]
+[ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="5_rw4ta"]
+[ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="6_gjl7e"]
+[ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="7_eit3p"]
+[ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="8_icl5v"]
+[ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="9_4yudc"]
+[ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="10_3dw7m"]
+[ext_resource type="Texture2D" uid="uid://07c5q7hgs3hw" path="res://Art/Buttons/Restart/RestartSign-Sheet.png" id="11_k55xj"]
+[ext_resource type="Texture2D" uid="uid://cr8hevqvrxvau" path="res://Art/Buttons/Restart/PressedRestart-Sheet.png" id="12_kvddg"]
+[ext_resource type="Texture2D" uid="uid://cbjviu7ree11k" path="res://Art/Buttons/Restart/HoveredRestart-Sheet.png" id="13_gfm03"]
+[ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="14_nllcx"]
+[ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="15_5vbdt"]
+[ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="16_h2boj"]
+[ext_resource type="PackedScene" uid="uid://c83ymb8lb3tm3" path="res://Level Items/magnet.tscn" id="18_riwr7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
-shader = ExtResource("2_3n4q7")
+shader = ExtResource("1_l30yd")
 shader_parameter/circle_size = 1.0
 
 [sub_resource type="Animation" id="Animation_rrmou"]
@@ -267,6 +68,9 @@ size = Vector2(8, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8omfe"]
 size = Vector2(35, 32.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c7imn"]
+radius = 7.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h3ner"]
 load_path = "res://.godot/imported/Wooden House.png-7529b8c9a30101dae29d3d59d5277386.ctex"
@@ -2957,7 +2761,7 @@ animations = [{
 
 [node name="GameLevel" type="Node2D"]
 y_sort_enabled = true
-script = SubResource("GDScript_a6xlf")
+script = ExtResource("1_k4jn4")
 
 [node name="EndGame" type="ColorRect" parent="."]
 z_index = 7
@@ -3008,6 +2812,13 @@ shape = SubResource("RectangleShape2D_w8bax")
 position = Vector2(129, 276)
 shape = SubResource("RectangleShape2D_8omfe")
 
+[node name="MagnetArea" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/MagnetArea"]
+z_index = 1
+position = Vector2(203, 151)
+shape = SubResource("CircleShape2D_c7imn")
+
 [node name="TileMaps" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -3033,88 +2844,68 @@ layer_3/tile_data = PackedInt32Array(983044, 65540, 1, 983045, 65540, 0, 983046,
 [node name="Characters" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Player" parent="Characters" instance=ExtResource("2_motld")]
-position = Vector2(141, 262)
+[node name="Player" parent="Characters" instance=ExtResource("2_gnveg")]
+position = Vector2(134, 184)
 
 [node name="Chickens" type="Node2D" parent="Characters"]
 y_sort_enabled = true
 
-[node name="Chicken" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
+[node name="Chicken" parent="Characters/Chickens" instance=ExtResource("3_nwpsu")]
 position = Vector2(274, 138)
-
-[node name="Chicken2" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(70, 99)
-
-[node name="Chicken3" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(100, 34)
-
-[node name="Chicken4" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(383, 39)
-
-[node name="Chicken9" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(547, 27)
-
-[node name="Chicken5" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(447, 157)
-
-[node name="Chicken6" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(510, 268)
-
-[node name="Chicken7" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(364, 334)
-
-[node name="Chicken8" parent="Characters/Chickens" instance=ExtResource("10_op6bd")]
-position = Vector2(126, 352)
 
 [node name="Cows" type="Node2D" parent="Characters"]
 y_sort_enabled = true
 
-[node name="Cow" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(173, 183)
 
-[node name="Cow2" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow2" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(120, 78)
 
-[node name="Cow3" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow3" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(203, 42)
 
-[node name="Cow4" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow4" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(405, 106)
 
-[node name="Cow5" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow5" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(540, 56)
 
-[node name="Cow6" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow6" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(532, 161)
 
-[node name="Cow7" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow7" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(436, 202)
 
-[node name="Cow13" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow13" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(494, 213)
 
-[node name="Cow8" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow8" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(497, 340)
 
-[node name="Cow9" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow9" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(275, 328)
 
-[node name="Cow10" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow10" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(326, 81)
 
-[node name="Cow11" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow11" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(369, 163)
 
-[node name="Cow12" parent="Characters/Cows" instance=ExtResource("11_r2h52")]
+[node name="Cow12" parent="Characters/Cows" instance=ExtResource("4_3ymwq")]
 position = Vector2(46, 217)
 
 [node name="LevelItems" type="Node2D" parent="."]
 y_sort_enabled = true
 
-[node name="Door" parent="LevelItems" instance=ExtResource("13_uibhp")]
+[node name="Magnet" parent="LevelItems" instance=ExtResource("18_riwr7")]
+position = Vector2(203, 153)
+scale = Vector2(0.7, 0.7)
+
+[node name="Door" parent="LevelItems" instance=ExtResource("5_rw4ta")]
 position = Vector2(60, 283)
 
-[node name="Bed" parent="LevelItems" instance=ExtResource("14_3i0g4")]
+[node name="Bed" parent="LevelItems" instance=ExtResource("6_gjl7e")]
 position = Vector2(141, 266)
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -3125,7 +2916,7 @@ offset_top = 9.0
 offset_right = 40.0
 offset_bottom = 23.0
 scale = Vector2(0.65, 0.65)
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "x0"
 
 [node name="ChicknIcon" type="AnimatedSprite2D" parent="UI"]
@@ -3146,7 +2937,7 @@ offset_left = 45.0
 offset_top = 20.0
 offset_right = 90.0
 offset_bottom = 43.0
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "00:
 "
 
@@ -3156,7 +2947,7 @@ offset_left = 76.0
 offset_top = 20.0
 offset_right = 116.0
 offset_bottom = 43.0
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "00."
 
 [node name="Milliseconds" type="Label" parent="UI/Timer"]
@@ -3165,7 +2956,7 @@ offset_left = 104.0
 offset_top = 20.0
 offset_right = 144.0
 offset_bottom = 43.0
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "00"
 
 [node name="GameOver" type="Node2D" parent="."]
@@ -3185,7 +2976,7 @@ offset_top = -71.0
 offset_right = 34.0
 offset_bottom = -48.0
 scale = Vector2(1.63813, 1.63813)
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "Placeholder"
 horizontal_alignment = 1
 
@@ -3195,7 +2986,7 @@ offset_top = 13.0
 offset_right = 4.0
 offset_bottom = 36.0
 scale = Vector2(1.94609, 1.94609)
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "Placeholder"
 horizontal_alignment = 1
 
@@ -3204,7 +2995,7 @@ offset_left = -152.0
 offset_top = -33.0
 offset_right = 152.0
 offset_bottom = -10.0
-theme_override_fonts/font = ExtResource("7_arbwp")
+theme_override_fonts/font = ExtResource("7_eit3p")
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
@@ -3228,27 +3019,34 @@ offset_left = -39.0
 offset_top = -70.0
 offset_right = 37.0
 offset_bottom = -38.0
-texture_normal = ExtResource("7_f4rsk")
-texture_pressed = ExtResource("8_gabmy")
-texture_hover = ExtResource("9_istrj")
+texture_normal = ExtResource("8_icl5v")
+texture_pressed = ExtResource("9_4yudc")
+texture_hover = ExtResource("10_3dw7m")
 
 [node name="Restart" type="TextureButton" parent="Pause/Buttons"]
 offset_left = -57.0
 offset_top = -15.0
 offset_right = 57.0
 offset_bottom = 17.0
-texture_normal = ExtResource("10_tunbh")
-texture_pressed = ExtResource("11_8w8d7")
-texture_hover = ExtResource("12_ku5bs")
+texture_normal = ExtResource("11_k55xj")
+texture_pressed = ExtResource("12_kvddg")
+texture_hover = ExtResource("13_gfm03")
 
 [node name="Quit" type="TextureButton" parent="Pause/Buttons"]
 offset_left = -38.0
 offset_top = 38.0
 offset_right = 38.0
 offset_bottom = 70.0
-texture_normal = ExtResource("13_edhgw")
-texture_pressed = ExtResource("14_diwv7")
-texture_hover = ExtResource("15_bcjgp")
+texture_normal = ExtResource("14_nllcx")
+texture_pressed = ExtResource("15_5vbdt")
+texture_hover = ExtResource("16_h2boj")
+
+[node name="MagnetFlashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="MagnetTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
 
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
@@ -3257,6 +3055,10 @@ texture_hover = ExtResource("15_bcjgp")
 [connection signal="body_shape_exited" from="Detectors/BedDetector" to="." method="_on_bed_detector_body_shape_exited"]
 [connection signal="body_entered" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_entered"]
 [connection signal="body_exited" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_exited"]
+[connection signal="body_entered" from="Detectors/MagnetArea" to="." method="_on_magnet_area_body_entered"]
+[connection signal="body_shape_entered" from="Detectors/MagnetArea" to="." method="_on_magnet_area_body_shape_entered"]
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="timeout" from="MagnetFlashTimer" to="." method="_on_magnet_flash_timer_timeout"]
+[connection signal="timeout" from="MagnetTimer" to="." method="_on_magnet_timer_timeout"]

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="3_rugc8"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="4_x4fth"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="5_hoof3"]
-[ext_resource type="PackedScene" uid="uid://2gexcf0bkll6" path="res://Level Items/bed.tscn" id="6_k7gut"]
+[ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="6_k7gut"]
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="7_ad5aa"]
 [ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="8_1eaca"]
 [ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="9_s7lss"]
@@ -48,7 +48,7 @@ func _ready():
 		cows.append(cow)
 	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
-	$UI/Chickns.text = \"x \" + str(capturedChickens)
+	$UI/Chickns.text = str(capturedChickens) + \"/\" + str(totalChickens)
 	$UI/ChicknIcon.play(\"Icon\")
 	player.set_camera_limits(449,5,674,6)
 	label = $GameOver/Name
@@ -110,7 +110,7 @@ func _on_gate_detector_body_entered(body):
 		body.set_collision_mask_value(2, true)
 		if capturedChickens < totalChickens:
 			capturedChickens += 1
-		$UI/Chickns.text = \"x \" + str(capturedChickens)
+		$UI/Chickns.text = str(capturedChickens) + \"/\" + str(totalChickens)
 		if capturedChickens == totalChickens:
 			player.show_arrow()
 			player.show_sleep()
@@ -3035,7 +3035,7 @@ color = Color(0.0156863, 0.0666667, 0.105882, 0.701961)
 [node name="Raindrops" type="GPUParticles2D" parent="Rain"]
 position = Vector2(564, -29)
 scale = Vector2(5.6, 4.76)
-amount = 1200
+amount = 2000
 amount_ratio = 0.8072
 process_material = SubResource("ParticleProcessMaterial_88jv1")
 lifetime = 3.15
