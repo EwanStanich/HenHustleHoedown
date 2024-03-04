@@ -54,14 +54,11 @@ func _input(event):
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
 				var key_text = event.as_text()
-				print(label.text.length())
-				print(key_text)
-				print(key_text.length())			
 				if key_text == "Backspace":
 					var new_text = label.text.substr(0, label.text.length() - 1)
 					label.text = new_text
 				elif key_text == "Enter" and !label.text.is_empty():
-					Game.level2 = true
+					Game.level9 = true
 					update_time(totalTime, label.text)
 					Utils.saveGame()
 					get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
@@ -133,7 +130,7 @@ func format_time():
 
 
 func update_time(time, name):
-	Game.update_HS(Game.level2HS, time, name)
+	Game.update_HS(Game.level9HS, time, name)
 	Utils.saveGame()
 
 

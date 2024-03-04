@@ -11,7 +11,7 @@
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="7_632yk"]
 [ext_resource type="PackedScene" uid="uid://ccforbqshmwn3" path="res://Level Items/fence_gate.tscn" id="8_ob4c1"]
 [ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="8_vxvpm"]
-[ext_resource type="PackedScene" uid="uid://bl64urunaijq3" path="res://Level Items/bed_right.tscn" id="9_b16j2"]
+[ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="9_dlp14"]
 [ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="9_e3ak3"]
 [ext_resource type="Texture2D" uid="uid://c4ygfbqtt7qbh" path="res://Art/Objects/Lever-Sheet.png" id="9_shf1j"]
 [ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="10_sqiig"]
@@ -1425,6 +1425,7 @@ texture = ExtResource("3_lqsyt")
 0:1/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_sdmms")
 0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, -3, -8, -3, 0, -8, -5)
 0:1/0/physics_layer_1/linear_velocity = Vector2(0, 0)
 0:1/0/physics_layer_1/angular_velocity = 0.0
 0:1/0/physics_layer_2/linear_velocity = Vector2(0, 0)
@@ -1433,6 +1434,7 @@ texture = ExtResource("3_lqsyt")
 1:1/0/occlusion_layer_2/polygon = SubResource("OccluderPolygon2D_adtfl")
 1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 3, -8, 3, 0, 8, -5)
 1:1/0/physics_layer_1/linear_velocity = Vector2(0, 0)
 1:1/0/physics_layer_1/angular_velocity = 0.0
 1:1/0/physics_layer_2/linear_velocity = Vector2(0, 0)
@@ -3116,6 +3118,7 @@ libraries = {
 }
 
 [node name="NightTime" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="Detectors" type="Node2D" parent="."]
@@ -3145,7 +3148,7 @@ y_sort_enabled = true
 position = Vector2(-3, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/BedDetector"]
-position = Vector2(61, 55)
+position = Vector2(175, 56)
 shape = SubResource("RectangleShape2D_w8bax")
 
 [node name="ArrowBedArea" type="Area2D" parent="Detectors"]
@@ -3219,7 +3222,7 @@ texture = SubResource("GradientTexture2D_eh0qk")
 y_sort_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("2_lyvtq")]
-position = Vector2(58, 37)
+position = Vector2(172, 38)
 
 [node name="Chickens" type="Node2D" parent="Characters"]
 y_sort_enabled = true
@@ -3254,8 +3257,8 @@ y_sort_enabled = true
 [node name="Door" parent="LevelItems" instance=ExtResource("5_2rai8")]
 position = Vector2(155, 75)
 
-[node name="Bed" parent="LevelItems" instance=ExtResource("9_b16j2")]
-position = Vector2(58, 41)
+[node name="Bed" parent="LevelItems" instance=ExtResource("9_dlp14")]
+position = Vector2(172, 41)
 
 [node name="FenceGate" parent="LevelItems" instance=ExtResource("8_ob4c1")]
 z_index = 1
@@ -3389,6 +3392,7 @@ offset_bottom = 383.0
 color = Color(0, 0, 0, 1)
 
 [node name="Pause" type="Node2D" parent="."]
+visible = false
 z_index = 6
 y_sort_enabled = true
 position = Vector2(2.08165e-12, 2.08165e-12)
