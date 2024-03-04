@@ -12,7 +12,7 @@ var paused = false
 var startingPosition
 var player
 var isLightning = false
-var isMagnet = true
+var isMagnet = false
 var onPlayer = false
 var rightOnPlayer = false
 var inPen = false

@@ -71,10 +71,7 @@ func _input(event):
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
-				var key_text = event.as_text()
-				print(label.text.length())
-				print(key_text)
-				print(key_text.length())			
+				var key_text = event.as_text()		
 				if key_text == \"Backspace\":
 					var new_text = label.text.substr(0, label.text.length() - 1)
 					label.text = new_text

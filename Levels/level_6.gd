@@ -24,7 +24,6 @@ var gateOpen = false
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
-		print(chicken)
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
