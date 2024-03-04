@@ -87,6 +87,9 @@ func _ready():
 		$\"Level_Buttons/Level 7\".disabled = false
 	if Game.level7:
 		$\"HS_Buttons/HS Level 7\".disabled = false
+		$\"Level_Buttons/Level 8\".disabled = false
+	if Game.level8:
+		$\"HS_Buttons/HS Level 8\".disabled = false
  
 
 func _on_play_button_up():
@@ -130,6 +133,10 @@ func _on_level_6_button_up():
 
 func _on_level_7_button_up():
 	get_tree().change_scene_to_file(\"res://Levels/level_7.tscn\")
+
+
+func _on_level_8_button_up():
+	get_tree().change_scene_to_file(\"res://Levels/level_8.tscn\")
 
 
 func _on_high_score_button_up():
@@ -234,6 +241,20 @@ func _on_hs_level_7_button_up():
 	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
 	$HighScores.visible = true
 	$HS_Buttons.visible = false
+
+
+func _on_hs_level_8_button_up():
+	var HS = Game.level8HS
+	print(HS)
+	$HighScores/LevelNum.text = \"Level 8\"
+	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
+	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
+	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
+	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
+	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	$HighScores.visible = true
+	$HS_Buttons.visible = false
+
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ncxj7"]
@@ -725,6 +746,7 @@ metadata/_edit_use_anchors_ = true
 [connection signal="button_up" from="Level_Buttons/Level 5" to="." method="_on_level_5_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 6" to="." method="_on_level_6_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 7" to="." method="_on_level_7_button_up"]
+[connection signal="button_up" from="Level_Buttons/Level 8" to="." method="_on_level_8_button_up"]
 [connection signal="button_up" from="Level_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 1" to="." method="_on_hs_level_1_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 2" to="." method="_on_hs_level_2_button_up"]
@@ -733,5 +755,6 @@ metadata/_edit_use_anchors_ = true
 [connection signal="button_up" from="HS_Buttons/HS Level 5" to="." method="_on_hs_level_5_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 6" to="." method="_on_hs_level_6_button_up"]
 [connection signal="button_up" from="HS_Buttons/HS Level 7" to="." method="_on_hs_level_7_button_up"]
+[connection signal="button_up" from="HS_Buttons/HS Level 8" to="." method="_on_hs_level_8_button_up"]
 [connection signal="button_up" from="HS_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_up" from="HighScores/HSBack" to="." method="_on_hs_back_button_up"]

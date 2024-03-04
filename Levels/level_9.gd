@@ -15,29 +15,23 @@ var secs
 var msecs
 var label
 var totalTime
-var gateAnim
-var canOpen = false
-var isOpening = false
-var gateOpen = false
+var flashes = 0
+var isFlashing = false
 
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
-		print(chicken)
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
-		chickens.append(cow)
+		cows.append(cow)
 	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
-	player.set_camera_limits(433,5,610,6)
+	player.set_camera_limits(369, 6, 578, 6)
 	label = $GameOver/Name
-	gateAnim = $LevelItems/FenceGate.get_child(0)
-	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")
 
 
 func _physics_process(delta):
@@ -55,20 +49,19 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if Input.is_key_pressed(KEY_E) and canOpen and gateOpen:
-			close_gate()
-		elif Input.is_key_pressed(KEY_E) and canOpen and !gateOpen:
-			open_gate()
 		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
-				var key_text = event.as_text()			
+				var key_text = event.as_text()
+				print(label.text.length())
+				print(key_text)
+				print(key_text.length())			
 				if key_text == "Backspace":
 					var new_text = label.text.substr(0, label.text.length() - 1)
 					label.text = new_text
 				elif key_text == "Enter" and !label.text.is_empty():
-					Game.level6 = true
+					Game.level2 = true
 					update_time(totalTime, label.text)
 					Utils.saveGame()
 					get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
@@ -97,6 +90,8 @@ func _on_roof_area_body_exited(body):
 
 func _on_gate_detector_body_entered(body):
 	if "Chicken" in body.name and !isEnteringName:
+		body.set_collision_mask_value(2, true)
+		body.inPen = true
 		if capturedChickens < totalChickens:
 			capturedChickens += 1
 		$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
@@ -104,15 +99,6 @@ func _on_gate_detector_body_entered(body):
 			player.show_arrow()
 			player.show_sleep()
 
-
-func _on_gate_detector_body_exited(body):
-	if "Chicken" in body.name and !isEnteringName:
-		if capturedChickens > 0:
-			capturedChickens -= 1
-		$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
-		if capturedChickens < totalChickens:
-			player.hide_arrow()
-			player.hide_sleep()
 
 
 func game_over():
@@ -147,7 +133,7 @@ func format_time():
 
 
 func update_time(time, name):
-	Game.update_HS(Game.level6HS, time, name)
+	Game.update_HS(Game.level2HS, time, name)
 	Utils.saveGame()
 
 
@@ -171,19 +157,20 @@ func _on_bed_detector_body_shape_exited(body_rid, body, body_shape_index, local_
 
 
 func _on_arrow_bed_area_body_entered(body):
-	if "Player" in body.name:
-		player.hide_arrow()
+	player.hide_arrow()
 
 
 func _on_arrow_bed_area_body_exited(body):
-	if "Player" in body.name and capturedChickens == totalChickens:
+	if capturedChickens == totalChickens:
 		player.show_arrow()
 
 
 func pause_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	paused = true
-	gateAnim.pause()
+	$MagnetTimer.paused = true
+	$MagnetFlashTimer.paused = true
+	Timer
 	$Pause/Buttons.position = player.get_camera_position()
 	$Pause.visible = true
 	player.pause()
@@ -196,13 +183,14 @@ func pause_game():
 func play_game():
 	$Pause.visible = false
 	player.play()
-	gateAnim.play()
+	$MagnetFlashTimer.paused = false
+	$MagnetTimer.paused = false
 	for cow in cows:
 		cow.play()
 	for chicken in chickens:
 		chicken.play()
 	paused = false
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)		
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)	
 
 
 func _on_play_button_up():
@@ -217,36 +205,35 @@ func _on_restart_button_up():
 	get_tree().reload_current_scene()
 
 
-func _on_gate_open_detector_body_entered(body):
+func _on_magnet_timer_timeout():
+	if isFlashing:
+		for chicken in chickens:
+			chicken.isMagnet = false
+	else:
+		isFlashing = true
+		$MagnetTimer.wait_time = 5
+		$MagnetFlashTimer.wait_time = 1
+		$MagnetFlashTimer.start()
+		$MagnetTimer.start()
+		
+
+
+func _on_magnet_flash_timer_timeout():
+	if flashes != 4:
+		flashes += 1
+		player.switch_animation()	
+		$MagnetFlashTimer.start()
+	else:
+		player.switch_animation()
+		flashes = 0
+
+
+func _on_magnet_area_body_entered(body):
 	if "Player" in body.name:
-		canOpen = true
-
-
-func _on_gate_open_detector_body_exited(body):
-	if "Player" in body.name:
-		canOpen = false
-
-
-func open_gate():
-	$LevelItems/Lever.play("On")	
-	$LevelItems/Lever2.play("On")	
-	isOpening = true
-	gateAnim.play("Opening")
-	await gateAnim.animation_finished
-	gateAnim.play("Open")
-	gateOpen = true
-	isOpening = false
-
-
-func close_gate():
-	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")			
-	isOpening = true
-	gateAnim.play("Closing")
-	await gateAnim.animation_finished
-	gateAnim.play("Closed")	
-	gateOpen = false
-	isOpening = false
-
-
-
+		player.switch_animation()
+		$Detectors/MagnetArea.queue_free()
+		$LevelItems/Magnet.queue_free()
+		for chicken in chickens:
+			chicken.isMagnet = true
+		$MagnetTimer.wait_time = 10
+		$MagnetTimer.start()
