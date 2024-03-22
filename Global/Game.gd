@@ -7,6 +7,8 @@ extends Node
 #var level5 = false
 #var level6 = false
 #var level7 = false
+#var level8 = false
+#var level9 = false
 
 
 # Test
@@ -20,7 +22,7 @@ var level7 = true
 var level8 = true
 var level9 = true
 
-
+var playerToken = ""
 
 var level1HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level2HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]

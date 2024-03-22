@@ -2876,6 +2876,7 @@ layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179666, 327680, 2, 1179667, 327680, 2, 1179668, 327680, 2, 1179669, 327680, 2, 1179670, 327680, 2, 1114135, 393216, 1, 1048594, 327680, 0, 1114130, 327680, 1, 1245202, 327680, 3, 1310738, 327680, 4, 1048595, 327680, 0, 1114131, 327680, 1, 1245203, 327680, 3, 1310739, 327680, 4, 1048596, 327680, 0, 1114132, 327680, 1, 1245204, 327680, 3, 1310740, 327680, 4, 1048597, 327680, 0, 1114133, 327680, 1, 1245205, 327680, 3, 1310741, 327680, 4, 1048598, 327680, 0, 1114134, 327680, 1, 1245206, 327680, 3, 1310742, 327680, 4, 1048599, 393216, 0, 1179671, 393216, 2, 1245207, 393216, 3, 1310743, 393216, 4, 1048593, 262144, 0, 1114129, 262144, 1, 1245201, 262144, 3, 1179665, 262144, 2, 1310737, 262144, 4)
 
 [node name="TileMap" type="TileMap" parent="TileMaps"]
+z_index = 1
 position = Vector2(4, 3)
 tile_set = SubResource("TileSet_28t7l")
 format = 2
@@ -3106,6 +3107,17 @@ theme_override_fonts/font = ExtResource("7_eit3p")
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
+[node name="Loading" type="Label" parent="GameOver"]
+visible = false
+offset_left = -152.0
+offset_top = -22.0
+offset_right = 4.0
+offset_bottom = 1.0
+scale = Vector2(1.94609, 1.94609)
+theme_override_fonts/font = ExtResource("7_eit3p")
+text = "Loading..."
+horizontal_alignment = 1
+
 [node name="Pause" type="Node2D" parent="."]
 visible = false
 z_index = 6
@@ -3155,6 +3167,8 @@ one_shot = true
 wait_time = 5.0
 one_shot = true
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -3169,3 +3183,4 @@ one_shot = true
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
 [connection signal="timeout" from="MagnetFlashTimer" to="." method="_on_magnet_flash_timer_timeout"]
 [connection signal="timeout" from="MagnetTimer" to="." method="_on_magnet_timer_timeout"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

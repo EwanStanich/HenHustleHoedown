@@ -3014,6 +3014,7 @@ layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179673, 327682, 2, 1179674, 327682, 2, 1179675, 327682, 2, 1179676, 327682, 2, 1179677, 327682, 2, 1179672, 327682, 2, 1179678, 327682, 2, 1179679, 327682, 2, 1245208, 327682, 3, 1245209, 327682, 3, 1245210, 327682, 3, 1245211, 327682, 3, 1245212, 327682, 3, 1245213, 327682, 3, 1245214, 327682, 3, 1245215, 327682, 3, 1310751, 327682, 3, 1310750, 327682, 3, 1310749, 327682, 3, 1310748, 327682, 3, 1310747, 327682, 3, 1310746, 327682, 3, 1310745, 327682, 3, 983067, 327680, 0, 983068, 327680, 0, 983069, 327680, 0, 983070, 327682, 0, 1048607, 327682, 1, 1114143, 327682, 1, 1048603, 327680, 1, 1114139, 327680, 1, 1048604, 327680, 1, 1114140, 327680, 1, 1048605, 327680, 1, 1114141, 327680, 1, 1048606, 327682, 1, 1114142, 327682, 1, 983071, 327682, 0, 1310744, 327682, 3, 1376287, 327682, 3, 1376281, 327682, 3, 1376282, 327682, 3, 1376283, 327682, 3, 1376284, 327682, 3, 1376285, 327682, 3, 1376286, 327682, 3, 1376280, 327682, 3, 1179671, 262146, 2, 1245207, 262146, 3, 1310743, 262146, 3, 1376279, 262146, 3, 1114138, 327680, 1, 1048602, 327680, 1, 1048601, 327680, 1, 1114137, 327680, 1, 1114136, 327680, 1, 1048600, 327680, 1, 983066, 327680, 0, 983065, 327680, 0, 983064, 327680, 0, 983063, 262144, 0, 1048599, 262144, 1, 1114135, 262144, 1, 1441816, 327682, 4, 1441817, 327682, 4, 1441818, 327682, 4, 1441819, 327682, 4, 1441820, 327682, 4, 1441821, 327682, 4, 1441822, 327682, 4, 1441823, 327682, 4, 1441824, 327682, 4, 1441825, 327682, 4, 1441815, 262146, 4, 1245217, 327682, 3, 1310753, 327682, 3, 1376289, 327682, 3, 1245216, 327682, 3, 1310752, 327682, 3, 1376288, 327682, 3, 1179680, 327682, 2, 1179681, 327682, 2, 1441826, 393218, 4, 1245218, 393218, 3, 1310754, 393218, 3, 1376290, 393218, 3, 1179682, 393218, 2, 1114146, 393218, 1, 1048610, 393218, 1, 983074, 393218, 0, 983072, 327682, 0, 983073, 327682, 0, 1048608, 327682, 1, 1114144, 327682, 1, 1048609, 327682, 1, 1114145, 327682, 1)
 
 [node name="TileMap" type="TileMap" parent="TileMaps"]
+z_index = 1
 position = Vector2(4, 3)
 tile_set = SubResource("TileSet_28t7l")
 format = 2
@@ -3028,9 +3029,10 @@ layer_5/tile_data = PackedInt32Array(917532, 65541, 0, 917536, 196613, 0, 983068
 y_sort_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("3_lp4lp")]
-position = Vector2(632, 502)
+position = Vector2(632, 503)
 
 [node name="Chickens" type="Node2D" parent="Characters"]
+z_index = 1
 y_sort_enabled = true
 
 [node name="GreenChicken" parent="Characters/Chickens" instance=ExtResource("5_j4clt")]
@@ -3281,6 +3283,17 @@ theme_override_fonts/font = ExtResource("8_4vdhx")
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
+[node name="Loading" type="Label" parent="GameOver"]
+visible = false
+offset_left = -152.0
+offset_top = -22.0
+offset_right = 4.0
+offset_bottom = 1.0
+scale = Vector2(1.94609, 1.94609)
+theme_override_fonts/font = ExtResource("8_4vdhx")
+text = "Loading..."
+horizontal_alignment = 1
+
 [node name="Pause" type="Node2D" parent="."]
 visible = false
 z_index = 6
@@ -3323,6 +3336,8 @@ texture_normal = ExtResource("15_x5kwx")
 texture_pressed = ExtResource("16_1l8rl")
 texture_hover = ExtResource("17_c6tbt")
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/BedDetector" to="." method="_on_bed_detector_body_entered"]
@@ -3336,3 +3351,4 @@ texture_hover = ExtResource("17_c6tbt")
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

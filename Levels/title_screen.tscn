@@ -59,14 +59,26 @@
 script/source = "extends Node2D
 
 @onready var anim = $ColorRect/AnimationPlayer
+var token_http_request
+var score_http_request
 
 func _ready():
+	if !Game.playerToken:
+		token_http_request = $TokenHTTPRequest
+		get_player_token()
+	else:
+		ready_2()
+
+
+func ready_2():
+	score_http_request = $ScoreHTTPRequest
 	#Utils.saveGame()
 	Utils.loadGame()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)			
 	$Player.play(\"Run\")
 	$Chicken.play(\"Run\")
 	anim.play(\"Open\")
+	close_hs_board()
 	if Game.level1:
 		$\"Level_Buttons/Level 2\".disabled = false
 		$\"HS_Buttons/HS Level 1\".disabled = false
@@ -94,6 +106,30 @@ func _ready():
 	if Game.level9:
 		$\"HS_Buttons/HS Level 9\".disabled = false
  
+
+func get_player_token():
+	if !Game.playerToken:
+		var url = \"https://api.lootlocker.io/game/v2/session/guest\"
+		var header = []
+		var method = HTTPClient.METHOD_POST
+		var request_data = {
+		\"game_key\": \"dev_9aa726187e614b59a9c6fcc28131cd8e\",
+		\"game_version\": \"1.0.0\",
+		\"player_identifier\": \"1\",
+		\"development_mode\": true
+		}
+		
+		var response = token_http_request.request(url, header, method, JSON.stringify(request_data))
+
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	var json_object = JSON.new()
+	body = body.get_string_from_utf8()
+	json_object.parse(body)
+	Game.playerToken = json_object.get_data()[\"session_token\"]
+	print(\"Player token: \", Game.playerToken)		
+	ready_2()
+
 
 func _on_play_button_up():
 	$Level_Buttons.visible = true
@@ -154,127 +190,87 @@ func _on_high_score_button_up():
 func _on_hs_back_button_up():
 	$HighScores.visible = false
 	$HS_Buttons.visible = true
+	close_hs_board()
 
 
 func _on_hs_level_1_button_up():
-	var HS = Game.level1HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 1\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
+	get_scores(21217)
 
 
 func _on_hs_level_2_button_up():
-	var HS = Game.level2HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 2\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
-
+	get_scores(21219)
 
 
 func _on_hs_level_3_button_up():
-	var HS = Game.level3HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 3\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
+	get_scores(21220)
 
 
 func _on_hs_level_4_button_up():
-	var HS = Game.level4HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 4\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
+	get_scores(21221)
 
 
 func _on_hs_level_5_button_up():
-	var HS = Game.level5HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 5\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
-
+	get_scores(21222)
 
 
 func _on_hs_level_6_button_up():
-	var HS = Game.level6HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 6\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
-
+	get_scores(21223)
 
 
 func _on_hs_level_7_button_up():
-	var HS = Game.level7HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 7\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
+	get_scores(21224)
 
 
 func _on_hs_level_8_button_up():
-	var HS = Game.level8HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 8\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
-	$HighScores.visible = true
-	$HS_Buttons.visible = false
-
+	get_scores(21225)
 
 
 func _on_hs_level_9_button_up():
-	var HS = Game.level9HS
-	print(HS)
 	$HighScores/LevelNum.text = \"Level 9\"
-	$HighScores/HS1.text = HS[0][0] + \" \" + HS[0][1]
-	$HighScores/HS2.text = HS[1][0] + \" \" + HS[1][1]
-	$HighScores/HS3.text = HS[2][0] + \" \" + HS[2][1]
-	$HighScores/HS4.text = HS[3][0] + \" \" + HS[3][1]
-	$HighScores/HS5.text = HS[4][0] + \" \" + HS[4][1]
+	get_scores(21226)
+
+
+func _on_score_http_request_request_completed(result, response_code, headers, body):
+	var json_object = JSON.new()
+	body = body.get_string_from_utf8()
+	json_object.parse(body)
+	var scores = [\"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\"]
+	if json_object.get_data()[\"items\"]:
+		var val = 0
+		for score in json_object.get_data()[\"items\"]:
+			scores[val] = score[\"metadata\"]
+			val += 1
+	print(scores)
+	$HighScores/HS1.text = scores[0]
+	$HighScores/HS2.text = scores[1]
+	$HighScores/HS3.text = scores[2]
+	$HighScores/HS4.text = scores[3]
+	$HighScores/HS5.text = scores[4]
+
+
+func get_scores(key):
 	$HighScores.visible = true
 	$HS_Buttons.visible = false
+	var url = \"https://api.lootlocker.io/game/leaderboards/%s/list?count=5\" % key
+	var header = [\"Content-Type: application/json\", \"x-session-token: %s\" % Game.playerToken]
+	var method = HTTPClient.METHOD_GET
+	score_http_request.request(url, header, method)	
+
+
+func close_hs_board():
+	$HighScores/HS1.text = \"\"
+	$HighScores/HS2.text = \"Loading...\"
+	$HighScores/HS3.text = \"\"
+	$HighScores/HS4.text = \"\"
+	$HighScores/HS5.text = \"\"
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ncxj7"]
@@ -393,7 +389,6 @@ animation = &"Run"
 frame_progress = 0.6503
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = 1
 offset_right = 480.0
 offset_bottom = 272.0
@@ -756,6 +751,10 @@ texture_pressed = ExtResource("12_p0bmo")
 texture_hover = ExtResource("13_uetc5")
 metadata/_edit_use_anchors_ = true
 
+[node name="ScoreHTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="TokenHTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="button_up" from="Buttons/HighScore" to="." method="_on_high_score_button_up"]
 [connection signal="button_up" from="Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Buttons/Quit" to="." method="_on_quit_button_up"]
@@ -780,3 +779,5 @@ metadata/_edit_use_anchors_ = true
 [connection signal="button_up" from="HS_Buttons/HS Level 9" to="." method="_on_hs_level_9_button_up"]
 [connection signal="button_up" from="HS_Buttons/Back" to="." method="_on_back_button_up"]
 [connection signal="button_up" from="HighScores/HSBack" to="." method="_on_hs_back_button_up"]
+[connection signal="request_completed" from="ScoreHTTPRequest" to="." method="_on_score_http_request_request_completed"]
+[connection signal="request_completed" from="TokenHTTPRequest" to="." method="_on_http_request_request_completed"]

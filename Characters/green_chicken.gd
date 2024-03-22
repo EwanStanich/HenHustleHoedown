@@ -37,6 +37,8 @@ func _physics_process(_delta):
 		return
 	if isLightning:
 		move_speed = 200
+	elif !touchingPlayer:
+		move_speed = 50
 	if isMoving or touchingPlayer or isLightning:
 		velocity = move_speed * move_direction
 	else:
@@ -52,7 +54,7 @@ func _physics_process(_delta):
 		if player.position.x < position.x:
 			direction_from_player.x += 1.85
 		if player.position.y < position.y:
-			direction_from_player.y += 3
+			direction_from_player.y += 2
 			
 		move_direction = -(direction_from_player).normalized()
 	

@@ -37,6 +37,7 @@ var msecs
 var label
 var totalTime
 var lightning = false
+var http_request
 
 
 func _ready():
@@ -52,6 +53,7 @@ func _ready():
 	$UI/ChicknIcon.play(\"Icon\")
 	player.set_camera_limits(449,5,674,6)
 	label = $GameOver/Name
+	http_request = $HTTPRequest
 
 
 func _physics_process(delta):
@@ -69,7 +71,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
@@ -79,9 +81,11 @@ func _input(event):
 					label.text = new_text
 				elif key_text == \"Enter\" and !label.text.is_empty():
 					Game.level4 = true
+					$GameOver/FinalTime.visible = false
+					$GameOver/Name.visible = false
+					$GameOver/EnterName.visible = false
+					$GameOver/Loading.visible = true
 					update_time(totalTime, label.text)
-					Utils.saveGame()
-					get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
 				elif label.text.length() > 9:
 					pass
 				elif \"Shift\" in key_text and key_text.length() == 7:
@@ -122,8 +126,8 @@ func game_over():
 		gameOver = true
 		format_time()
 		$Pause.queue_free()
-		$UI.queue_free()
-		$TileMaps/Roofs.queue_free()
+		$UI.visible = false
+		$TileMaps/Roofs.visible = false
 		player.game_over = true
 		var camera:Camera2D = player.get_node(\"Camera2D\")
 		var tween = get_tree().create_tween()
@@ -150,8 +154,18 @@ func format_time():
 
 
 func update_time(time, name):
-	Game.update_HS(Game.level4HS, time, name)
-	Utils.saveGame()
+	var score_data = name + \" \" + totalTime
+	var url = \"https://api.lootlocker.io/game/leaderboards/21221/submit\"
+	print(Game.playerToken)
+	var header = [\"Content-Type: application/json\", \"x-session-token: %s\" % Game.playerToken]
+	var method = HTTPClient.METHOD_POST
+	var request_data = {
+		\"score\": msecs,
+		\"member_id\": str(randi_range(0, 10000)),
+		\"metadata\": score_data
+	}
+	
+	http_request.request(url, header, method, JSON.stringify(request_data))
 
 
 func format_time_component(value):
@@ -231,6 +245,15 @@ func _on_lightning_timer_timeout():
 	$Rain/Lightning.visible = false
 	timer.wait_time = randf_range(10, 20)
 	timer.start()
+
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	var json_object = JSON.new()
+	body = body.get_string_from_utf8()
+	json_object.parse(body)
+	if response_code == 200:
+		print(json_object.get_data())
+	get_tree().change_scene_to_file(\"res://Levels/title_screen.tscn\")
 "
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_88jv1"]
@@ -3071,6 +3094,7 @@ libraries = {
 }
 
 [node name="Detectors" type="Node2D" parent="."]
+z_index = 1
 
 [node name="RoofArea" type="Area2D" parent="Detectors"]
 position = Vector2(3, 4)
@@ -3088,7 +3112,7 @@ collision_mask = 5
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Detectors/GateDetector"]
 z_index = 1
-polygon = PackedVector2Array(49, 337, 49, 419, 102, 419, 102, 355, 165, 355, 165, 337)
+polygon = PackedVector2Array(49, 337, 49, 419, 100, 419, 100, 355, 165, 355, 165, 337)
 
 [node name="BedDetector" type="Area2D" parent="Detectors"]
 z_index = 2
@@ -3121,6 +3145,7 @@ layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179673, 327680, 2, 1179674, 327680, 2, 1179675, 327680, 2, 1179676, 327680, 2, 1179677, 327680, 2, 1179672, 327682, 2, 1179678, 327680, 2, 1179679, 327680, 2, 1245208, 327682, 3, 1245209, 327680, 3, 1245210, 327680, 3, 1245211, 327680, 3, 1245212, 327680, 3, 1245213, 327680, 3, 1245214, 327682, 3, 1245215, 327680, 3, 1310751, 327680, 3, 1310750, 327682, 3, 1310749, 327680, 3, 1310748, 327680, 3, 1310747, 327680, 3, 1310746, 327680, 3, 1310745, 327680, 3, 983067, 327680, 0, 983068, 327680, 0, 983069, 327680, 0, 983070, 327682, 0, 1048607, 327680, 1, 1114143, 327680, 1, 1048603, 327680, 1, 1114139, 327680, 1, 1048604, 327680, 1, 1114140, 327680, 1, 1048605, 327680, 1, 1114141, 327680, 1, 1048606, 327682, 1, 1114142, 327682, 1, 983071, 327680, 0, 1310744, 327682, 3, 1376287, 327680, 4, 1376281, 327680, 4, 1376282, 327680, 4, 1376283, 327680, 4, 1376284, 327680, 4, 1376285, 327680, 4, 1376286, 327682, 4, 1376280, 327682, 4, 1179671, 262146, 2, 1245207, 262146, 3, 1310743, 262146, 3, 1376279, 262146, 4, 1114138, 327680, 1, 1048602, 327680, 1, 1048601, 327680, 1, 1114137, 327680, 1, 1114136, 327680, 1, 1048600, 327680, 1, 983066, 327680, 0, 983065, 327680, 0, 983064, 327680, 0, 983063, 262144, 0, 1048599, 262144, 1, 1114135, 262144, 1, 1048609, 393216, 1, 1114145, 393216, 1, 1179681, 393216, 2, 1245217, 393216, 3, 1310753, 393216, 3, 983072, 327680, 0, 983073, 393216, 0, 1179680, 327680, 2, 1376288, 327680, 4, 1376289, 393216, 4, 1245216, 327680, 3, 1310752, 327680, 3, 1048608, 327680, 1, 1114144, 327680, 1)
 
 [node name="TileMap" type="TileMap" parent="TileMaps"]
+z_index = 1
 position = Vector2(4, 3)
 tile_set = SubResource("TileSet_28t7l")
 format = 2
@@ -3309,6 +3334,17 @@ theme_override_fonts/font = ExtResource("7_ad5aa")
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
+[node name="Loading" type="Label" parent="GameOver"]
+visible = false
+offset_left = -152.0
+offset_top = -22.0
+offset_right = 4.0
+offset_bottom = 1.0
+scale = Vector2(1.94609, 1.94609)
+theme_override_fonts/font = ExtResource("7_ad5aa")
+text = "Loading..."
+horizontal_alignment = 1
+
 [node name="Pause" type="Node2D" parent="."]
 visible = false
 z_index = 6
@@ -3351,6 +3387,8 @@ texture_normal = ExtResource("14_4pkdx")
 texture_pressed = ExtResource("15_g0aru")
 texture_hover = ExtResource("16_tih83")
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="timeout" from="Rain/LightningTimer" to="." method="_on_lightning_timer_timeout"]
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
@@ -3362,3 +3400,4 @@ texture_hover = ExtResource("16_tih83")
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
