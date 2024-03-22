@@ -73,7 +73,7 @@ size = Vector2(87, 37)
 size = Vector2(8, 7)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rvjxr"]
-size = Vector2(32, 30)
+size = Vector2(29, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_38xmj"]
 size = Vector2(20, 23)
@@ -3106,10 +3106,10 @@ script = ExtResource("1_4j7pc")
 z_index = 7
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_7gdvw")
-offset_left = -10.0
-offset_top = -35.0
-offset_right = 126.0
-offset_bottom = 98.0
+offset_left = 104.0
+offset_top = -33.0
+offset_right = 240.0
+offset_bottom = 100.0
 color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="EndGame"]
@@ -3118,7 +3118,6 @@ libraries = {
 }
 
 [node name="NightTime" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0, 0, 0, 1)
 
 [node name="Detectors" type="Node2D" parent="."]
@@ -3154,7 +3153,8 @@ shape = SubResource("RectangleShape2D_w8bax")
 [node name="ArrowBedArea" type="Area2D" parent="Detectors"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/ArrowBedArea"]
-position = Vector2(66, 46)
+z_index = 1
+position = Vector2(164.5, 43)
 shape = SubResource("RectangleShape2D_rvjxr")
 
 [node name="HillDetector" type="Area2D" parent="Detectors"]
@@ -3203,6 +3203,7 @@ layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179673, 327680, 2, 1179674, 327680, 2, 1179675, 327680, 2, 1179676, 327680, 2, 1179677, 327680, 2, 1179672, 327682, 2, 1179678, 327680, 2, 1179679, 327680, 2, 1245208, 327682, 3, 1245209, 327680, 3, 1245210, 327680, 3, 1245211, 327680, 3, 1245212, 327680, 3, 1245213, 327680, 3, 1245214, 327682, 3, 1245215, 327680, 3, 1310751, 327680, 4, 1310750, 327680, 4, 1310749, 327680, 4, 1310748, 327680, 4, 1310747, 327680, 4, 1310746, 327680, 4, 1310745, 327680, 4, 983067, 327680, 0, 983068, 327680, 0, 983069, 327680, 0, 983070, 327682, 0, 1048607, 327680, 1, 1114143, 327680, 1, 1048603, 327680, 1, 1114139, 327680, 1, 1048604, 327680, 1, 1114140, 327680, 1, 1048605, 327680, 1, 1114141, 327680, 1, 1048606, 327682, 1, 1114142, 327680, 1, 983071, 327680, 0, 1310744, 327680, 4, 1179671, 262146, 2, 1245207, 262146, 3, 1310743, 262144, 4, 1114138, 327680, 1, 1048602, 327680, 1, 1048601, 327680, 1, 1114137, 327680, 1, 1114136, 327680, 1, 1048600, 327680, 1, 983066, 327680, 0, 983065, 327680, 0, 983064, 327680, 0, 983063, 262144, 0, 1048599, 262144, 1, 1114135, 262144, 1, 1179681, 393216, 2, 1245217, 393216, 3, 1310753, 393216, 4, 1179680, 327680, 2, 1245216, 327680, 3, 1310752, 327680, 4, 1048608, 327680, 1, 1114144, 327680, 1, 983073, 393216, 0, 1048609, 393216, 1, 1114145, 393216, 1, 983072, 327680, 0)
 
 [node name="TileMap" type="TileMap" parent="TileMaps"]
+z_index = 1
 position = Vector2(3, 3)
 tile_set = SubResource("TileSet_28t7l")
 format = 2
@@ -3266,6 +3267,7 @@ y_sort_enabled = true
 position = Vector2(91, 267)
 
 [node name="Lever" type="AnimatedSprite2D" parent="LevelItems"]
+z_index = 1
 position = Vector2(171, 313)
 sprite_frames = SubResource("SpriteFrames_kqfiv")
 animation = &"Off"
@@ -3278,6 +3280,7 @@ position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_yxi3y")
 
 [node name="Lever2" type="AnimatedSprite2D" parent="LevelItems"]
+z_index = 1
 position = Vector2(130, 302)
 sprite_frames = SubResource("SpriteFrames_kqfiv")
 animation = &"Off"
@@ -3384,6 +3387,17 @@ theme_override_fonts/font = ExtResource("7_632yk")
 text = "Please Enter Your Name"
 horizontal_alignment = 1
 
+[node name="Loading" type="Label" parent="GameOver"]
+visible = false
+offset_left = -152.0
+offset_top = -22.0
+offset_right = 4.0
+offset_bottom = 1.0
+scale = Vector2(1.94609, 1.94609)
+theme_override_fonts/font = ExtResource("7_632yk")
+text = "Loading..."
+horizontal_alignment = 1
+
 [node name="BackBlack" type="ColorRect" parent="."]
 offset_left = -7.0
 offset_top = -8.0
@@ -3437,6 +3451,8 @@ texture_normal = ExtResource("14_2w2a2")
 texture_pressed = ExtResource("15_2yd1j")
 texture_hover = ExtResource("16_yo3hi")
 
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -3452,3 +3468,4 @@ texture_hover = ExtResource("16_yo3hi")
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

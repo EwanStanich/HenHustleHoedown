@@ -17,6 +17,7 @@ var label
 var totalTime
 var flashes = 0
 var isFlashing = false
+var http_request
 
 
 func _ready():
@@ -32,6 +33,7 @@ func _ready():
 	$UI/ChicknIcon.play("Icon")
 	player.set_camera_limits(369, 6, 578, 6)
 	label = $GameOver/Name
+	http_request = $HTTPRequest
 
 
 func _physics_process(delta):
@@ -49,7 +51,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if Input.is_key_pressed(KEY_TAB) and !paused and !gameOver:
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
@@ -59,9 +61,11 @@ func _input(event):
 					label.text = new_text
 				elif key_text == "Enter" and !label.text.is_empty():
 					Game.level9 = true
+					$GameOver/FinalTime.visible = false
+					$GameOver/Name.visible = false
+					$GameOver/EnterName.visible = false
+					$GameOver/Loading.visible = true
 					update_time(totalTime, label.text)
-					Utils.saveGame()
-					get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
 				elif label.text.length() > 9:
 					pass
 				elif "Shift" in key_text and key_text.length() == 7:
@@ -102,8 +106,8 @@ func game_over():
 	if capturedChickens == totalChickens:
 		gameOver = true
 		format_time()
-		$UI.queue_free()
-		$TileMaps/Roofs.queue_free()
+		$UI.visible = false
+		$TileMaps/Roofs.visible = false
 		player.game_over = true
 		var camera:Camera2D = player.get_node("Camera2D")
 		var tween = get_tree().create_tween()
@@ -130,8 +134,18 @@ func format_time():
 
 
 func update_time(time, name):
-	Game.update_HS(Game.level9HS, time, name)
-	Utils.saveGame()
+	var score_data = name + " " + totalTime
+	var url = "https://api.lootlocker.io/game/leaderboards/21226/submit"
+	print(Game.playerToken)
+	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.playerToken]
+	var method = HTTPClient.METHOD_POST
+	var request_data = {
+		"score": msecs,
+		"member_id": str(randi_range(0, 10000)),
+		"metadata": score_data
+	}
+	
+	http_request.request(url, header, method, JSON.stringify(request_data))
 
 
 func format_time_component(value):
@@ -234,3 +248,12 @@ func _on_magnet_area_body_entered(body):
 			chicken.isMagnet = true
 		$MagnetTimer.wait_time = 10
 		$MagnetTimer.start()
+
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	var json_object = JSON.new()
+	body = body.get_string_from_utf8()
+	json_object.parse(body)
+	if response_code == 200:
+		print(json_object.get_data())
+	get_tree().change_scene_to_file("res://Levels/title_screen.tscn")

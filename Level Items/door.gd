@@ -3,6 +3,9 @@ extends AnimatedSprite2D
 
 var isOpened = 0
 
+func _ready():
+	play("Closed")
+
 
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":

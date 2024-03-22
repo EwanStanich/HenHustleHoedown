@@ -2830,6 +2830,7 @@ layer_0/z_index = 5
 layer_0/tile_data = PackedInt32Array(1179673, 327680, 2, 1179674, 327680, 2, 1179675, 327680, 2, 1179676, 327680, 2, 1179677, 327680, 2, 1179672, 327682, 2, 1179678, 327682, 2, 1179679, 393218, 2, 1245208, 327682, 3, 1245209, 327680, 3, 1245210, 327680, 3, 1245211, 327680, 3, 1245212, 327680, 3, 1245213, 327680, 3, 1245214, 327682, 3, 1245215, 393218, 3, 1310751, 393218, 3, 1310750, 327682, 3, 1310749, 327680, 3, 1310748, 327680, 3, 1310747, 327680, 3, 1310746, 327680, 3, 1310745, 327680, 3, 983067, 327680, 0, 983068, 327680, 0, 983069, 327680, 0, 983070, 327682, 0, 1048607, 393218, 1, 1114143, 393218, 1, 1048603, 327680, 1, 1114139, 327680, 1, 1048604, 327680, 1, 1114140, 327680, 1, 1048605, 327680, 1, 1114141, 327680, 1, 1048606, 327682, 1, 1114142, 327682, 1, 983071, 393218, 0, 1310744, 327682, 3, 1376287, 393218, 4, 1376281, 327680, 4, 1376282, 327680, 4, 1376283, 327680, 4, 1376284, 327680, 4, 1376285, 327680, 4, 1376286, 327682, 4, 1376280, 327682, 4, 1179671, 262146, 2, 1245207, 262146, 3, 1310743, 262146, 3, 1376279, 262146, 4, 1114138, 327680, 1, 1048602, 327680, 1, 1048601, 327680, 1, 1114137, 327680, 1, 1114136, 327680, 1, 1048600, 327680, 1, 983066, 327680, 0, 983065, 327680, 0, 983064, 327680, 0, 983063, 262144, 0, 1048599, 262144, 1, 1114135, 262144, 1)
 
 [node name="TileMap" type="TileMap" parent="TileMaps"]
+z_index = 1
 position = Vector2(4, 3)
 tile_set = SubResource("TileSet_28t7l")
 format = 2
@@ -2841,7 +2842,7 @@ layer_2/tile_data = PackedInt32Array(524300, 1, 2, 262156, 1, 1, 327692, 1, 1, 3
 y_sort_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("1_m8igd")]
-position = Vector2(477, 276)
+position = Vector2(477, 278)
 
 [node name="Chickens" type="Node2D" parent="Characters"]
 y_sort_enabled = true
@@ -2992,6 +2993,17 @@ theme_override_fonts/font = ExtResource("8_hprt8")
 text = "Placeholder"
 horizontal_alignment = 1
 
+[node name="Loading" type="Label" parent="GameOver"]
+visible = false
+offset_left = -152.0
+offset_top = -22.0
+offset_right = 4.0
+offset_bottom = 1.0
+scale = Vector2(1.94609, 1.94609)
+theme_override_fonts/font = ExtResource("8_hprt8")
+text = "Loading..."
+horizontal_alignment = 1
+
 [node name="EnterName" type="Label" parent="GameOver"]
 offset_left = -152.0
 offset_top = -33.0
@@ -3043,6 +3055,8 @@ texture_normal = ExtResource("14_c7lwp")
 texture_pressed = ExtResource("15_fyuao")
 texture_hover = ExtResource("16_y4vxu")
 
+[node name="HighscoreHTTPRequest" type="HTTPRequest" parent="."]
+
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -3053,3 +3067,4 @@ texture_hover = ExtResource("16_y4vxu")
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="request_completed" from="HighscoreHTTPRequest" to="." method="_on_highscore_http_request_request_completed"]

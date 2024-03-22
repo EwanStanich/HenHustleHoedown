@@ -77,7 +77,7 @@ func _physics_process(_delta):
 		if player.position.x < position.x:
 			direction_from_player.x += 1.85
 		if player.position.y < position.y:
-			direction_from_player.y += 3
+			direction_from_player.y += 2
 			
 		if isMagnet and !inPen:
 			move_direction = (direction_from_player).normalized()
