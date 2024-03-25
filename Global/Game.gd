@@ -23,6 +23,8 @@ var level8 = true
 var level9 = true
 
 var playerToken = ""
+var isOffline = false
+var hasConnected = false
 
 var level1HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level2HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]

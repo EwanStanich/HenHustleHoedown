@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://dguryrdn8htwe"]
+[gd_scene load_steps=78 format=3 uid="uid://dguryrdn8htwe"]
 
 [ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
 [ext_resource type="Texture2D" uid="uid://bdw5nha5on2l8" path="res://Art/Characters/Character2Final-Sheet.png" id="2_6upjg"]
@@ -9,25 +9,34 @@
 [ext_resource type="Texture2D" uid="uid://cyar0kii7d8d8" path="res://Art/Buttons/HighScore/PressedHS-Sheet.png" id="3_tr67y"]
 [ext_resource type="Texture2D" uid="uid://c5cud8o62lqw6" path="res://Art/Buttons/HighScore/HoveredHS-Sheet.png" id="4_gl8m5"]
 [ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="5_bgdln"]
+[ext_resource type="Texture2D" uid="uid://s7jpnmmviv8n" path="res://Art/Buttons/HighScore/OfflineSign-Sheet.png" id="6_88x8p"]
 [ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="6_mvrak"]
 [ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="7_sl6ta"]
 [ext_resource type="Texture2D" uid="uid://dpjrxwtcijxkf" path="res://Art/Buttons/Back/BackSign-Sheet.png" id="11_u6pyl"]
+[ext_resource type="Texture2D" uid="uid://bt8odo16vlj8d" path="res://Art/Buttons/Reconnect/NoWifiSign-Sheet.png" id="12_cs0l5"]
 [ext_resource type="Texture2D" uid="uid://bf01ynwbvryq7" path="res://Art/Buttons/Back/PressedBack-Sheet.png" id="12_p0bmo"]
+[ext_resource type="Texture2D" uid="uid://h1q0fwjkfil1" path="res://Art/Buttons/Reconnect/NoWifiSignPressed-Sheet.png" id="13_cbevd"]
 [ext_resource type="Texture2D" uid="uid://cnmq4y2sf4v2g" path="res://Art/Buttons/Back/HoveredBack-Sheet.png" id="13_uetc5"]
 [ext_resource type="Texture2D" uid="uid://bf3hxtyke7fwn" path="res://Art/Buttons/HighScore/HighScoresTitle-Sheet.png" id="14_4hl8b"]
+[ext_resource type="Texture2D" uid="uid://b05auw6vfqxvs" path="res://Art/Buttons/Reconnect/NoWifiSignHovered-Sheet.png" id="14_n0ag2"]
 [ext_resource type="Texture2D" uid="uid://bcum4pcup726b" path="res://Art/Buttons/Play/LevelsTitle-Sheet.png" id="14_n4i67"]
 [ext_resource type="Texture2D" uid="uid://bb4oj8td3p1uc" path="res://Art/Buttons/Levels/L2/Level2Sign-Sheet.png" id="14_tu4y5"]
 [ext_resource type="Texture2D" uid="uid://bcicwxut37iu7" path="res://Art/Buttons/Levels/L1/Level1Sign-Sheet.png" id="15_8l85k"]
 [ext_resource type="Texture2D" uid="uid://1ihph7yrq71a" path="res://Art/Buttons/Levels/L2/PressedL2-Sheet.png" id="15_ij2ei"]
 [ext_resource type="Texture2D" uid="uid://bmduievk22jwd" path="res://Art/Buttons/Levels/L1/PressedL1-Sheet.png" id="16_1qal0"]
 [ext_resource type="Texture2D" uid="uid://53kguinepxby" path="res://Art/Buttons/Levels/L2/HoveredL2-Sheet.png" id="16_3v4bg"]
+[ext_resource type="Texture2D" uid="uid://78vjoki0dtl0" path="res://Art/Buttons/Reconnect/MessageBoard-Sheet.png" id="16_7umqi"]
 [ext_resource type="Texture2D" uid="uid://cyujeu6xwhgxr" path="res://Art/Buttons/Levels/L2/DisabledL2-Sheet.png" id="17_1lwd3"]
 [ext_resource type="Texture2D" uid="uid://wsibld2no2bx" path="res://Art/Buttons/Levels/L1/HoveredL1-Sheet.png" id="17_eavb8"]
+[ext_resource type="Shader" path="res://Levels/title_screen.gdshader" id="17_stgnc"]
 [ext_resource type="Texture2D" uid="uid://6w045sq8no7r" path="res://Art/Buttons/Levels/L3/Level3Sign-Sheet.png" id="18_vfsfd"]
 [ext_resource type="Texture2D" uid="uid://x0dy43ckeay" path="res://Art/Buttons/Levels/L3/PressedL3-Sheet.png" id="19_g74i6"]
 [ext_resource type="Texture2D" uid="uid://71d0ebh1yhtv" path="res://Art/Buttons/Levels/L3/HoveredL3-Sheet.png" id="20_pdtyl"]
 [ext_resource type="Texture2D" uid="uid://wb3fh8vd0f2y" path="res://Art/Buttons/Levels/L3/DisabledL3-Sheet.png" id="21_2844k"]
+[ext_resource type="Texture2D" uid="uid://ckdmljs2uelpg" path="res://Art/Buttons/Reconnect/Reconnect-Sheet.png" id="22_nl3ad"]
 [ext_resource type="Texture2D" uid="uid://pyowsbi2w5y2" path="res://Art/Buttons/Levels/L4/Level4Sign-Sheet.png" id="23_01fjx"]
+[ext_resource type="Texture2D" uid="uid://bklhlnd83b2q0" path="res://Art/Buttons/Reconnect/ReconnectPressed-Sheet.png" id="23_vr0i4"]
+[ext_resource type="Texture2D" uid="uid://r8ip0518uqcf" path="res://Art/Buttons/Reconnect/ReconnectHovered-Sheet.png" id="24_am38a"]
 [ext_resource type="Texture2D" uid="uid://c4ao1eifne1on" path="res://Art/Buttons/Levels/L4/PressedL4-Sheet.png" id="24_p7by0"]
 [ext_resource type="Texture2D" uid="uid://crci0en6ecg4h" path="res://Art/Buttons/Levels/L4/HoveredL4-Sheet.png" id="25_1w4p8"]
 [ext_resource type="Texture2D" uid="uid://dwn83xo5ajxvs" path="res://Art/Buttons/Levels/L4/DisabledL4-Sheet.png" id="26_da5oo"]
@@ -61,20 +70,31 @@ script/source = "extends Node2D
 @onready var anim = $ColorRect/AnimationPlayer
 var token_http_request
 var score_http_request
+var reconnect_http_request
 
 func _ready():
 	if !Game.playerToken:
 		token_http_request = $TokenHTTPRequest
-		get_player_token()
+		get_player_token(false)
 	else:
 		ready_2()
 
 
 func ready_2():
+	reconnect_http_request = $ReconnectHTTPRequest
 	score_http_request = $ScoreHTTPRequest
 	#Utils.saveGame()
 	Utils.loadGame()
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)			
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)	
+	if Game.isOffline:
+		$Buttons/HighScore.visible = false
+		$Buttons/Offline.visible = true
+		$Buttons/Reconnect.visible = true
+	else:
+		$Buttons/HighScore.visible = true
+		$Buttons/Offline.visible = false
+		$Buttons/Reconnect.visible = false
+	$Buttons.visible = true
 	$Player.play(\"Run\")
 	$Chicken.play(\"Run\")
 	anim.play(\"Open\")
@@ -107,27 +127,34 @@ func ready_2():
 		$\"HS_Buttons/HS Level 9\".disabled = false
  
 
-func get_player_token():
-	if !Game.playerToken:
-		var url = \"https://api.lootlocker.io/game/v2/session/guest\"
-		var header = []
-		var method = HTTPClient.METHOD_POST
-		var request_data = {
-		\"game_key\": \"dev_9aa726187e614b59a9c6fcc28131cd8e\",
-		\"game_version\": \"1.0.0\",
-		\"player_identifier\": \"1\",
-		\"development_mode\": true
-		}
-		
-		var response = token_http_request.request(url, header, method, JSON.stringify(request_data))
+func get_player_token(isReconnect):
+	var url = \"https://api.lootlocker.io/game/v2/session/guest\"
+	var header = []
+	var method = HTTPClient.METHOD_POST
+	var request_data = {
+	\"game_key\": \"dev_9aa726187e614b59a9c6fcc28131cd8e\",
+	\"game_version\": \"1.0.0\",
+	\"player_identifier\": \"1\",
+	\"development_mode\": true
+	}
+	if isReconnect:
+		reconnect_http_request.request(url, header, method, JSON.stringify(request_data))
+	else:
+		token_http_request.request(url, header, method, JSON.stringify(request_data))
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
-	var json_object = JSON.new()
-	body = body.get_string_from_utf8()
-	json_object.parse(body)
-	Game.playerToken = json_object.get_data()[\"session_token\"]
-	print(\"Player token: \", Game.playerToken)		
+	if response_code != 200:
+		await get_tree().create_timer(1.0).timeout
+		Game.isOffline = true
+	else:
+		Game.isOffline = false
+		Game.hasConnected = true
+		var json_object = JSON.new()
+		body = body.get_string_from_utf8()
+		json_object.parse(body)
+		Game.playerToken = json_object.get_data()[\"session_token\"]
+		print(\"Player token: \", Game.playerToken)		
 	ready_2()
 
 
@@ -239,21 +266,30 @@ func _on_hs_level_9_button_up():
 
 
 func _on_score_http_request_request_completed(result, response_code, headers, body):
-	var json_object = JSON.new()
-	body = body.get_string_from_utf8()
-	json_object.parse(body)
-	var scores = [\"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\"]
-	if json_object.get_data()[\"items\"]:
-		var val = 0
-		for score in json_object.get_data()[\"items\"]:
-			scores[val] = score[\"metadata\"]
-			val += 1
-	print(scores)
-	$HighScores/HS1.text = scores[0]
-	$HighScores/HS2.text = scores[1]
-	$HighScores/HS3.text = scores[2]
-	$HighScores/HS4.text = scores[3]
-	$HighScores/HS5.text = scores[4]
+	if response_code != 200:
+		await get_tree().create_timer(1.5).timeout
+		Game.isOffline = true
+		$Buttons/HighScore.visible = false
+		$Buttons/Offline.visible = true
+		$Buttons/Reconnect.visible = true
+		$HighScores.visible = false
+		$Buttons.visible = true
+	else:
+		var json_object = JSON.new()
+		body = body.get_string_from_utf8()
+		json_object.parse(body)
+		var scores = [\"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\"]
+		if json_object.get_data()[\"items\"]:
+			var val = 0
+			for score in json_object.get_data()[\"items\"]:
+				scores[val] = score[\"metadata\"]
+				val += 1
+		print(scores)
+		$HighScores/HS1.text = scores[0]
+		$HighScores/HS2.text = scores[1]
+		$HighScores/HS3.text = scores[2]
+		$HighScores/HS4.text = scores[3]
+		$HighScores/HS5.text = scores[4]
 
 
 func get_scores(key):
@@ -271,6 +307,57 @@ func close_hs_board():
 	$HighScores/HS3.text = \"\"
 	$HighScores/HS4.text = \"\"
 	$HighScores/HS5.text = \"\"
+
+
+func _on_message_back_button_up():
+	$Buttons/ErrorMessage.visible = false
+	$Buttons/ErrorMessage/TryAgainMessage.visible = false
+	$Buttons/ErrorMessage/NormalMessage.visible = true
+
+
+func _on_reconnect_button_up():
+	$Buttons/ErrorMessage.visible = true
+
+
+func _on_reconnect_token_button_up():
+	$Buttons/ErrorMessage/NormalMessage.visible = false
+	$Buttons/ErrorMessage/TryAgainMessage.visible = false
+	$Buttons/ErrorMessage/LoadingMessage.visible = true
+	$Buttons/ErrorMessage/MessageBack.visible = false
+	$Buttons/ErrorMessage/ReconnectToken.visible = false
+	get_player_token(true)
+
+
+func _on_reconnect_http_request_request_completed(result, response_code, headers, body):
+	if response_code != 200:
+		await get_tree().create_timer(1.5).timeout
+		$Buttons/ErrorMessage/TryAgainMessage.visible = true
+		$Buttons/ErrorMessage/LoadingMessage.visible = false
+		$Buttons/ErrorMessage/MessageBack.visible = true
+		$Buttons/ErrorMessage/ReconnectToken.visible = true
+	elif Game.hasConnected:
+		$Buttons/ErrorMessage/LoadingMessage.visible = false
+		$Buttons/ErrorMessage/MessageBack.visible = true
+		$Buttons/ErrorMessage/ReconnectToken.visible = true
+		Game.isOffline = false
+		$Buttons/ErrorMessage/NormalMessage.visible = true
+		print(\"Player token: \", Game.playerToken)
+		$Buttons/ErrorMessage.visible = false
+		ready_2()
+	else:
+		$Buttons/ErrorMessage/LoadingMessage.visible = false
+		$Buttons/ErrorMessage/MessageBack.visible = true
+		$Buttons/ErrorMessage/ReconnectToken.visible = true
+		$Buttons/ErrorMessage/NormalMessage.visible = true
+		Game.isOffline = false
+		Game.hasConnected = true
+		var json_object = JSON.new()
+		body = body.get_string_from_utf8()
+		json_object.parse(body)
+		Game.playerToken = json_object.get_data()[\"session_token\"]
+		print(\"Player token: \", Game.playerToken)
+		$Buttons/ErrorMessage.visible = false
+		ready_2()
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ncxj7"]
@@ -370,6 +457,10 @@ _data = {
 "RESET": SubResource("Animation_y2ejn")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e2tcw"]
+shader = ExtResource("17_stgnc")
+shader_parameter/lod = 1.84
+
 [node name="TitleScreen" type="Node2D"]
 script = SubResource("GDScript_7qdv6")
 
@@ -427,6 +518,96 @@ offset_bottom = 145.0
 texture_normal = ExtResource("5_bgdln")
 texture_pressed = ExtResource("6_mvrak")
 texture_hover = ExtResource("7_sl6ta")
+
+[node name="Reconnect" type="TextureButton" parent="Buttons"]
+visible = false
+offset_left = 206.0
+offset_top = 73.0
+offset_right = 244.0
+offset_bottom = 105.0
+texture_normal = ExtResource("12_cs0l5")
+texture_pressed = ExtResource("13_cbevd")
+texture_hover = ExtResource("14_n0ag2")
+
+[node name="Offline" type="Sprite2D" parent="Buttons"]
+visible = false
+position = Vector2(146, 89)
+texture = ExtResource("6_88x8p")
+
+[node name="ErrorMessage" type="Node2D" parent="Buttons"]
+visible = false
+z_index = 1
+
+[node name="Blur" type="ColorRect" parent="Buttons/ErrorMessage"]
+material = SubResource("ShaderMaterial_e2tcw")
+offset_left = -25.0
+offset_top = -23.0
+offset_right = 389.0
+offset_bottom = 270.0
+color = Color(0.25098, 0.25098, 0.25098, 0.588235)
+
+[node name="MessageBoard" type="Sprite2D" parent="Buttons/ErrorMessage"]
+position = Vector2(170, 90)
+texture = ExtResource("16_7umqi")
+
+[node name="NormalMessage" type="Label" parent="Buttons/ErrorMessage"]
+offset_left = 63.0
+offset_top = 51.0
+offset_right = 331.0
+offset_bottom = 107.0
+scale = Vector2(0.8, 0.8)
+theme_override_constants/line_spacing = 7
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "An internect connection is
+required to view and submit
+high scores."
+horizontal_alignment = 1
+
+[node name="LoadingMessage" type="Label" parent="Buttons/ErrorMessage"]
+visible = false
+offset_left = 63.0
+offset_top = 85.0
+offset_right = 331.0
+offset_bottom = 99.0
+scale = Vector2(0.8, 0.8)
+theme_override_constants/line_spacing = 7
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "Loading..."
+horizontal_alignment = 1
+
+[node name="TryAgainMessage" type="Label" parent="Buttons/ErrorMessage"]
+visible = false
+offset_left = 63.0
+offset_top = 51.0
+offset_right = 331.0
+offset_bottom = 107.0
+scale = Vector2(0.8, 0.8)
+theme_override_constants/line_spacing = 7
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "Reconnection Failed. 
+Please check your 
+connection and try again"
+horizontal_alignment = 1
+
+[node name="MessageBack" type="TextureButton" parent="Buttons/ErrorMessage"]
+offset_left = 79.0
+offset_top = 104.0
+offset_right = 155.0
+offset_bottom = 136.0
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("11_u6pyl")
+texture_pressed = ExtResource("12_p0bmo")
+texture_hover = ExtResource("13_uetc5")
+
+[node name="ReconnectToken" type="TextureButton" parent="Buttons/ErrorMessage"]
+offset_left = 152.0
+offset_top = 104.0
+offset_right = 288.0
+offset_bottom = 136.0
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("22_nl3ad")
+texture_pressed = ExtResource("23_vr0i4")
+texture_hover = ExtResource("24_am38a")
 
 [node name="Level_Buttons" type="Node2D" parent="."]
 visible = false
@@ -752,12 +933,20 @@ texture_hover = ExtResource("13_uetc5")
 metadata/_edit_use_anchors_ = true
 
 [node name="ScoreHTTPRequest" type="HTTPRequest" parent="."]
+timeout = 5.0
 
 [node name="TokenHTTPRequest" type="HTTPRequest" parent="."]
+timeout = 5.0
+
+[node name="ReconnectHTTPRequest" type="HTTPRequest" parent="."]
+timeout = 5.0
 
 [connection signal="button_up" from="Buttons/HighScore" to="." method="_on_high_score_button_up"]
 [connection signal="button_up" from="Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="button_up" from="Buttons/Reconnect" to="." method="_on_reconnect_button_up"]
+[connection signal="button_up" from="Buttons/ErrorMessage/MessageBack" to="." method="_on_message_back_button_up"]
+[connection signal="button_up" from="Buttons/ErrorMessage/ReconnectToken" to="." method="_on_reconnect_token_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 1" to="." method="_on_level_1_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 2" to="." method="_on_level_2_button_up"]
 [connection signal="button_up" from="Level_Buttons/Level 3" to="." method="_on_level_3_button_up"]
@@ -781,3 +970,4 @@ metadata/_edit_use_anchors_ = true
 [connection signal="button_up" from="HighScores/HSBack" to="." method="_on_hs_back_button_up"]
 [connection signal="request_completed" from="ScoreHTTPRequest" to="." method="_on_score_http_request_request_completed"]
 [connection signal="request_completed" from="TokenHTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="request_completed" from="ReconnectHTTPRequest" to="." method="_on_reconnect_http_request_request_completed"]

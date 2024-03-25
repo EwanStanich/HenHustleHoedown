@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=3 uid="uid://bjs78xa5g48wi"]
+[gd_scene load_steps=123 format=3 uid="uid://bjs78xa5g48wi"]
 
 [ext_resource type="Script" path="res://Levels/level_8.gd" id="1_4j7pc"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="1_18d6l"]
@@ -21,6 +21,10 @@
 [ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="14_2w2a2"]
 [ext_resource type="Texture2D" uid="uid://tvywchdfv8k4" path="res://Art/Buttons/Quit/PressedQuit-Sheet.png" id="15_2yd1j"]
 [ext_resource type="Texture2D" uid="uid://bhxo1md3y50b7" path="res://Art/Buttons/Quit/HoveredQuit-Sheet.png" id="16_yo3hi"]
+[ext_resource type="Texture2D" uid="uid://78vjoki0dtl0" path="res://Art/Buttons/Reconnect/MessageBoard-Sheet.png" id="23_06pjm"]
+[ext_resource type="Texture2D" uid="uid://ckdmljs2uelpg" path="res://Art/Buttons/Reconnect/Reconnect-Sheet.png" id="24_k2cju"]
+[ext_resource type="Texture2D" uid="uid://bklhlnd83b2q0" path="res://Art/Buttons/Reconnect/ReconnectPressed-Sheet.png" id="25_xl652"]
+[ext_resource type="Texture2D" uid="uid://r8ip0518uqcf" path="res://Art/Buttons/Reconnect/ReconnectHovered-Sheet.png" id="26_8wgqt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
 shader = ExtResource("1_18d6l")
@@ -3098,6 +3102,9 @@ light_mode = 1
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_w6mrd"]
 light_mode = 1
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nqgd2"]
+light_mode = 1
+
 [node name="GameLevel" type="Node2D"]
 y_sort_enabled = true
 script = ExtResource("1_4j7pc")
@@ -3451,7 +3458,57 @@ texture_normal = ExtResource("14_2w2a2")
 texture_pressed = ExtResource("15_2yd1j")
 texture_hover = ExtResource("16_yo3hi")
 
+[node name="ErrorMessage" type="Node2D" parent="."]
+visible = false
+z_index = 3
+material = SubResource("CanvasItemMaterial_nqgd2")
+position = Vector2(631, -5)
+
+[node name="MessageBoard" type="Sprite2D" parent="ErrorMessage"]
+use_parent_material = true
+position = Vector2(170, 90)
+texture = ExtResource("23_06pjm")
+
+[node name="NormalMessage" type="Label" parent="ErrorMessage"]
+offset_left = 63.0
+offset_top = 51.0
+offset_right = 331.0
+offset_bottom = 107.0
+scale = Vector2(0.8, 0.8)
+theme_override_constants/line_spacing = 7
+theme_override_fonts/font = ExtResource("7_632yk")
+text = "An error occured with your
+connection. Reconnect to 
+the internet and try again."
+horizontal_alignment = 1
+
+[node name="Quit" type="TextureButton" parent="ErrorMessage"]
+use_parent_material = true
+offset_left = 79.0
+offset_top = 104.0
+offset_right = 155.0
+offset_bottom = 136.0
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("14_2w2a2")
+texture_pressed = ExtResource("15_2yd1j")
+texture_hover = ExtResource("16_yo3hi")
+
+[node name="ReconnectToken" type="TextureButton" parent="ErrorMessage"]
+use_parent_material = true
+offset_left = 152.0
+offset_top = 104.0
+offset_right = 288.0
+offset_bottom = 136.0
+scale = Vector2(0.8, 0.8)
+texture_normal = ExtResource("24_k2cju")
+texture_pressed = ExtResource("25_xl652")
+texture_hover = ExtResource("26_8wgqt")
+
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+timeout = 5.0
+
+[node name="ReconnectHTTPRequest" type="HTTPRequest" parent="."]
+timeout = 5.0
 
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
@@ -3468,4 +3525,7 @@ texture_hover = ExtResource("16_yo3hi")
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
+[connection signal="button_up" from="ErrorMessage/Quit" to="." method="_on_quit_button_up"]
+[connection signal="button_up" from="ErrorMessage/ReconnectToken" to="." method="_on_reconnect_token_button_up"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
+[connection signal="request_completed" from="ReconnectHTTPRequest" to="." method="_on_reconnect_http_request_request_completed"]

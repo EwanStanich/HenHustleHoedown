@@ -123,6 +123,10 @@ func set_light_layer(layer):
 		$OutsideLight.visible = false
 		$HillLight.visible = true
 		$InsideLight.visible = false
+	else:
+		$OutsideLight.visible = false
+		$HillLight.visible = false
+		$InsideLight.visible = false
 
 
 func _on_flicker_timeout():

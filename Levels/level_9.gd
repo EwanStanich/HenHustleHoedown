@@ -18,9 +18,12 @@ var totalTime
 var flashes = 0
 var isFlashing = false
 var http_request
+var reconnect_http_request
+var score_name
 
 
 func _ready():
+	reconnect_http_request = $ReconnectHTTPRequest
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
@@ -65,7 +68,8 @@ func _input(event):
 					$GameOver/Name.visible = false
 					$GameOver/EnterName.visible = false
 					$GameOver/Loading.visible = true
-					update_time(totalTime, label.text)
+					Utils.saveGame()
+					update_time(label.text)
 				elif label.text.length() > 9:
 					pass
 				elif "Shift" in key_text and key_text.length() == 7:
@@ -103,7 +107,7 @@ func _on_gate_detector_body_entered(body):
 
 
 func game_over():
-	if capturedChickens == totalChickens:
+	if true:
 		gameOver = true
 		format_time()
 		$UI.visible = false
@@ -116,6 +120,10 @@ func game_over():
 		var anim:AnimationPlayer = $EndGame/AnimationPlayer
 		anim.play("Close")
 		await anim.animation_finished
+		if Game.isOffline:
+			Game.level9 = true
+			Utils.saveGame()
+			get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
 		isEnteringName = true
 		var final_time:Label = $GameOver/FinalTime
 		label.text = ""
@@ -133,14 +141,15 @@ func format_time():
 	totalTime = min + ":" + sec + "." + msec
 
 
-func update_time(time, name):
+func update_time(name):
+	score_name = name
 	var score_data = name + " " + totalTime
 	var url = "https://api.lootlocker.io/game/leaderboards/21226/submit"
 	print(Game.playerToken)
 	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.playerToken]
 	var method = HTTPClient.METHOD_POST
 	var request_data = {
-		"score": msecs,
+		"score": round(time * 100),
 		"member_id": str(randi_range(0, 10000)),
 		"metadata": score_data
 	}
@@ -251,9 +260,65 @@ func _on_magnet_area_body_entered(body):
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
-	var json_object = JSON.new()
-	body = body.get_string_from_utf8()
-	json_object.parse(body)
-	if response_code == 200:
+	if response_code != 200:
+		await get_tree().create_timer(1.0).timeout
+		reconnect_http_request = $ReconnectHTTPRequest
+		Game.isOffline = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)		
+		$ErrorMessage.visible = true
+	else:
+		var json_object = JSON.new()
+		body = body.get_string_from_utf8()
+		json_object.parse(body)
 		print(json_object.get_data())
-	get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
+		get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
+
+
+func _on_reconnect_http_request_request_completed(result, response_code, headers, body):
+	if response_code != 200:
+		await get_tree().create_timer(1.0).timeout
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		$ErrorMessage.visible = true
+	elif Game.hasConnected:
+		Game.isOffline = false
+		print("Player token: ", Game.playerToken)
+		retry_score()
+	else:
+		Game.isOffline = false
+		Game.hasConnected = true
+		var json_object = JSON.new()
+		body = body.get_string_from_utf8()
+		json_object.parse(body)
+		Game.playerToken = json_object.get_data()["session_token"]
+		print("Player token: ", Game.playerToken)
+		retry_score()
+
+
+func retry_score():
+	var score_data = score_name + " " + totalTime
+	var url = "https://api.lootlocker.io/game/leaderboards/21226/submit"
+	print(Game.playerToken)
+	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.playerToken]
+	var method = HTTPClient.METHOD_POST
+	var request_data = {
+		"score": round(time * 100),
+		"member_id": str(randi_range(0, 10000)),
+		"metadata": score_data
+	}
+	
+	http_request.request(url, header, method, JSON.stringify(request_data))
+
+
+func _on_reconnect_token_button_up():
+	$ErrorMessage.visible = false
+	var url = "https://api.lootlocker.io/game/v2/session/guest"
+	var header = []
+	var method = HTTPClient.METHOD_POST
+	var request_data = {
+	"game_key": "dev_9aa726187e614b59a9c6fcc28131cd8e",
+	"game_version": "1.0.0",
+	"player_identifier": "1",
+	"development_mode": true
+	}
+	
+	reconnect_http_request.request(url, header, method, JSON.stringify(request_data))
