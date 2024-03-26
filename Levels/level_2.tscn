@@ -2057,7 +2057,6 @@ texture = SubResource("CompressedTexture2D_oxm3b")
 9:6/0/physics_layer_2/angular_velocity = 0.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_54tio"]
-load_path = "res://.godot/imported/Water.png-b3a15408dec035ffb81ca3337be714d9.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n2iuo"]
 texture = SubResource("CompressedTexture2D_54tio")

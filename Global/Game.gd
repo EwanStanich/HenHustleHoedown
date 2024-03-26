@@ -25,6 +25,7 @@ var level9 = true
 var playerToken = ""
 var isOffline = false
 var hasConnected = false
+var isFirstInstance = true
 
 var level1HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
 var level2HS:Array = [["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""], ["--:--.--", ""]]
