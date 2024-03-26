@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://dguryrdn8htwe"]
+[gd_scene load_steps=87 format=3 uid="uid://dguryrdn8htwe"]
 
 [ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
 [ext_resource type="Texture2D" uid="uid://bdw5nha5on2l8" path="res://Art/Characters/Character2Final-Sheet.png" id="2_6upjg"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="3_2mspn"]
 [ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="3_ho6ye"]
 [ext_resource type="Texture2D" uid="uid://cyar0kii7d8d8" path="res://Art/Buttons/HighScore/PressedHS-Sheet.png" id="3_tr67y"]
+[ext_resource type="Texture2D" uid="uid://dswvacedfcbwe" path="res://Art/Title-Sheet.png" id="3_x34q4"]
 [ext_resource type="Texture2D" uid="uid://c5cud8o62lqw6" path="res://Art/Buttons/HighScore/HoveredHS-Sheet.png" id="4_gl8m5"]
 [ext_resource type="Texture2D" uid="uid://p5spp6k0h84f" path="res://Art/Buttons/Quit/QuitSign-Sheet.png" id="5_bgdln"]
 [ext_resource type="Texture2D" uid="uid://s7jpnmmviv8n" path="res://Art/Buttons/HighScore/OfflineSign-Sheet.png" id="6_88x8p"]
@@ -71,8 +72,14 @@ script/source = "extends Node2D
 var token_http_request
 var score_http_request
 var reconnect_http_request
+var titleAnim
 
 func _ready():
+	if Game.isFirstInstance:
+		$Title.z_index = 2
+	$Title.visible = true
+	titleAnim = $Title/AnimationPlayer
+	titleAnim.play(\"Fade\")
 	if !Game.playerToken:
 		token_http_request = $TokenHTTPRequest
 		get_player_token(false)
@@ -86,6 +93,9 @@ func ready_2():
 	#Utils.saveGame()
 	Utils.loadGame()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)	
+	anim.play(\"Open\")
+	$Player.play(\"Run\")
+	$Chicken.play(\"Run\")
 	if Game.isOffline:
 		$Buttons/HighScore.visible = false
 		$Buttons/Offline.visible = true
@@ -94,10 +104,15 @@ func ready_2():
 		$Buttons/HighScore.visible = true
 		$Buttons/Offline.visible = false
 		$Buttons/Reconnect.visible = false
-	$Buttons.visible = true
-	$Player.play(\"Run\")
-	$Chicken.play(\"Run\")
-	anim.play(\"Open\")
+	if Game.isFirstInstance:
+		Game.isFirstInstance = false
+		titleAnim.play(\"Move\")
+		await titleAnim.animation_finished
+		$Buttons/AnimationPlayer.play(\"Fade\")
+		$Title.z_index = 0
+	else:
+		revis_title_screen()
+		titleAnim.play(\"Move2\")
 	close_hs_board()
 	if Game.level1:
 		$\"Level_Buttons/Level 2\".disabled = false
@@ -125,6 +140,10 @@ func ready_2():
 		$\"Level_Buttons/Level 9\".disabled = false
 	if Game.level9:
 		$\"HS_Buttons/HS Level 9\".disabled = false
+	
+	$Title.visible = true
+	$Buttons.visible = true
+	
  
 
 func get_player_token(isReconnect):
@@ -145,7 +164,8 @@ func get_player_token(isReconnect):
 
 func _on_http_request_request_completed(result, response_code, headers, body):
 	if response_code != 200:
-		await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(1.5).timeout
+		await titleAnim.animation_finished
 		Game.isOffline = true
 	else:
 		Game.isOffline = false
@@ -160,6 +180,7 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 
 func _on_play_button_up():
 	$Level_Buttons.visible = true
+	$Title.visible = false
 	$Buttons.visible = false	
 
 
@@ -174,6 +195,7 @@ func _on_level_1_button_up():
 func _on_back_button_up():
 	$Level_Buttons.visible = false
 	$HS_Buttons.visible = false
+	$Title.visible = true
 	$Buttons.visible = true
 
 
@@ -210,6 +232,7 @@ func _on_level_9_button_up():
 
 
 func _on_high_score_button_up():
+	$Title.visible = false
 	$Buttons.visible = false
 	$HS_Buttons.visible = true
 
@@ -273,40 +296,43 @@ func _on_score_http_request_request_completed(result, response_code, headers, bo
 		$Buttons/Offline.visible = true
 		$Buttons/Reconnect.visible = true
 		$HighScores.visible = false
+		$Title.visible = true
 		$Buttons.visible = true
 	else:
 		var json_object = JSON.new()
 		body = body.get_string_from_utf8()
 		json_object.parse(body)
-		var scores = [\"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\", \"--:--.--\"]
+		var scores = []
 		if json_object.get_data()[\"items\"]:
 			var val = 0
 			for score in json_object.get_data()[\"items\"]:
-				scores[val] = score[\"metadata\"]
+				scores.append(score[\"metadata\"])
 				val += 1
 		print(scores)
-		$HighScores/HS1.text = scores[0]
-		$HighScores/HS2.text = scores[1]
-		$HighScores/HS3.text = scores[2]
-		$HighScores/HS4.text = scores[3]
-		$HighScores/HS5.text = scores[4]
+		var text_boxes = $HighScores.get_children().slice(1, 17)
+		var i = 0
+		for box in text_boxes:
+			if i < scores.size():
+				box.text = scores[i]
+			else:
+				box.text = \"--:--.--\"
+			i += 1
+		$HighScores/Loading.visible = false
 
 
 func get_scores(key):
 	$HighScores.visible = true
 	$HS_Buttons.visible = false
-	var url = \"https://api.lootlocker.io/game/leaderboards/%s/list?count=5\" % key
+	var url = \"https://api.lootlocker.io/game/leaderboards/%s/list?count=16\" % key
 	var header = [\"Content-Type: application/json\", \"x-session-token: %s\" % Game.playerToken]
 	var method = HTTPClient.METHOD_GET
 	score_http_request.request(url, header, method)	
 
 
 func close_hs_board():
-	$HighScores/HS1.text = \"\"
-	$HighScores/HS2.text = \"Loading...\"
-	$HighScores/HS3.text = \"\"
-	$HighScores/HS4.text = \"\"
-	$HighScores/HS5.text = \"\"
+	$HighScores/Loading.visible = true
+	for i in $HighScores.get_children().slice(1, 17):
+		i.text = \"\"
 
 
 func _on_message_back_button_up():
@@ -358,6 +384,11 @@ func _on_reconnect_http_request_request_completed(result, response_code, headers
 		print(\"Player token: \", Game.playerToken)
 		$Buttons/ErrorMessage.visible = false
 		ready_2()
+
+
+func revis_title_screen():
+	$Title.modulate = Color.WHITE
+	$Buttons.modulate = Color.WHITE
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ncxj7"]
@@ -421,6 +452,136 @@ animations = [{
 "speed": 9.0
 }]
 
+[sub_resource type="Animation" id="Animation_t6j7r"]
+resource_name = "Fade"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_a5r5q"]
+resource_name = "Move"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(168, 96), Vector2(86.9524, 97.25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.910715, 0.910714)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j6lru"]
+resource_name = "Move2"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(86.9524, 97.25)]
+}
+
+[sub_resource type="Animation" id="Animation_5fugo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(168, 96)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.910715, 0.910714)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0fjgw"]
+_data = {
+"Fade": SubResource("Animation_t6j7r"),
+"Move": SubResource("Animation_a5r5q"),
+"Move2": SubResource("Animation_j6lru"),
+"RESET": SubResource("Animation_5fugo")
+}
+
 [sub_resource type="Animation" id="Animation_7jajh"]
 resource_name = "Open"
 tracks/0/type = "value"
@@ -461,6 +622,42 @@ _data = {
 shader = ExtResource("17_stgnc")
 shader_parameter/lod = 1.84
 
+[sub_resource type="Animation" id="Animation_ugb3y"]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3ydq1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6uicn"]
+_data = {
+"Fade": SubResource("Animation_ugb3y"),
+"RESET": SubResource("Animation_3ydq1")
+}
+
 [node name="TitleScreen" type="Node2D"]
 script = SubResource("GDScript_7qdv6")
 
@@ -479,6 +676,17 @@ sprite_frames = SubResource("SpriteFrames_1b6dq")
 animation = &"Run"
 frame_progress = 0.6503
 
+[node name="Title" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(168, 96)
+scale = Vector2(0.910715, 0.910714)
+texture = ExtResource("3_x34q4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Title"]
+libraries = {
+"": SubResource("AnimationLibrary_0fjgw")
+}
+
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = 1
 offset_right = 480.0
@@ -491,30 +699,37 @@ libraries = {
 }
 
 [node name="Buttons" type="Node2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+position = Vector2(67, -38)
 
 [node name="HighScore" type="TextureButton" parent="Buttons"]
-offset_left = 92.0
-offset_top = 73.0
-offset_right = 244.0
-offset_bottom = 105.0
+offset_left = 103.0
+offset_top = 121.0
+offset_right = 255.0
+offset_bottom = 153.0
+scale = Vector2(0.9, 0.9)
 texture_normal = ExtResource("2_hcdii")
 texture_pressed = ExtResource("3_tr67y")
 texture_hover = ExtResource("4_gl8m5")
+metadata/_edit_use_anchors_ = true
 
 [node name="Play" type="TextureButton" parent="Buttons"]
-offset_left = 132.0
-offset_top = 32.0
-offset_right = 206.0
-offset_bottom = 62.0
+offset_left = 104.0
+offset_top = 84.0
+offset_right = 180.0
+offset_bottom = 116.0
+scale = Vector2(0.9, 0.9)
 texture_normal = ExtResource("2_hppke")
 texture_pressed = ExtResource("3_2mspn")
 texture_hover = ExtResource("3_ho6ye")
 
 [node name="Quit" type="TextureButton" parent="Buttons"]
-offset_left = 131.0
-offset_top = 115.0
-offset_right = 205.0
-offset_bottom = 145.0
+offset_left = 104.0
+offset_top = 158.0
+offset_right = 180.0
+offset_bottom = 190.0
+scale = Vector2(0.9, 0.9)
 texture_normal = ExtResource("5_bgdln")
 texture_pressed = ExtResource("6_mvrak")
 texture_hover = ExtResource("7_sl6ta")
@@ -522,21 +737,24 @@ texture_hover = ExtResource("7_sl6ta")
 [node name="Reconnect" type="TextureButton" parent="Buttons"]
 visible = false
 offset_left = 206.0
-offset_top = 73.0
+offset_top = 121.0
 offset_right = 244.0
-offset_bottom = 105.0
+offset_bottom = 153.0
+scale = Vector2(0.9, 0.9)
 texture_normal = ExtResource("12_cs0l5")
 texture_pressed = ExtResource("13_cbevd")
 texture_hover = ExtResource("14_n0ag2")
 
 [node name="Offline" type="Sprite2D" parent="Buttons"]
 visible = false
-position = Vector2(146, 89)
+position = Vector2(151.59, 135.39)
+scale = Vector2(0.9, 0.9)
 texture = ExtResource("6_88x8p")
 
 [node name="ErrorMessage" type="Node2D" parent="Buttons"]
 visible = false
 z_index = 1
+position = Vector2(-68, 45.52)
 
 [node name="Blur" type="ColorRect" parent="Buttons/ErrorMessage"]
 material = SubResource("ShaderMaterial_e2tcw")
@@ -608,6 +826,11 @@ scale = Vector2(0.8, 0.8)
 texture_normal = ExtResource("22_nl3ad")
 texture_pressed = ExtResource("23_vr0i4")
 texture_hover = ExtResource("24_am38a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Buttons"]
+libraries = {
+"": SubResource("AnimationLibrary_6uicn")
+}
 
 [node name="Level_Buttons" type="Node2D" parent="."]
 visible = false
@@ -850,63 +1073,223 @@ scale = Vector2(0.943182, 0.943182)
 texture = ExtResource("28_7obc0")
 
 [node name="HS1" type="Label" parent="HighScores"]
-offset_left = 66.0
-offset_top = 30.0
-offset_right = 274.0
-offset_bottom = 53.0
+offset_left = 64.0
+offset_top = 28.0
+offset_right = 272.0
+offset_bottom = 51.0
+scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("29_ilqtw")
-text = "|"
+text = "abcdefghif --:--:--"
 horizontal_alignment = 1
 
 [node name="HS2" type="Label" parent="HighScores"]
-offset_left = 66.0
-offset_top = 54.0
-offset_right = 274.0
-offset_bottom = 77.0
+offset_left = 64.0
+offset_top = 44.0
+offset_right = 272.0
+offset_bottom = 67.0
+scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("29_ilqtw")
-text = "|"
+text = "abcdefghif --:--:--"
 horizontal_alignment = 1
 
 [node name="HS3" type="Label" parent="HighScores"]
-offset_left = 66.0
-offset_top = 80.0
-offset_right = 274.0
-offset_bottom = 103.0
+offset_left = 64.0
+offset_top = 60.0
+offset_right = 272.0
+offset_bottom = 83.0
+scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("29_ilqtw")
-text = "|"
+text = "abcdefghif --:--:--"
 horizontal_alignment = 1
 
 [node name="HS4" type="Label" parent="HighScores"]
-offset_left = 66.0
-offset_top = 106.0
-offset_right = 274.0
-offset_bottom = 129.0
+offset_left = 64.0
+offset_top = 76.0
+offset_right = 272.0
+offset_bottom = 99.0
+scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("29_ilqtw")
-text = "|"
+text = "abcdefghif --:--:--"
 horizontal_alignment = 1
 
 [node name="HS5" type="Label" parent="HighScores"]
-offset_left = 66.0
-offset_top = 132.0
-offset_right = 274.0
-offset_bottom = 155.0
+offset_left = 64.0
+offset_top = 92.0
+offset_right = 272.0
+offset_bottom = 115.0
+scale = Vector2(0.5, 0.5)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_fonts/font = ExtResource("29_ilqtw")
-text = "|"
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS6" type="Label" parent="HighScores"]
+offset_left = 64.0
+offset_top = 108.0
+offset_right = 272.0
+offset_bottom = 131.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS7" type="Label" parent="HighScores"]
+offset_left = 64.0
+offset_top = 124.0
+offset_right = 272.0
+offset_bottom = 147.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS8" type="Label" parent="HighScores"]
+offset_left = 64.0
+offset_top = 141.0
+offset_right = 272.0
+offset_bottom = 164.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS9" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 28.0
+offset_right = 379.0
+offset_bottom = 51.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS10" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 44.0
+offset_right = 379.0
+offset_bottom = 67.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS11" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 60.0
+offset_right = 379.0
+offset_bottom = 83.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS12" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 76.0
+offset_right = 379.0
+offset_bottom = 99.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS13" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 92.0
+offset_right = 379.0
+offset_bottom = 115.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS14" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 108.0
+offset_right = 379.0
+offset_bottom = 131.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS15" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 124.0
+offset_right = 379.0
+offset_bottom = 147.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="HS16" type="Label" parent="HighScores"]
+offset_left = 171.0
+offset_top = 141.0
+offset_right = 379.0
+offset_bottom = 164.0
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "abcdefghif --:--:--"
+horizontal_alignment = 1
+
+[node name="Loading" type="Label" parent="HighScores"]
+offset_left = 64.0
+offset_top = 60.0
+offset_right = 272.0
+offset_bottom = 83.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "Loading..."
 horizontal_alignment = 1
 
 [node name="LevelNum" type="Label" parent="HighScores"]

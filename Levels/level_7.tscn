@@ -2910,7 +2910,6 @@ shape = SubResource("RectangleShape2D_rvjxr")
 y_sort_enabled = true
 
 [node name="Roofs" type="TileMap" parent="TileMaps"]
-visible = false
 y_sort_enabled = true
 position = Vector2(59, 166)
 rotation = 0.0036326
