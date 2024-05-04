@@ -1,13 +1,20 @@
-[gd_scene load_steps=62 format=3 uid="uid://3rmpedv2x3c4"]
+[gd_scene load_steps=80 format=3 uid="uid://3rmpedv2x3c4"]
 
 [ext_resource type="Script" path="res://Levels/game_level.gd" id="1_kg8y8"]
 [ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="1_m8igd"]
+[ext_resource type="Texture2D" uid="uid://b4kdr7e3iltof" path="res://Art/Buttons/Tutorial/TutorialBooard.png" id="2_o1x4u"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="3_v4amm"]
+[ext_resource type="Texture2D" uid="uid://cjpdyc438oatp" path="res://Art/Buttons/Ok/OkSign-Sheet.png" id="4_x00gk"]
+[ext_resource type="Texture2D" uid="uid://d0tijilyaeeqy" path="res://Art/Buttons/Ok/PressedOkSign-Sheet.png" id="5_uns1y"]
+[ext_resource type="Texture2D" uid="uid://cn0m4ny3fe2js" path="res://Art/Buttons/Ok/HoveredOkSign-Sheet.png" id="6_2e1dk"]
+[ext_resource type="Texture2D" uid="uid://bdw5nha5on2l8" path="res://Art/Characters/Character2Final-Sheet.png" id="7_cpbc3"]
 [ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="8_1deh8"]
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="8_hprt8"]
+[ext_resource type="Texture2D" uid="uid://credbmjegy6bi" path="res://Art/Characters/Free Chicken Sprites.png" id="8_kw78d"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="8_ylx8i"]
 [ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="9_06pg2"]
 [ext_resource type="Texture2D" uid="uid://yjwuv4xrcmpq" path="res://Art/Buttons/Play/PressedPlay-Sheet.png" id="9_or86v"]
+[ext_resource type="Texture2D" uid="uid://0icm4b65kqdu" path="res://Art/Characters/Free Cow Sprites.png" id="9_tfmo2"]
 [ext_resource type="Texture2D" uid="uid://cbhinoarvmga3" path="res://Art/Buttons/Play/HoveredPlay-Sheet.png" id="10_sorqa"]
 [ext_resource type="Texture2D" uid="uid://07c5q7hgs3hw" path="res://Art/Buttons/Restart/RestartSign-Sheet.png" id="11_flywm"]
 [ext_resource type="Texture2D" uid="uid://cr8hevqvrxvau" path="res://Art/Buttons/Restart/PressedRestart-Sheet.png" id="12_f2mih"]
@@ -22,6 +29,86 @@
 [ext_resource type="Texture2D" uid="uid://ckdmljs2uelpg" path="res://Art/Buttons/Reconnect/Reconnect-Sheet.png" id="20_57etf"]
 [ext_resource type="Texture2D" uid="uid://bklhlnd83b2q0" path="res://Art/Buttons/Reconnect/ReconnectPressed-Sheet.png" id="21_l7xvy"]
 [ext_resource type="Texture2D" uid="uid://r8ip0518uqcf" path="res://Art/Buttons/Reconnect/ReconnectHovered-Sheet.png" id="22_okoou"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv6lm"]
+atlas = ExtResource("7_cpbc3")
+region = Rect2(0, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4ntk"]
+atlas = ExtResource("7_cpbc3")
+region = Rect2(16, 0, 16, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2olpm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pv6lm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4ntk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a71vr"]
+atlas = ExtResource("8_kw78d")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8eclg"]
+atlas = ExtResource("8_kw78d")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4livi"]
+atlas = ExtResource("8_kw78d")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eend0"]
+atlas = ExtResource("8_kw78d")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_72m5a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a71vr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8eclg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4livi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eend0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2u5u"]
+atlas = ExtResource("9_tfmo2")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p16kv"]
+atlas = ExtResource("9_tfmo2")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fxuk5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2u5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p16kv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
 shader = ExtResource("14_dm0ip")
@@ -2774,6 +2861,57 @@ shader_parameter/lod = 1.84
 y_sort_enabled = true
 script = ExtResource("1_kg8y8")
 
+[node name="Tutorial" type="Node2D" parent="."]
+z_index = 7
+position = Vector2(-333, -180)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tutorial"]
+z_index = -1
+position = Vector2(605, 376)
+scale = Vector2(0.682857, 0.897727)
+texture = ExtResource("2_o1x4u")
+
+[node name="Label" type="Label" parent="Tutorial"]
+offset_left = 490.0
+offset_top = 303.0
+offset_right = 850.0
+offset_bottom = 342.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("8_hprt8")
+text = "Welcome hustler to your first hoedown!
+Wrangle those chickens fast to make
+it onto the leaderboards!"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Ok" type="TextureButton" parent="Tutorial"]
+z_index = 4
+offset_left = 580.0
+offset_top = 463.0
+offset_right = 630.0
+offset_bottom = 495.0
+texture_normal = ExtResource("4_x00gk")
+texture_pressed = ExtResource("5_uns1y")
+texture_hover = ExtResource("6_2e1dk")
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="Tutorial"]
+position = Vector2(521, 396)
+scale = Vector2(3.08, 3.08)
+sprite_frames = SubResource("SpriteFrames_2olpm")
+
+[node name="ChickenSprite" type="AnimatedSprite2D" parent="Tutorial"]
+position = Vector2(587, 405)
+scale = Vector2(2.64, 2.64)
+sprite_frames = SubResource("SpriteFrames_72m5a")
+frame_progress = 0.609376
+
+[node name="CowSprite" type="AnimatedSprite2D" parent="Tutorial"]
+position = Vector2(666, 379)
+scale = Vector2(3.28, 3.28)
+sprite_frames = SubResource("SpriteFrames_fxuk5")
+
 [node name="EndGame" type="ColorRect" parent="."]
 z_index = 7
 y_sort_enabled = true
@@ -3121,6 +3259,7 @@ timeout = 5.0
 [node name="ReconnectHTTPRequest" type="HTTPRequest" parent="."]
 timeout = 5.0
 
+[connection signal="button_up" from="Tutorial/Ok" to="." method="_on_ok_button_up"]
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]

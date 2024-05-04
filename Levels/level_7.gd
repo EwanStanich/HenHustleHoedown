@@ -6,6 +6,7 @@ var playerSleeping = false
 var gameOver = false
 var isEnteringName = false
 var paused = false
+var tutorial = true
 var player
 var chickens = []
 var cows = []
@@ -21,14 +22,14 @@ var score_name
 
 
 func _ready():
+	player = $Characters/Player
+	player.set_tutorial(true)
 	reconnect_http_request = $ReconnectHTTPRequest
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
 		cows.append(cow)
-	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
@@ -37,8 +38,16 @@ func _ready():
 	http_request = $HTTPRequest
 
 
+func _on_ok_button_up():
+	$Tutorial.visible = false
+	$Tutorial/Ok.disabled = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	player.set_tutorial(false)
+	tutorial = false
+
+
 func _physics_process(delta):
-	if !gameOver and !paused:
+	if !gameOver and !paused and !tutorial:
 		time += delta
 		msecs = fmod(time, 1) * 100
 		secs = fmod(time, 60)
@@ -52,7 +61,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver:
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver and !tutorial:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():

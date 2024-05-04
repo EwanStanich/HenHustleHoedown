@@ -1,10 +1,15 @@
-[gd_scene load_steps=99 format=3 uid="uid://bbj0geamsl50k"]
+[gd_scene load_steps=118 format=3 uid="uid://bbj0geamsl50k"]
 
+[ext_resource type="Texture2D" uid="uid://b4kdr7e3iltof" path="res://Art/Buttons/Tutorial/TutorialBooard.png" id="1_oi5mo"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="2_rwn8s"]
+[ext_resource type="Texture2D" uid="uid://cjpdyc438oatp" path="res://Art/Buttons/Ok/OkSign-Sheet.png" id="3_2yfow"]
 [ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="3_4e4ey"]
+[ext_resource type="Texture2D" uid="uid://d0tijilyaeeqy" path="res://Art/Buttons/Ok/PressedOkSign-Sheet.png" id="4_1cg3t"]
 [ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="4_kaani"]
+[ext_resource type="Texture2D" uid="uid://cn0m4ny3fe2js" path="res://Art/Buttons/Ok/HoveredOkSign-Sheet.png" id="5_a4881"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="5_aiiqk"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="6_rc3ll"]
+[ext_resource type="Texture2D" uid="uid://btqxvtb5acfni" path="res://Art/Candle-Sheet.png" id="6_vmj2g"]
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="7_1fknd"]
 [ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="7_pe37g"]
 [ext_resource type="Texture2D" uid="uid://b8smms0y8f68f" path="res://Art/Buttons/Play/PlaySign-Sheet.png" id="7_sgpa6"]
@@ -35,6 +40,7 @@ var player
 var chickens = []
 var cows = []
 var time = 0
+var tutorial = true
 var mins
 var secs
 var msecs
@@ -46,14 +52,15 @@ var score_name
 
 
 func _ready():
+	$Tutorial/CandleSprite.play(\"default\")	
+	player = $Characters/Player
+	player.set_tutorial(true)
 	reconnect_http_request = $ReconnectHTTPRequest
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
 		cows.append(cow)
-	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + \"/\" + str(totalChickens)
 	$UI/ChicknIcon.play(\"Icon\")
@@ -63,8 +70,16 @@ func _ready():
 	http_request = $HTTPRequest
 
 
+func _on_ok_button_up():
+	$Tutorial.visible = false
+	$Tutorial/Ok.disabled = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	player.set_tutorial(false)
+	tutorial = false
+
+
 func _physics_process(delta):
-	if !gameOver and !paused:
+	if !gameOver and !paused and !tutorial:
 		time += delta
 		msecs = fmod(time, 1) * 100
 		secs = fmod(time, 60)
@@ -78,7 +93,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver:
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver and !tutorial:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():
@@ -323,7 +338,105 @@ func _on_reconnect_token_button_up():
 	}
 	
 	reconnect_http_request.request(url, header, method, JSON.stringify(request_data))
+
+
+func _on_tutorial_flicker_timer_timeout():
+	var energy = randf_range(0.8, 1.1)
+	$Tutorial/TutorialLight.energy = energy
+	$TutorialFlickerTimer.start()
 "
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3ketw"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_jkyae"]
+offsets = PackedFloat32Array(0, 0.00663717, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.039823, 0.039823, 0.039823, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n6j4j"]
+gradient = SubResource("Gradient_jkyae")
+width = 230
+height = 100
+fill_from = Vector2(0.52069, 1)
+fill_to = Vector2(0.544828, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1bq5"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dof6g"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkey8"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nw75e"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o87qu"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u451j"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5ida"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k37pd"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mjpv"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s867i"]
+atlas = ExtResource("6_vmj2g")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vbu0f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1bq5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dof6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkey8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nw75e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o87qu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u451j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5ida")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k37pd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mjpv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s867i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
 shader = ExtResource("2_rwn8s")
@@ -3242,6 +3355,56 @@ shader_parameter/lod = 1.84
 y_sort_enabled = true
 script = SubResource("GDScript_o3rs4")
 
+[node name="Tutorial" type="Node2D" parent="."]
+z_index = 7
+material = SubResource("CanvasItemMaterial_3ketw")
+position = Vector2(-357, -175)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tutorial"]
+z_index = -1
+use_parent_material = true
+position = Vector2(605, 376)
+scale = Vector2(0.682857, 0.897727)
+texture = ExtResource("1_oi5mo")
+
+[node name="Label" type="Label" parent="Tutorial"]
+offset_left = 490.0
+offset_top = 303.0
+offset_right = 850.0
+offset_bottom = 392.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("7_1fknd")
+text = "Those darn chickens! They've escaped
+in the middle of the night! Good thing 
+you don't need light to get the job done 
+... right?"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Ok" type="TextureButton" parent="Tutorial"]
+use_parent_material = true
+offset_left = 580.0
+offset_top = 463.0
+offset_right = 630.0
+offset_bottom = 495.0
+texture_normal = ExtResource("3_2yfow")
+texture_pressed = ExtResource("4_1cg3t")
+texture_hover = ExtResource("5_a4881")
+metadata/_edit_use_anchors_ = true
+
+[node name="TutorialLight" type="PointLight2D" parent="Tutorial"]
+position = Vector2(605, 331)
+color = Color(0.956863, 0.690196, 0, 1)
+texture = SubResource("GradientTexture2D_n6j4j")
+
+[node name="CandleSprite" type="AnimatedSprite2D" parent="Tutorial"]
+use_parent_material = true
+position = Vector2(605, 410)
+scale = Vector2(2.76, 2.76)
+sprite_frames = SubResource("SpriteFrames_vbu0f")
+frame_progress = 0.45473
+
 [node name="EndGame" type="ColorRect" parent="."]
 z_index = 7
 y_sort_enabled = true
@@ -3492,13 +3655,6 @@ theme_override_fonts/font = ExtResource("7_1fknd")
 text = "Loading..."
 horizontal_alignment = 1
 
-[node name="BackBlack" type="ColorRect" parent="."]
-offset_left = -7.0
-offset_top = -8.0
-offset_right = 523.0
-offset_bottom = 383.0
-color = Color(0, 0, 0, 1)
-
 [node name="Pause" type="Node2D" parent="."]
 visible = false
 z_index = 6
@@ -3609,6 +3765,45 @@ timeout = 5.0
 [node name="ReconnectHTTPRequest" type="HTTPRequest" parent="."]
 timeout = 5.0
 
+[node name="TutorialFlickerTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="BackBlack" type="Node2D" parent="."]
+
+[node name="BackBlack" type="ColorRect" parent="BackBlack"]
+z_index = -2
+offset_left = -20.0
+offset_top = -5.0
+offset_right = 23.0
+offset_bottom = 380.0
+color = Color(0, 0, 0, 1)
+
+[node name="BackBlack2" type="ColorRect" parent="BackBlack"]
+z_index = -2
+offset_left = 495.0
+offset_top = -5.0
+offset_right = 548.0
+offset_bottom = 380.0
+color = Color(0, 0, 0, 1)
+
+[node name="BackBlack3" type="ColorRect" parent="BackBlack"]
+z_index = -2
+offset_left = -15.0
+offset_top = 336.0
+offset_right = 548.0
+offset_bottom = 380.0
+color = Color(0, 0, 0, 1)
+
+[node name="BackBlack4" type="ColorRect" parent="BackBlack"]
+z_index = -2
+offset_left = -15.0
+offset_top = -20.0
+offset_right = 548.0
+offset_bottom = 24.0
+color = Color(0, 0, 0, 1)
+
+[connection signal="button_up" from="Tutorial/Ok" to="." method="_on_ok_button_up"]
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -3625,3 +3820,4 @@ timeout = 5.0
 [connection signal="button_up" from="ErrorMessage/ReconnectToken" to="." method="_on_reconnect_token_button_up"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]
 [connection signal="request_completed" from="ReconnectHTTPRequest" to="." method="_on_reconnect_http_request_request_completed"]
+[connection signal="timeout" from="TutorialFlickerTimer" to="." method="_on_tutorial_flicker_timer_timeout"]

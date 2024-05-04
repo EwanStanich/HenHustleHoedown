@@ -72,7 +72,7 @@ func _input(event):
 			close_gate()
 		elif Input.is_key_pressed(KEY_E) and canOpen and !gateOpen:
 			open_gate()
-		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver:
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver and !tutorial:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():

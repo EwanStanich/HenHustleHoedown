@@ -111,7 +111,6 @@ func play():
 	anim.active = true
 	magnet_anim.active = true	
 	paused = false
-	Light2D
 
 
 func set_light_layer(layer):
