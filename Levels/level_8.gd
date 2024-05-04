@@ -191,12 +191,15 @@ func _on_bed_detector_body_entered(body):
 	if "Player" in body.name:
 		body.sleeping = true
 		playerSleeping = true
+		if capturedChickens == totalChickens:
+			player.show_e_key()
 
 
 func _on_bed_detector_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 	if "Player" in body.name:
 		body.sleeping = false
 		playerSleeping = false
+		player.hide_e_key()
 
 
 func _on_arrow_bed_area_body_entered(body):
