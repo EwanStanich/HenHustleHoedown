@@ -11,7 +11,7 @@ var playerClose = false
 var paused = false
 var startingPosition
 var player
-var isLightning = false
+@export var isLightning = false
 var isMagnet = false
 var onPlayer = false
 var rightOnPlayer = false

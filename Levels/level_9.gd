@@ -48,7 +48,7 @@ func _on_ok_button_up():
 
 
 func _physics_process(delta):
-	if !gameOver and !paused:
+	if !gameOver and !paused and !tutorial:
 		time += delta
 		msecs = fmod(time, 1) * 100
 		secs = fmod(time, 60)
@@ -62,7 +62,7 @@ func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_E) and playerSleeping and !gameOver:
 			game_over()
-		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver:
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and !paused and !gameOver and !tutorial:
 			pause_game()
 		if isEnteringName:
 			if event is InputEventKey and event.is_pressed():

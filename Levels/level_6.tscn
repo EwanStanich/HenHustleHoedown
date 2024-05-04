@@ -2843,7 +2843,7 @@ script = ExtResource("1_70glu")
 
 [node name="Tutorial" type="Node2D" parent="."]
 z_index = 7
-position = Vector2(-245, -100)
+position = Vector2(-238, -113)
 
 [node name="Sprite2D" type="Sprite2D" parent="Tutorial"]
 z_index = -1

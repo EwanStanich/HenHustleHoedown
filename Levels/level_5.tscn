@@ -1,13 +1,17 @@
-[gd_scene load_steps=85 format=3 uid="uid://c5l3cba0mbq0v"]
+[gd_scene load_steps=93 format=3 uid="uid://c5l3cba0mbq0v"]
 
 [ext_resource type="Script" path="res://Levels/level_5.gd" id="1_xgvxd"]
+[ext_resource type="Texture2D" uid="uid://b4kdr7e3iltof" path="res://Art/Buttons/Tutorial/TutorialBooard.png" id="2_4mxus"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="2_b0bsg"]
 [ext_resource type="Texture2D" uid="uid://bhdntka0glpk5" path="res://Art/Tilesets/ChickenSignPost-Sheet.png" id="3_56koa"]
 [ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="3_lp4lp"]
+[ext_resource type="Texture2D" uid="uid://cjpdyc438oatp" path="res://Art/Buttons/Ok/OkSign-Sheet.png" id="4_by8nl"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="5_0ekcg"]
+[ext_resource type="Texture2D" uid="uid://d0tijilyaeeqy" path="res://Art/Buttons/Ok/PressedOkSign-Sheet.png" id="5_emxap"]
 [ext_resource type="PackedScene" uid="uid://dbppy87lnysxw" path="res://Characters/green_chicken.tscn" id="5_j4clt"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="6_llqr2"]
 [ext_resource type="PackedScene" uid="uid://cyjjonilkknp3" path="res://Characters/purple_chicken.tscn" id="6_wowf0"]
+[ext_resource type="Texture2D" uid="uid://cn0m4ny3fe2js" path="res://Art/Buttons/Ok/HoveredOkSign-Sheet.png" id="6_x4feu"]
 [ext_resource type="PackedScene" uid="uid://21fbe41luteq" path="res://Level Items/bed.tscn" id="7_ckuae"]
 [ext_resource type="PackedScene" uid="uid://c3qcwpl8amuiy" path="res://Characters/red_chicken.tscn" id="7_nemum"]
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="8_4vdhx"]
@@ -30,6 +34,18 @@
 [ext_resource type="Texture2D" uid="uid://ckdmljs2uelpg" path="res://Art/Buttons/Reconnect/Reconnect-Sheet.png" id="28_us41c"]
 [ext_resource type="Texture2D" uid="uid://bklhlnd83b2q0" path="res://Art/Buttons/Reconnect/ReconnectPressed-Sheet.png" id="29_bxh67"]
 [ext_resource type="Texture2D" uid="uid://r8ip0518uqcf" path="res://Art/Buttons/Reconnect/ReconnectHovered-Sheet.png" id="30_cf0u3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jen66"]
+size = Vector2(8, 107)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h7if8"]
+size = Vector2(8.5, 107)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ldno"]
+size = Vector2(233.5, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n5liv"]
+size = Vector2(233.5, 10.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7gdvw"]
 shader = ExtResource("2_b0bsg")
@@ -2929,6 +2945,85 @@ shader_parameter/lod = 1.84
 y_sort_enabled = true
 script = ExtResource("1_xgvxd")
 
+[node name="Tutorial" type="Node2D" parent="."]
+z_index = 7
+position = Vector2(-125, 50)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tutorial"]
+z_index = -1
+position = Vector2(605, 376)
+scale = Vector2(0.682857, 0.897727)
+texture = ExtResource("2_4mxus")
+
+[node name="Label" type="Label" parent="Tutorial"]
+offset_left = 488.0
+offset_top = 303.0
+offset_right = 854.0
+offset_bottom = 367.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("8_4vdhx")
+text = "Everyone always said that having more
+chickens meant doing more work. This
+hoedown just got a little more colourful"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Ok" type="TextureButton" parent="Tutorial"]
+z_index = 4
+offset_left = 580.0
+offset_top = 463.0
+offset_right = 630.0
+offset_bottom = 495.0
+texture_normal = ExtResource("4_by8nl")
+texture_pressed = ExtResource("5_emxap")
+texture_hover = ExtResource("6_x4feu")
+metadata/_edit_use_anchors_ = true
+
+[node name="GreenChicken" parent="Tutorial" instance=ExtResource("5_j4clt")]
+position = Vector2(546, 370)
+scale = Vector2(2, 2)
+collision_layer = 256
+collision_mask = 256
+
+[node name="PurpleChicken" parent="Tutorial" instance=ExtResource("6_wowf0")]
+position = Vector2(680, 413)
+scale = Vector2(2, 2)
+collision_layer = 256
+collision_mask = 256
+
+[node name="RedChicken" parent="Tutorial" instance=ExtResource("7_nemum")]
+position = Vector2(543, 418)
+scale = Vector2(2, 2)
+collision_layer = 256
+collision_mask = 256
+
+[node name="BlueChicken" parent="Tutorial" instance=ExtResource("8_aswsu")]
+position = Vector2(626, 379)
+scale = Vector2(2, 2)
+collision_layer = 256
+collision_mask = 256
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Tutorial"]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tutorial/StaticBody2D"]
+position = Vector2(492, 397.5)
+shape = SubResource("RectangleShape2D_jen66")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Tutorial/StaticBody2D"]
+position = Vector2(718.25, 397.5)
+shape = SubResource("RectangleShape2D_h7if8")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Tutorial/StaticBody2D"]
+position = Vector2(605.75, 450.5)
+shape = SubResource("RectangleShape2D_1ldno")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Tutorial/StaticBody2D"]
+position = Vector2(605.75, 348.75)
+shape = SubResource("RectangleShape2D_n5liv")
+
 [node name="EndGame" type="ColorRect" parent="."]
 z_index = 7
 y_sort_enabled = true
@@ -3401,6 +3496,7 @@ timeout = 5.0
 [node name="ReconnectHTTPRequest" type="HTTPRequest" parent="."]
 timeout = 5.0
 
+[connection signal="button_up" from="Tutorial/Ok" to="." method="_on_ok_button_up"]
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/BedDetector" to="." method="_on_bed_detector_body_entered"]
