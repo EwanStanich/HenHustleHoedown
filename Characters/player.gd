@@ -18,6 +18,7 @@ var bedPosition = Vector2(0,0)
 var isSliding = false
 var slideDirection = Vector2(0,0)
 var isMagnet = false
+var tutorial = false
 
 func _ready():
 	$"Debug/Debug Bounce/DebugArrow".play("default")
@@ -44,6 +45,8 @@ func _physics_process(_delta):
 	
 	if isSliding:
 		velocity = slideDirection * 50
+	elif tutorial:
+		velocity = Vector2(0,0)
 	else:
 		velocity = input_direction * move_speed
 	
@@ -181,3 +184,7 @@ func switch_animation():
 
 func set_down():
 	anim.set(blend, starting_anim)
+
+
+func set_tutorial(x:bool):
+	tutorial = x
