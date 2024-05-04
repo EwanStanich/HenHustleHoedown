@@ -19,20 +19,23 @@ var gateAnim
 var canOpen = false
 var isOpening = false
 var gateOpen = false
+var nearLever1 = false
+var nearLever2 = false
 var http_request
 var reconnect_http_request
 var score_name
+var tutorial = true
 
 
 func _ready():
+	player = $Characters/Player	
+	player.set_tutorial(true)
 	reconnect_http_request = $ReconnectHTTPRequest
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
 		chickens.append(cow)
-	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
@@ -43,9 +46,15 @@ func _ready():
 	$LevelItems/Lever2.play("Off")
 	http_request = $HTTPRequest
 
+func _on_ok_button_up():
+	$Tutorial.visible = false
+	$Tutorial/Ok.disabled = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	player.set_tutorial(false)
+	tutorial = false
 
 func _physics_process(delta):
-	if !gameOver and !paused:
+	if !gameOver and !paused and !tutorial:
 		time += delta
 		msecs = fmod(time, 1) * 100
 		secs = fmod(time, 60)
@@ -253,23 +262,33 @@ func _on_gate_open_detector_body_exited(body):
 
 
 func open_gate():
-	$LevelItems/Lever.play("On")	
-	$LevelItems/Lever2.play("On")	
+	$LevelItems/Lever.play("Off")
+	$LevelItems/Lever2.play("Off")
 	isOpening = true
 	gateAnim.play("Opening")
 	await gateAnim.animation_finished
 	gateAnim.play("Open")
+	$LevelItems/Lever.play("On")
+	$LevelItems/Lever2.play("On")
+	if nearLever1:
+		$LevelItems/Lever.play("OnHover")
+	elif nearLever2:
+		$LevelItems/Lever2.play("OnHover")
 	gateOpen = true
 	isOpening = false
 
 
 func close_gate():
-	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")			
 	isOpening = true
+	$LevelItems/Lever.play("Off")
+	$LevelItems/Lever2.play("Off")
 	gateAnim.play("Closing")
 	await gateAnim.animation_finished
-	gateAnim.play("Closed")	
+	gateAnim.play("Closed")
+	if nearLever1:
+		$LevelItems/Lever.play("OffHover")
+	elif nearLever2:
+		$LevelItems/Lever2.play("OffHover")
 	gateOpen = false
 	isOpening = false
 
@@ -337,3 +356,43 @@ func _on_reconnect_token_button_up():
 	}
 	
 	reconnect_http_request.request(url, header, method, JSON.stringify(request_data))
+
+
+func _on_lever_1_detector_body_entered(body):
+	if "Player" in body.name:
+		nearLever1 = true
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever.play("OnHover")
+			else:
+				$LevelItems/Lever.play("OffHover")			
+
+
+func _on_lever_1_detector_body_exited(body):
+	if "Player" in body.name:
+		nearLever1 = false
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever.play("On")
+			else:
+				$LevelItems/Lever.play("Off")
+
+
+func _on_lever_2_detector_body_entered(body):
+	if "Player" in body.name:
+		nearLever2 = true
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever2.play("OnHover")
+			else:
+				$LevelItems/Lever2.play("OffHover")
+
+
+func _on_lever_2_detector_body_exited(body):
+	if "Player" in body.name:
+		nearLever2 = false
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever2.play("On")
+			else:
+				$LevelItems/Lever2.play("Off")

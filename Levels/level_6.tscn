@@ -1,11 +1,16 @@
-[gd_scene load_steps=69 format=3 uid="uid://dhvjani1bkql0"]
+[gd_scene load_steps=77 format=3 uid="uid://dhvjani1bkql0"]
 
 [ext_resource type="Script" path="res://Levels/level_6.gd" id="1_70glu"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="2_a717a"]
+[ext_resource type="Texture2D" uid="uid://b4kdr7e3iltof" path="res://Art/Buttons/Tutorial/TutorialBooard.png" id="2_e7r3g"]
 [ext_resource type="PackedScene" uid="uid://dqafxopvsh23" path="res://Characters/player.tscn" id="3_6w8tc"]
 [ext_resource type="PackedScene" uid="uid://dgns80dvd8r1h" path="res://Characters/chicken.tscn" id="4_2hktv"]
+[ext_resource type="PackedScene" uid="uid://cbairod2ntex6" path="res://Level Items/tutorial_fence_gate.tscn" id="4_qp007"]
+[ext_resource type="Texture2D" uid="uid://cjpdyc438oatp" path="res://Art/Buttons/Ok/OkSign-Sheet.png" id="5_36pnk"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="5_em7i8"]
+[ext_resource type="Texture2D" uid="uid://d0tijilyaeeqy" path="res://Art/Buttons/Ok/PressedOkSign-Sheet.png" id="6_cvv6o"]
 [ext_resource type="PackedScene" uid="uid://buka5gc5gu4fa" path="res://Level Items/door.tscn" id="6_kqk7h"]
+[ext_resource type="Texture2D" uid="uid://cn0m4ny3fe2js" path="res://Art/Buttons/Ok/HoveredOkSign-Sheet.png" id="7_4207h"]
 [ext_resource type="PackedScene" uid="uid://bl64urunaijq3" path="res://Level Items/bed_right.tscn" id="7_sff1w"]
 [ext_resource type="FontFile" uid="uid://4r00k2b0d61j" path="res://Art/Pixel Font.ttf" id="8_8uybe"]
 [ext_resource type="PackedScene" uid="uid://ccforbqshmwn3" path="res://Level Items/fence_gate.tscn" id="8_q8xcr"]
@@ -80,6 +85,9 @@ size = Vector2(20, 26)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p63r4"]
 size = Vector2(16, 18.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hiqt3"]
+size = Vector2(20, 26)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h3ner"]
 load_path = "res://.godot/imported/Wooden House.png-7529b8c9a30101dae29d3d59d5277386.ctex"
@@ -2736,9 +2744,17 @@ sources/6 = SubResource("TileSetAtlasSource_recgm")
 atlas = ExtResource("9_0w6sp")
 region = Rect2(16, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xblbh"]
+atlas = ExtResource("9_0w6sp")
+region = Rect2(48, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_b3nkt"]
 atlas = ExtResource("9_0w6sp")
 region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gtcr"]
+atlas = ExtResource("9_0w6sp")
+region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ge6wy"]
 animations = [{
@@ -2752,10 +2768,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_xblbh")
+}],
+"loop": true,
+"name": &"OffHover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_b3nkt")
 }],
 "loop": true,
 "name": &"On",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gtcr")
+}],
+"loop": true,
+"name": &"OnHover",
 "speed": 5.0
 }]
 
@@ -2809,6 +2841,53 @@ shader_parameter/lod = 1.84
 y_sort_enabled = true
 script = ExtResource("1_70glu")
 
+[node name="Tutorial" type="Node2D" parent="."]
+z_index = 7
+position = Vector2(-245, -100)
+
+[node name="Sprite2D" type="Sprite2D" parent="Tutorial"]
+z_index = -1
+position = Vector2(605, 376)
+scale = Vector2(0.682857, 0.897727)
+texture = ExtResource("2_e7r3g")
+
+[node name="Label" type="Label" parent="Tutorial"]
+offset_left = 490.0
+offset_top = 303.0
+offset_right = 850.0
+offset_bottom = 342.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("8_8uybe")
+text = "This level has a gate, you must manually
+open the gate to let chickens in"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Tutorial"]
+offset_left = 490.0
+offset_top = 426.0
+offset_right = 850.0
+offset_bottom = 465.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("8_8uybe")
+text = "Make sure you close it otherwise those
+hustling hens might make their escape!"
+horizontal_alignment = 1
+
+[node name="FenceGate" parent="Tutorial" instance=ExtResource("4_qp007")]
+position = Vector2(601.75, 401.25)
+scale = Vector2(1.84375, 1.84375)
+
+[node name="Ok" type="TextureButton" parent="Tutorial"]
+offset_left = 580.0
+offset_top = 463.0
+offset_right = 630.0
+offset_bottom = 495.0
+texture_normal = ExtResource("5_36pnk")
+texture_pressed = ExtResource("6_cvv6o")
+texture_hover = ExtResource("7_4207h")
+
 [node name="EndGame" type="ColorRect" parent="."]
 z_index = 7
 y_sort_enabled = true
@@ -2825,6 +2904,7 @@ libraries = {
 }
 
 [node name="Detectors" type="Node2D" parent="."]
+z_index = 1
 
 [node name="RoofArea" type="Area2D" parent="Detectors"]
 visible = false
@@ -2877,6 +2957,22 @@ position = Vector2(293, 252.25)
 shape = SubResource("RectangleShape2D_p63r4")
 debug_color = Color(0.956863, 0, 0.52549, 0.419608)
 
+[node name="Lever1Detector" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/Lever1Detector"]
+z_index = 1
+position = Vector2(31, 346)
+shape = SubResource("RectangleShape2D_hiqt3")
+debug_color = Color(0.437472, 0.476905, 0.936321, 0.419608)
+
+[node name="Lever2Detector" type="Area2D" parent="Detectors"]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Detectors/Lever2Detector"]
+z_index = 1
+position = Vector2(114, 364)
+shape = SubResource("RectangleShape2D_p63r4")
+debug_color = Color(0.298039, 0.619608, 0.27451, 0.419608)
+
 [node name="TileMaps" type="Node2D" parent="."]
 y_sort_enabled = true
 
@@ -2903,7 +2999,7 @@ layer_2/tile_data = PackedInt32Array(196610, 1, 0, 196611, 65537, 0, 196612, 655
 y_sort_enabled = true
 
 [node name="Player" parent="Characters" instance=ExtResource("3_6w8tc")]
-position = Vector2(459, 374)
+position = Vector2(459, 373)
 
 [node name="Chickens" type="Node2D" parent="Characters"]
 y_sort_enabled = true
@@ -3013,7 +3109,7 @@ position = Vector2(92, 347)
 z_index = 1
 position = Vector2(35, 344)
 sprite_frames = SubResource("SpriteFrames_ge6wy")
-animation = &"Off"
+animation = &"OnHover"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="LevelItems/Lever"]
 collision_layer = 5
@@ -3236,6 +3332,7 @@ timeout = 5.0
 [node name="ReconnectHTTPRequest" type="HTTPRequest" parent="."]
 timeout = 5.0
 
+[connection signal="button_up" from="Tutorial/Ok" to="." method="_on_ok_button_up"]
 [connection signal="body_entered" from="Detectors/RoofArea" to="." method="_on_roof_area_body_entered"]
 [connection signal="body_exited" from="Detectors/RoofArea" to="." method="_on_roof_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateDetector" to="." method="_on_gate_detector_body_entered"]
@@ -3246,6 +3343,10 @@ timeout = 5.0
 [connection signal="body_exited" from="Detectors/ArrowBedArea" to="." method="_on_arrow_bed_area_body_exited"]
 [connection signal="body_entered" from="Detectors/GateOpenDetector" to="." method="_on_gate_open_detector_body_entered"]
 [connection signal="body_exited" from="Detectors/GateOpenDetector" to="." method="_on_gate_open_detector_body_exited"]
+[connection signal="body_entered" from="Detectors/Lever1Detector" to="." method="_on_lever_1_detector_body_entered"]
+[connection signal="body_exited" from="Detectors/Lever1Detector" to="." method="_on_lever_1_detector_body_exited"]
+[connection signal="body_entered" from="Detectors/Lever2Detector" to="." method="_on_lever_2_detector_body_entered"]
+[connection signal="body_exited" from="Detectors/Lever2Detector" to="." method="_on_lever_2_detector_body_exited"]
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]
