@@ -22,6 +22,8 @@ var gateOpen = false
 var http_request
 var reconnect_http_request
 var score_name
+var nearLever1 = false
+var nearLever2 = false
 
 
 func _ready():
@@ -269,23 +271,31 @@ func _on_gate_open_detector_body_exited(body):
 
 
 func open_gate():
-	$LevelItems/Lever.play("On")	
+	$LevelItems/Lever.play("On")
 	$LevelItems/Lever2.play("On")	
 	isOpening = true
 	gateAnim.play("Opening")
 	await gateAnim.animation_finished
 	gateAnim.play("Open")
+	if nearLever1:
+		$LevelItems/Lever.play("OnHover")
+	elif nearLever2:
+		$LevelItems/Lever2.play("OnHover")
 	gateOpen = true
 	isOpening = false
 
 
 func close_gate():
 	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")			
+	$LevelItems/Lever2.play("Off")
 	isOpening = true
 	gateAnim.play("Closing")
 	await gateAnim.animation_finished
-	gateAnim.play("Closed")	
+	gateAnim.play("Closed")
+	if nearLever1:
+		$LevelItems/Lever.play("OffHover")
+	elif nearLever2:
+		$LevelItems/Lever2.play("OffHover")
 	gateOpen = false
 	isOpening = false
 
@@ -353,3 +363,43 @@ func _on_reconnect_token_button_up():
 	}
 	
 	reconnect_http_request.request(url, header, method, JSON.stringify(request_data))
+
+
+func _on_lever_1_detector_body_entered(body):
+	if "Player" in body.name:
+		nearLever1 = true
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever.play("OnHover")
+			else:
+				$LevelItems/Lever.play("OffHover")			
+
+
+func _on_lever_1_detector_body_exited(body):
+	if "Player" in body.name:
+		nearLever1 = false
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever.play("On")
+			else:
+				$LevelItems/Lever.play("Off")
+
+
+func _on_lever_2_detector_body_entered(body):
+	if "Player" in body.name:
+		nearLever2 = true
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever2.play("OnHover")
+			else:
+				$LevelItems/Lever2.play("OffHover")
+
+
+func _on_lever_2_detector_body_exited(body):
+	if "Player" in body.name:
+		nearLever2 = false
+		if !isOpening:
+			if gateOpen:
+				$LevelItems/Lever2.play("On")
+			else:
+				$LevelItems/Lever2.play("Off")
