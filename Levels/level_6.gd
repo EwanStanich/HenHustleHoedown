@@ -262,14 +262,12 @@ func _on_gate_open_detector_body_exited(body):
 
 
 func open_gate():
-	$LevelItems/Lever.play("Off")
-	$LevelItems/Lever2.play("Off")
+	$LevelItems/Lever.play("On")
+	$LevelItems/Lever2.play("On")
 	isOpening = true
 	gateAnim.play("Opening")
 	await gateAnim.animation_finished
 	gateAnim.play("Open")
-	$LevelItems/Lever.play("On")
-	$LevelItems/Lever2.play("On")
 	if nearLever1:
 		$LevelItems/Lever.play("OnHover")
 	elif nearLever2:

@@ -17,26 +17,34 @@ var label
 var totalTime
 var flashes = 0
 var isFlashing = false
+var tutorial = true
 var http_request
 var reconnect_http_request
 var score_name
 
 
 func _ready():
-	reconnect_http_request = $ReconnectHTTPRequest
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	player = $Characters/Player
+	player.set_tutorial(true)
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
 		cows.append(cow)
-	player = $Characters/Player
 	player.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
 	player.set_camera_limits(369, 6, 578, 6)
 	label = $GameOver/Name
 	http_request = $HTTPRequest
+
+
+func _on_ok_button_up():
+	$Tutorial.visible = false
+	$Tutorial/Ok.disabled = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	player.set_tutorial(false)
+	tutorial = false
 
 
 func _physics_process(delta):

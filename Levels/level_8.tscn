@@ -1,4 +1,4 @@
-[gd_scene load_steps=123 format=3 uid="uid://bjs78xa5g48wi"]
+[gd_scene load_steps=128 format=3 uid="uid://bjs78xa5g48wi"]
 
 [ext_resource type="Script" path="res://Levels/level_8.gd" id="1_4j7pc"]
 [ext_resource type="Shader" path="res://Levels/end_game.gdshader" id="1_18d6l"]
@@ -84,6 +84,9 @@ size = Vector2(20, 23)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fwbpx"]
 size = Vector2(16, 18.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uqydg"]
+size = Vector2(20, 23)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h3ner"]
 load_path = "res://.godot/imported/Wooden House.png-7529b8c9a30101dae29d3d59d5277386.ctex"
@@ -3022,11 +3025,19 @@ fill_from = Vector2(0.534188, 0.50641)
 atlas = ExtResource("9_shf1j")
 region = Rect2(16, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xblbh"]
+atlas = ExtResource("9_shf1j")
+region = Rect2(48, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_b3nkt"]
 atlas = ExtResource("9_shf1j")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_kqfiv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gtcr"]
+atlas = ExtResource("9_shf1j")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oivbm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -3038,14 +3049,68 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_xblbh")
+}],
+"loop": true,
+"name": &"OffHover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_b3nkt")
 }],
 "loop": true,
 "name": &"On",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gtcr")
+}],
+"loop": true,
+"name": &"OnHover",
+"speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxi3y"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kmtdo"]
+size = Vector2(6, 11)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_40yw2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nguu0")
+}],
+"loop": true,
+"name": &"Off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xblbh")
+}],
+"loop": true,
+"name": &"OffHover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b3nkt")
+}],
+"loop": true,
+"name": &"On",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gtcr")
+}],
+"loop": true,
+"name": &"OnHover",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tox2b"]
 size = Vector2(6, 11)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_s8eb3"]
@@ -3182,6 +3247,7 @@ scale = Vector2(8.95833, 8.25)
 polygon = PackedVector2Array(-6.02791, -13.4545, -6.02791, -15.1515, 13.9535, -15.1515, 14.0651, -5.33333, 8.48372, -5.33333, 8.3721, -8, 1.33953, -8, 1.33953, -5.93939, -4.24186, -6.06061, -4.35349, -13.4545)
 
 [node name="GateOpenDetector" type="Area2D" parent="Detectors"]
+z_index = 1
 position = Vector2(-179, 112)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/GateOpenDetector"]
@@ -3195,6 +3261,24 @@ z_index = 1
 position = Vector2(306, 188)
 shape = SubResource("RectangleShape2D_fwbpx")
 debug_color = Color(0.956863, 0, 0.52549, 0.419608)
+
+[node name="Lever1Detector" type="Area2D" parent="Detectors"]
+z_index = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detectors/Lever1Detector"]
+z_index = 1
+position = Vector2(171, 312.5)
+shape = SubResource("RectangleShape2D_uqydg")
+debug_color = Color(0.479234, 0.435959, 1, 0.419608)
+
+[node name="Lever2Detector" type="Area2D" parent="Detectors"]
+z_index = 1
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Detectors/Lever2Detector"]
+z_index = 1
+position = Vector2(127, 300)
+shape = SubResource("RectangleShape2D_fwbpx")
+debug_color = Color(0.386086, 0.610744, 7.70763e-07, 0.419608)
 
 [node name="TileMaps" type="Node2D" parent="."]
 y_sort_enabled = true
@@ -3276,20 +3360,20 @@ position = Vector2(91, 267)
 [node name="Lever" type="AnimatedSprite2D" parent="LevelItems"]
 z_index = 1
 position = Vector2(171, 313)
-sprite_frames = SubResource("SpriteFrames_kqfiv")
-animation = &"Off"
+sprite_frames = SubResource("SpriteFrames_oivbm")
+animation = &"OnHover"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="LevelItems/Lever"]
 collision_layer = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelItems/Lever/StaticBody2D"]
 position = Vector2(0, 1.5)
-shape = SubResource("RectangleShape2D_yxi3y")
+shape = SubResource("RectangleShape2D_kmtdo")
 
 [node name="Lever2" type="AnimatedSprite2D" parent="LevelItems"]
 z_index = 1
 position = Vector2(130, 302)
-sprite_frames = SubResource("SpriteFrames_kqfiv")
+sprite_frames = SubResource("SpriteFrames_40yw2")
 animation = &"Off"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="LevelItems/Lever2"]
@@ -3297,7 +3381,7 @@ collision_layer = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelItems/Lever2/StaticBody2D"]
 position = Vector2(0, 1.5)
-shape = SubResource("RectangleShape2D_yxi3y")
+shape = SubResource("RectangleShape2D_tox2b")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -3407,9 +3491,9 @@ horizontal_alignment = 1
 
 [node name="BackBlack" type="ColorRect" parent="."]
 offset_left = -7.0
-offset_top = -8.0
+offset_top = -9.0
 offset_right = 523.0
-offset_bottom = 383.0
+offset_bottom = 382.0
 color = Color(0, 0, 0, 1)
 
 [node name="Pause" type="Node2D" parent="."]
@@ -3522,6 +3606,10 @@ timeout = 5.0
 [connection signal="body_exited" from="Detectors/HillDetector" to="." method="_on_hill_detector_body_exited"]
 [connection signal="body_entered" from="Detectors/GateOpenDetector" to="." method="_on_gate_open_detector_body_entered"]
 [connection signal="body_exited" from="Detectors/GateOpenDetector" to="." method="_on_gate_open_detector_body_exited"]
+[connection signal="body_entered" from="Detectors/Lever1Detector" to="." method="_on_lever_1_detector_body_entered"]
+[connection signal="body_exited" from="Detectors/Lever1Detector" to="." method="_on_lever_1_detector_body_exited"]
+[connection signal="body_entered" from="Detectors/Lever2Detector" to="." method="_on_lever_2_detector_body_entered"]
+[connection signal="body_exited" from="Detectors/Lever2Detector" to="." method="_on_lever_2_detector_body_exited"]
 [connection signal="button_up" from="Pause/Buttons/Play" to="." method="_on_play_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Restart" to="." method="_on_restart_button_up"]
 [connection signal="button_up" from="Pause/Buttons/Quit" to="." method="_on_quit_button_up"]

@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://bqq0r321gbb0j"]
+
+[ext_resource type="Texture2D" uid="uid://bpu6l5gdmj5q4" path="res://Art/Objects/Magnet-Sheet.png" id="1_y1loa"]
+[ext_resource type="Script" path="res://Level Items/tutorial_magnet.gd" id="2_uux6d"]
+[ext_resource type="Texture2D" uid="uid://bpnxwy808q7mi" path="res://Art/Characters/MagnetCharacter-Sheet.png" id="3_vawp8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylvir"]
+atlas = ExtResource("1_y1loa")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsqkj"]
+atlas = ExtResource("1_y1loa")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uve1"]
+atlas = ExtResource("1_y1loa")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2cw47"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylvir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsqkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uve1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsqkj")
+}],
+"loop": true,
+"name": &"Float",
+"speed": 3.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw3i2"]
+atlas = ExtResource("3_vawp8")
+region = Rect2(0, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kuh0y"]
+atlas = ExtResource("3_vawp8")
+region = Rect2(16, 0, 16, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lfkps"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw3i2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kuh0y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Magnet" type="AnimatedSprite2D"]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(-16, 0)
+sprite_frames = SubResource("SpriteFrames_2cw47")
+animation = &"Float"
+frame_progress = 0.0714791
+script = ExtResource("2_uux6d")
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(33, 0)
+sprite_frames = SubResource("SpriteFrames_lfkps")
+frame_progress = 0.144327
