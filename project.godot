@@ -10,10 +10,12 @@ config_version=5
 
 [application]
 
-config/name="top-down"
+config/name="Hen Hustle Hoedown"
 run/main_scene="res://Levels/title_screen.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+config/icon="res://Icon.png"
 
 [autoload]
 
@@ -26,6 +28,7 @@ window/size/viewport_width=1352
 window/size/viewport_height=878
 window/stretch/mode="canvas_items"
 window/stretch/scale=4.0
+window/stretch/scale_mode="integer"
 mouse_cursor/custom_image="res://Art/Cursor-Sheet.png"
 mouse_cursor/custom_image_hotspot=Vector2(9, 2.08165e-12)
 

@@ -26,6 +26,7 @@ func _ready():
 	anim.set(blend, starting_anim)
 	magnet_anim.set(blend, starting_anim)
 
+
 func _physics_process(_delta):
 	if game_over or paused:
 		return
@@ -156,6 +157,15 @@ func hide_sleep():
 	$Sleep.visible = false
 
 
+func show_e_key():
+	$"E-Key".visible = true
+	$"E-Key/E".play('play')
+
+
+func hide_e_key():
+	$"E-Key".visible = false
+
+
 func mudslide(awayPos):
 	isSliding = true
 	slideDirection = -(awayPos - position).normalized()
@@ -168,4 +178,6 @@ func switch_animation():
 	else:
 		$Normal.visible = true
 		$Magnet.visible = false
-	
+
+func set_down():
+	anim.set(blend, starting_anim)
