@@ -108,8 +108,12 @@ var pageTwo = false
 var pageFour = false
 var inBedArea = false
 var tutPage = 1
+var web = true
 
 func _ready():
+	if web:
+		$Buttons/Quit.visible = false
+		$Buttons.position = Vector2(67, -22)
 	if Game.isFirstInstance:
 		$Title.z_index = 4
 	else:
