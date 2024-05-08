@@ -26,6 +26,7 @@ Utils="*res://Global/Utils.gd"
 
 window/size/viewport_width=1352
 window/size/viewport_height=878
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/scale=4.0
 mouse_cursor/custom_image="res://Art/Cursor-Sheet.png"
@@ -62,3 +63,4 @@ up={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

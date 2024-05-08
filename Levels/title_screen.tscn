@@ -310,51 +310,61 @@ func _on_hs_back_button_up():
 
 
 func _on_hs_level_1_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 1\"
 	get_scores(21217)
 
 
 func _on_hs_level_2_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 2\"
 	get_scores(21219)
 
 
 func _on_hs_level_3_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 3\"
 	get_scores(21220)
 
 
 func _on_hs_level_4_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 4\"
 	get_scores(21221)
 
 
 func _on_hs_level_5_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 5\"
 	get_scores(21222)
 
 
 func _on_hs_level_6_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 6\"
 	get_scores(21223)
 
 
 func _on_hs_level_7_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 7\"
 	get_scores(21224)
 
 
 func _on_hs_level_8_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 8\"
 	get_scores(21225)
 
 
 func _on_hs_level_9_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 9\"
 	get_scores(21226)
 
 
 func _on_score_http_request_request_completed(result, response_code, headers, body):
+	$HighScores/HSBack.visible = true
 	if response_code != 200:
 		await get_tree().create_timer(1.5).timeout
 		Game.isOffline = true
@@ -1471,7 +1481,6 @@ script = SubResource("GDScript_7qdv6")
 [node name="TitleBG" parent="." instance=ExtResource("1_kqdix")]
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
-z_index = 1
 position = Vector2(114, 180.12)
 scale = Vector2(1.47856, 1.47856)
 sprite_frames = SubResource("SpriteFrames_m84e7")
@@ -1498,7 +1507,6 @@ libraries = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
-visible = false
 z_index = 3
 offset_right = 480.0
 offset_bottom = 272.0
@@ -2562,12 +2570,12 @@ horizontal_alignment = 1
 [node name="EscapeKey" type="AnimatedSprite2D" parent="Tutorial/Page 4"]
 position = Vector2(110, 44)
 sprite_frames = SubResource("SpriteFrames_nem8d")
-frame_progress = 0.67749
+frame_progress = 0.0977181
 
 [node name="TabKey" type="AnimatedSprite2D" parent="Tutorial/Page 4"]
 position = Vector2(233, 44)
 sprite_frames = SubResource("SpriteFrames_0qol6")
-frame_progress = 0.873818
+frame_progress = 0.294046
 
 [node name="Pause" type="Node2D" parent="Tutorial/Page 4"]
 visible = false
