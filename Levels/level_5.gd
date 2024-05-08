@@ -155,6 +155,7 @@ func game_over():
 	if capturedChickens == totalChickens:
 		gameOver = true
 		format_time()
+		player.hide_e_key()
 		$UI.visible = false
 		$TileMaps/Roofs.visible = false
 		player.game_over = true

@@ -119,6 +119,7 @@ func game_over():
 		format_time()
 		$UI.queue_free()
 		$TileMaps/Roofs.queue_free()
+		player.hide_e_key()
 		player.game_over = true
 		var camera:Camera2D = player.get_node("Camera2D")
 		var tween = get_tree().create_tween()

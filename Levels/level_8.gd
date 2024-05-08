@@ -145,6 +145,7 @@ func game_over():
 		gameOver = true
 		player.set_light_layer(3)
 		format_time()
+		player.hide_e_key()
 		$UI.visible = false
 		$TileMaps/Roofs.visible = false
 		player.game_over = true
