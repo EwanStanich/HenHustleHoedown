@@ -1,4 +1,4 @@
-[gd_scene load_steps=173 format=3 uid="uid://dguryrdn8htwe"]
+[gd_scene load_steps=182 format=3 uid="uid://dguryrdn8htwe"]
 
 [ext_resource type="PackedScene" uid="uid://bw4i2rqmil5ks" path="res://Levels/title_bg.tscn" id="1_kqdix"]
 [ext_resource type="Texture2D" uid="uid://bdw5nha5on2l8" path="res://Art/Characters/Character2Final-Sheet.png" id="2_6upjg"]
@@ -91,6 +91,8 @@
 [ext_resource type="PackedScene" uid="uid://cp37fwha5uayf" path="res://Level Items/bed_menu.tscn" id="87_bjcx0"]
 [ext_resource type="Texture2D" uid="uid://cl7pvm673ey60" path="res://Art/Tilesets/Wooden House.png" id="88_jxtpo"]
 [ext_resource type="PackedScene" uid="uid://devv3qoc372xl" path="res://Characters/cow.tscn" id="90_xd0jo"]
+[ext_resource type="Texture2D" uid="uid://c7lb8db8dwln0" path="res://Art/Keys/EscapeKey-Sheet.png" id="92_t48vf"]
+[ext_resource type="Texture2D" uid="uid://ct8y6gtmf58q7" path="res://Art/Keys/TabKey-Sheet.png" id="93_orp4i"]
 
 [sub_resource type="GDScript" id="GDScript_7qdv6"]
 script/source = "extends Node2D
@@ -103,10 +105,15 @@ var reconnect_http_request
 var titleAnim
 var inBed = false
 var pageTwo = false
+var pageFour = false
 var inBedArea = false
 var tutPage = 1
+var web = true
 
 func _ready():
+	if web:
+		$Buttons/Quit.visible = false
+		$Buttons.position = Vector2(67, -22)
 	if Game.isFirstInstance:
 		$Title.z_index = 4
 	else:
@@ -236,10 +243,12 @@ func _on_tutorial_button_up():
 	$\"Tutorial/Page 1\".visible = true
 	$\"Tutorial/Page 2\".visible = false
 	$\"Tutorial/Page 3\".visible = false
+	$\"Tutorial/Page 4\".visible = false
 	$Tutorial.visible = true
 	$Title.visible = false
 	$Buttons.visible = false
 	pageTwo = false
+	pageFour = false
 
 
 func _on_quit_button_up():
@@ -305,51 +314,61 @@ func _on_hs_back_button_up():
 
 
 func _on_hs_level_1_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 1\"
 	get_scores(21217)
 
 
 func _on_hs_level_2_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 2\"
 	get_scores(21219)
 
 
 func _on_hs_level_3_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 3\"
 	get_scores(21220)
 
 
 func _on_hs_level_4_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 4\"
 	get_scores(21221)
 
 
 func _on_hs_level_5_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 5\"
 	get_scores(21222)
 
 
 func _on_hs_level_6_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 6\"
 	get_scores(21223)
 
 
 func _on_hs_level_7_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 7\"
 	get_scores(21224)
 
 
 func _on_hs_level_8_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 8\"
 	get_scores(21225)
 
 
 func _on_hs_level_9_button_up():
+	$HighScores/HSBack.visible = false
 	$HighScores/LevelNum.text = \"Level 9\"
 	get_scores(21226)
 
 
 func _on_score_http_request_request_completed(result, response_code, headers, body):
+	$HighScores/HSBack.visible = true
 	if response_code != 200:
 		await get_tree().create_timer(1.5).timeout
 		Game.isOffline = true
@@ -387,7 +406,7 @@ func get_scores(key):
 	var url = \"https://api.lootlocker.io/game/leaderboards/%s/list?count=16\" % key
 	var header = [\"Content-Type: application/json\", \"x-session-token: %s\" % Game.playerToken]
 	var method = HTTPClient.METHOD_GET
-	score_http_request.request(url, header, method)	
+	score_http_request.request(url, header, method)
 
 
 func close_hs_board():
@@ -460,7 +479,6 @@ func _on_gate_detector_body_entered(body):
 
 func _on_right_button_up():
 	tutPage += 1
-	print(tutPage)	
 	if tutPage == 2:
 		$Tutorial/Left.visible = true
 		tutePlayer.set_bed($\"Tutorial/Page 2/Bed\".position)
@@ -475,6 +493,7 @@ func _on_right_button_up():
 		$\"Tutorial/Page 1\".visible = false
 		$\"Tutorial/Page 2\".visible = true
 		$\"Tutorial/Page 3\".visible = false
+		$\"Tutorial/Page 4\".visible = false
 		pageTwo = true
 		stop_keys()
 	elif tutPage == 3:
@@ -485,6 +504,7 @@ func _on_right_button_up():
 		$\"Tutorial/Page 1\".visible = false
 		$\"Tutorial/Page 3\".visible = true
 		$\"Tutorial/Page 2\".visible = false
+		$\"Tutorial/Page 4\".visible = false
 		$\"Tutorial/Page 3/Animals/Cow\".position = Vector2(95, 27)
 		$\"Tutorial/Page 3/Animals/Cow2\".position = Vector2(245, 107)
 		$\"Tutorial/Page 3/Animals/Cow3\".position = Vector2(121, 118)
@@ -502,14 +522,26 @@ func _on_right_button_up():
 		tutePlayer.set_collision_layer_value(8, true)
 		tutePlayer.hide_sleep()
 		tutePlayer.hide_arrow()
-		$Tutorial/Right.visible = false
 		pageTwo = false
+		pageFour = false
+	elif tutPage == 4:
+		$Tutorial/Right.visible = false
+		tutePlayer.set_collision_mask_value(11, true)
+		tutePlayer.set_collision_mask_value(8, false)
+		tutePlayer.set_collision_layer_value(11, true)
+		tutePlayer.set_collision_layer_value(8, false)
+		$\"Tutorial/Page 1\".visible = false
+		$\"Tutorial/Page 3\".visible = false
+		$\"Tutorial/Page 2\".visible = false
+		$\"Tutorial/Page 4\".visible = true
+		pageFour = true
+		play_keys()
 
 
 func _on_left_button_up():
 	tutPage -= 1
-	print(tutPage)		
 	if tutPage == 1:
+		$Tutorial/Left.visible = false
 		if inBed:
 			inBed = false
 			tutePlayer.sleeping = false
@@ -529,6 +561,7 @@ func _on_left_button_up():
 		$\"Tutorial/Page 1\".visible = true
 		$\"Tutorial/Page 2\".visible = false
 		$\"Tutorial/Page 3\".visible = false
+		$\"Tutorial/Page 4\".visible = false
 		pageTwo = false
 	elif tutPage == 2:
 		$Tutorial/Right.visible = true		
@@ -544,7 +577,37 @@ func _on_left_button_up():
 		$\"Tutorial/Page 1\".visible = false
 		$\"Tutorial/Page 2\".visible = true
 		$\"Tutorial/Page 3\".visible = false
+		$\"Tutorial/Page 4\".visible = false
 		pageTwo = true
+		stop_keys()
+	elif tutPage == 3:
+		$Tutorial/Right.visible = true
+		if inBed:
+			inBed = false
+			tutePlayer.sleeping = false
+			tutePlayer.set_down()
+		$\"Tutorial/Page 1\".visible = false
+		$\"Tutorial/Page 3\".visible = true
+		$\"Tutorial/Page 2\".visible = false
+		$\"Tutorial/Page 4\".visible = false
+		$\"Tutorial/Page 3/Animals/Cow\".position = Vector2(95, 27)
+		$\"Tutorial/Page 3/Animals/Cow2\".position = Vector2(245, 107)
+		$\"Tutorial/Page 3/Animals/Cow3\".position = Vector2(121, 118)
+		$\"Tutorial/Page 3/Animals/Cow4\".position = Vector2(237, 65)
+		$\"Tutorial/Page 3/Animals/Cow5\".position = Vector2(85, 98)
+		$\"Tutorial/Page 3/Animals/Cow6\".position = Vector2(257, 135)
+		$\"Tutorial/Page 3/Animals/Cow7\".position = Vector2(146, 36)
+		$\"Tutorial/Page 3/Animals/Cow8\".position = Vector2(169, 90)
+		$\"Tutorial/Page 3/Animals/Chicken\".position = Vector2(203, 38)
+		$\"Tutorial/Page 3/Animals/Chicken2\".position = Vector2(103, 61)
+		$\"Tutorial/Page 3/Animals/Chicken3\".position = Vector2(191, 125)
+		tutePlayer.set_collision_mask_value(11, false)
+		tutePlayer.set_collision_mask_value(8, true)
+		tutePlayer.set_collision_layer_value(11, false)
+		tutePlayer.set_collision_layer_value(8, true)
+		tutePlayer.hide_sleep()
+		tutePlayer.hide_arrow()
+		pageFour = false
 		stop_keys()
 		
 
@@ -575,6 +638,17 @@ func _input(event):
 			tutePlayer.set_down()
 			anim.play(\"FadeOut\")
 			await anim.animation_finished
+		if (Input.is_key_pressed(KEY_TAB) or Input.is_key_pressed(KEY_ESCAPE)) and pageFour:
+			$\"Tutorial/Page 4/Pause\".visible = true
+			tutePlayer.pause()
+			$\"Tutorial/Page 4/TabKey\".pause()
+			$\"Tutorial/Page 4/EscapeKey\".pause()
+
+func _on_pause_play_button_up() -> void:
+	$\"Tutorial/Page 4/Pause\".visible = false
+	tutePlayer.play()
+	$\"Tutorial/Page 4/TabKey\".play()
+	$\"Tutorial/Page 4/EscapeKey\".play()
 
 
 func _on_closeto_bed_detector_body_entered(body):
@@ -591,12 +665,16 @@ func play_keys():
 		i.play(\"default\")
 	for i in $\"Tutorial/Page 1/WASD Keys\".get_children():
 		i.play(\"default\")
+	$\"Tutorial/Page 4/EscapeKey\".play(\"default\")
+	$\"Tutorial/Page 4/TabKey\".play(\"default\")
 
 func stop_keys():
 	for i in $\"Tutorial/Page 1/Arrow Keys\".get_children():
 		i.stop()
 	for i in $\"Tutorial/Page 1/WASD Keys\".get_children():
 		i.stop()
+	$\"Tutorial/Page 4/EscapeKey\".stop()
+	$\"Tutorial/Page 4/TabKey\".stop()
 
 
 func _on_roof_detection_body_entered(body):
@@ -920,10 +998,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ohgr7"]
-size = Vector2(2, 149)
+size = Vector2(1, 152)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_coup3"]
-size = Vector2(1.5, 148)
+size = Vector2(1.75, 151)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qugeg"]
 size = Vector2(229.75, 1)
@@ -1354,13 +1432,59 @@ size = Vector2(32, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0x6vg"]
 size = Vector2(231, 18)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r782"]
+atlas = ExtResource("92_t48vf")
+region = Rect2(0, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8e7i"]
+atlas = ExtResource("92_t48vf")
+region = Rect2(48, 0, 48, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nem8d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6r782")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8e7i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkqpt"]
+atlas = ExtResource("93_orp4i")
+region = Rect2(0, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8ckw"]
+atlas = ExtResource("93_orp4i")
+region = Rect2(48, 0, 48, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0qol6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkqpt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8ckw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ntdt8"]
+size = Vector2(26, 14)
+
 [node name="TitleScreen" type="Node2D"]
 script = SubResource("GDScript_7qdv6")
 
 [node name="TitleBG" parent="." instance=ExtResource("1_kqdix")]
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
-z_index = 1
 position = Vector2(114, 180.12)
 scale = Vector2(1.47856, 1.47856)
 sprite_frames = SubResource("SpriteFrames_m84e7")
@@ -2057,19 +2181,19 @@ scale = Vector2(0.682857, 0.897727)
 texture = ExtResource("65_pbqum")
 
 [node name="TutorialBounds" type="StaticBody2D" parent="Tutorial"]
-collision_layer = 167
-collision_mask = 167
+collision_layer = 1191
+collision_mask = 1191
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tutorial/TutorialBounds"]
-position = Vector2(55, 80.5)
+position = Vector2(54.5, 82)
 shape = SubResource("RectangleShape2D_ohgr7")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="Tutorial/TutorialBounds"]
-position = Vector2(284, 81)
+position = Vector2(284.125, 82.5)
 shape = SubResource("RectangleShape2D_coup3")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Tutorial/TutorialBounds"]
-position = Vector2(169.875, 154.5)
+position = Vector2(170, 158)
 shape = SubResource("RectangleShape2D_qugeg")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Tutorial/TutorialBounds"]
@@ -2222,6 +2346,7 @@ position = Vector2(-7, -3)
 tile_set = SubResource("TileSet_1wokq")
 format = 2
 layer_0/tile_data = PackedInt32Array(458761, 65537, 1, 458762, 65537, 1, 458763, 65537, 1, 524299, 65537, 1, 524298, 65537, 1, 524297, 65537, 1, 524296, 1, 1, 458760, 1, 1, 589832, 1, 2, 589833, 65537, 2, 589834, 65537, 2, 589835, 65537, 2, 589837, 131073, 2, 589836, 65537, 2, 524301, 131073, 1, 458765, 131073, 1, 393229, 131073, 0, 393228, 65537, 0, 393227, 65537, 0, 393226, 65537, 0, 393225, 65537, 0, 393224, 1, 0, 458764, 65537, 1, 524300, 65537, 1)
+layer_1/name = "Layer1"
 layer_1/tile_data = PackedInt32Array(458760, 0, 1, 393224, 65536, 0, 589832, 65536, 2, 589837, 196608, 2, 393229, 196608, 0, 524296, 0, 1, 458765, 0, 1, 524301, 0, 1, 589833, 131072, 3, 589834, 131072, 3, 589835, 131072, 3, 589836, 131072, 3, 393228, 65536, 3, 393225, 196608, 3)
 
 [node name="Page 2" type="Node2D" parent="Tutorial"]
@@ -2291,6 +2416,7 @@ position = Vector2(1, -2)
 tile_set = SubResource("TileSet_k3fy3")
 format = 2
 layer_0/tile_data = PackedInt32Array(458760, 65536, 2, 458761, 65536, 2, 458762, 65536, 2, 458763, 65536, 2, 458764, 65536, 2, 524300, 65536, 2, 524299, 65536, 2, 524298, 65536, 2, 524297, 65536, 2, 524296, 65536, 2, 393225, 65536, 0, 589836, 65536, 0, 589832, 65536, 0, 393227, 65536, 0)
+layer_1/name = "Layer1"
 layer_1/tile_data = PackedInt32Array(393223, 0, 1, 393229, 131072, 1, 589837, 131072, 3, 589831, 0, 3, 458759, 0, 2, 524295, 0, 2, 524301, 131072, 2, 458765, 131072, 2, 589832, 65536, 3, 589833, 65536, 3, 589834, 65536, 3, 589835, 65536, 3, 589836, 65536, 3, 393224, 65536, 1, 393225, 65536, 1, 393227, 65536, 1, 393228, 65536, 1)
 
 [node name="Roof" type="TileMap" parent="Tutorial/Page 2"]
@@ -2419,6 +2545,76 @@ collision_mask = 256
 position = Vector2(169.5, 14)
 shape = SubResource("RectangleShape2D_0x6vg")
 
+[node name="Page 4" type="Node2D" parent="Tutorial"]
+visible = false
+
+[node name="Label" type="Label" parent="Tutorial/Page 4"]
+offset_left = 59.0
+offset_top = 12.0
+offset_right = 401.0
+offset_bottom = 29.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "You are able to pause the game at
+any time"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Tutorial/Page 4"]
+offset_left = 59.0
+offset_top = 149.0
+offset_right = 401.0
+offset_bottom = 188.0
+scale = Vector2(0.64, 0.64)
+theme_override_constants/line_spacing = 11
+theme_override_fonts/font = ExtResource("29_ilqtw")
+text = "Give it a try!"
+horizontal_alignment = 1
+
+[node name="EscapeKey" type="AnimatedSprite2D" parent="Tutorial/Page 4"]
+position = Vector2(110, 44)
+sprite_frames = SubResource("SpriteFrames_nem8d")
+frame_progress = 0.0977181
+
+[node name="TabKey" type="AnimatedSprite2D" parent="Tutorial/Page 4"]
+position = Vector2(233, 44)
+sprite_frames = SubResource("SpriteFrames_0qol6")
+frame_progress = 0.294046
+
+[node name="Pause" type="Node2D" parent="Tutorial/Page 4"]
+visible = false
+z_index = 6
+y_sort_enabled = true
+position = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="Panel" type="Panel" parent="Tutorial/Page 4/Pause"]
+offset_left = 51.0
+offset_top = 5.42
+offset_right = 289.38
+offset_bottom = 163.42
+
+[node name="PausePlay" type="TextureButton" parent="Tutorial/Page 4/Pause"]
+offset_left = 137.0
+offset_top = 71.0
+offset_right = 213.0
+offset_bottom = 103.0
+scale = Vector2(0.84, 0.84)
+texture_normal = ExtResource("2_hppke")
+texture_pressed = ExtResource("3_2mspn")
+texture_hover = ExtResource("3_ho6ye")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Tutorial/Page 4"]
+collision_layer = 1024
+collision_mask = 1024
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tutorial/Page 4/StaticBody2D"]
+position = Vector2(110, 45)
+shape = SubResource("RectangleShape2D_ntdt8")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Tutorial/Page 4/StaticBody2D"]
+position = Vector2(233, 45)
+shape = SubResource("RectangleShape2D_ntdt8")
+
 [node name="Back" type="TextureButton" parent="Tutorial"]
 offset_left = 139.0
 offset_top = 167.0
@@ -2477,6 +2673,7 @@ timeout = 5.0
 [connection signal="body_exited" from="Tutorial/Page 2/BedDetector" to="." method="_on_bed_detector_body_exited"]
 [connection signal="body_entered" from="Tutorial/Page 2/ClosetoBedDetector" to="." method="_on_closeto_bed_detector_body_entered"]
 [connection signal="body_exited" from="Tutorial/Page 2/ClosetoBedDetector" to="." method="_on_closeto_bed_detector_body_exited"]
+[connection signal="button_up" from="Tutorial/Page 4/Pause/PausePlay" to="." method="_on_pause_play_button_up"]
 [connection signal="button_up" from="Tutorial/Back" to="." method="_on_back_button_up"]
 [connection signal="request_completed" from="ScoreHTTPRequest" to="." method="_on_score_http_request_request_completed"]
 [connection signal="request_completed" from="TokenHTTPRequest" to="." method="_on_http_request_request_completed"]
