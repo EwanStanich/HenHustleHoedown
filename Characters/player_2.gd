@@ -39,8 +39,8 @@ func _physics_process(_delta):
 	$Debug/DebugDirection.text = str(slideDirection)
 	
 	var input_direction = Vector2(
-			Input.get_action_strength("right_p1") - Input.get_action_strength("left_p1"),
-			Input.get_action_strength("down_p1") - Input.get_action_strength("up_p1")
+			Input.get_action_strength("right_p2") - Input.get_action_strength("left_p2"),
+			Input.get_action_strength("down_p2") - Input.get_action_strength("up_p2")
 		)
 	
 	if isSliding:

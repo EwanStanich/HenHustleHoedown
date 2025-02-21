@@ -108,7 +108,7 @@ var pageTwo = false
 var pageFour = false
 var inBedArea = false
 var tutPage = 1
-var web = true
+var web = false
 
 func _ready():
 	if web:
@@ -155,32 +155,32 @@ func ready_2():
 		revis_title_screen()
 		titleAnim.play(\"Move2\")
 	close_hs_board()
-	if Game.level1:
-		$\"Level_Buttons/Level 2\".disabled = false
-		$\"HS_Buttons/HS Level 1\".disabled = false
-	if Game.level2:
-		$\"HS_Buttons/HS Level 2\".disabled = false
-		$\"Level_Buttons/Level 3\".disabled = false
-	if Game.level3:
-		$\"HS_Buttons/HS Level 3\".disabled = false
-		$\"Level_Buttons/Level 4\".disabled = false
-	if Game.level4:
-		$\"HS_Buttons/HS Level 4\".disabled = false
-		$\"Level_Buttons/Level 5\".disabled = false		
-	if Game.level5:
-		$\"HS_Buttons/HS Level 5\".disabled = false
-		$\"Level_Buttons/Level 6\".disabled = false
-	if Game.level6:
-		$\"HS_Buttons/HS Level 6\".disabled = false
-		$\"Level_Buttons/Level 7\".disabled = false
-	if Game.level7:
-		$\"HS_Buttons/HS Level 7\".disabled = false
-		$\"Level_Buttons/Level 8\".disabled = false
-	if Game.level8:
-		$\"HS_Buttons/HS Level 8\".disabled = false
-		$\"Level_Buttons/Level 9\".disabled = false
-	if Game.level9:
-		$\"HS_Buttons/HS Level 9\".disabled = false
+	#if Game.level1:
+		#$\"Level_Buttons/Level 2\".disabled = false
+		#$\"HS_Buttons/HS Level 1\".disabled = false
+	#if Game.level2:
+		#$\"HS_Buttons/HS Level 2\".disabled = false
+		#$\"Level_Buttons/Level 3\".disabled = false
+	#if Game.level3:
+		#$\"HS_Buttons/HS Level 3\".disabled = false
+		#$\"Level_Buttons/Level 4\".disabled = false
+	#if Game.level4:
+		#$\"HS_Buttons/HS Level 4\".disabled = false
+		#$\"Level_Buttons/Level 5\".disabled = false		
+	#if Game.level5:
+		#$\"HS_Buttons/HS Level 5\".disabled = false
+		#$\"Level_Buttons/Level 6\".disabled = false
+	#if Game.level6:
+		#$\"HS_Buttons/HS Level 6\".disabled = false
+		#$\"Level_Buttons/Level 7\".disabled = false
+	#if Game.level7:
+		#$\"HS_Buttons/HS Level 7\".disabled = false
+		#$\"Level_Buttons/Level 8\".disabled = false
+	#if Game.level8:
+		#$\"HS_Buttons/HS Level 8\".disabled = false
+		#$\"Level_Buttons/Level 9\".disabled = false
+	#if Game.level9:
+		#$\"HS_Buttons/HS Level 9\".disabled = false
 	
 	$Title.visible = true
 	$Buttons.visible = true

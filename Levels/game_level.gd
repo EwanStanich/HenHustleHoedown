@@ -6,11 +6,13 @@ var playerSleeping = false
 var gameOver = false
 var isEnteringName = false
 var paused = false
-var player
+var player1
+var player2
 var chickens = []
 var cows = []
 var time = 0
 var tutorial = true
+var underRoof = 0
 var mins
 var secs
 var msecs
@@ -25,17 +27,20 @@ func _ready():
 	$Tutorial/PlayerSprite.play("default")
 	$Tutorial/ChickenSprite.play("default")
 	$Tutorial/CowSprite.play("default")
-	player = $Characters/Player
-	player.set_tutorial(true)
+	player1 = $Characters/Player
+	player2 = $Characters/Player2
+	player1.set_tutorial(true)
+	player2.set_tutorial(true)	
 	for chicken in $Characters/Chickens.get_children():
 		chickens.append(chicken)
 		totalChickens += 1
 	for cow in $Characters/Cows.get_children():
 		chickens.append(cow)
-	player.set_bed($LevelItems/Bed.position)
+	player1.set_bed($LevelItems/Bed.position)
+	player2.set_bed($LevelItems/Bed.position)
 	$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 	$UI/ChicknIcon.play("Icon")
-	player.set_camera_limits(369,5,514,6)
+	player1.set_camera_limits(369,5,514,6)
 	label = $GameOver/Name
 	http_request = $HighscoreHTTPRequest
 
@@ -44,7 +49,8 @@ func _on_ok_button_up():
 	$Tutorial.visible = false
 	$Tutorial/Ok.disabled = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-	player.set_tutorial(false)
+	player1.set_tutorial(false)
+	player2.set_tutorial(false)	
 	tutorial = false
 
 
@@ -92,13 +98,15 @@ func _input(event):
 func _on_roof_area_body_entered(body):
 	if body.name == "Player":
 		var roof = get_node("TileMaps/Roofs")
+		underRoof += 1
 		roof.set_layer_modulate(0, Color(1, 1, 1, 0.3))
 
 
 func _on_roof_area_body_exited(body):
 	if body.name == "Player":
 		var roof = get_node("TileMaps/Roofs")
-		if roof:
+		underRoof -= 1
+		if roof and underRoof == 0:
 			roof.set_layer_modulate(0, Color(1, 1, 1, 1))
 
 
@@ -109,8 +117,10 @@ func _on_gate_detector_body_entered(body):
 			capturedChickens += 1
 		$UI/Chickns.text = str(capturedChickens) + "/" + str(totalChickens)
 		if capturedChickens == totalChickens:
-			player.show_arrow()
-			player.show_sleep()
+			player1.show_arrow()
+			player1.show_sleep()
+			player2.show_arrow()
+			player2.show_sleep()
 
 
 func game_over():
@@ -119,27 +129,29 @@ func game_over():
 		format_time()
 		$UI.queue_free()
 		$TileMaps/Roofs.queue_free()
-		player.hide_e_key()
-		player.game_over = true
-		var camera:Camera2D = player.get_node("Camera2D")
+		player1.hide_e_key()
+		player1.game_over = true
+		player2.hide_e_key()
+		player2.game_over = true
+		var camera:Camera2D = player1.get_node("Camera2D")
 		var tween = get_tree().create_tween()
 		tween.tween_property(camera, "zoom", Vector2(4,4), 3.5)
 		await tween.finished
 		var anim:AnimationPlayer = $EndGame/AnimationPlayer
 		anim.play("Close")
 		await anim.animation_finished
-		if Game.isOffline:
-			Game.level1 = true
-			Utils.saveGame()
-			get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
-		isEnteringName = true
-		var final_time:Label = $GameOver/FinalTime
-		label.text = ""
-		label.grab_focus()
-		final_time.text = totalTime
-		player.position = $GameOver.position
-		camera.zoom = Vector2(1.2, 1.2)
-		player.set_camera_limits(187.5, -10, 953, 650)
+		#if Game.isOffline:
+		Game.level1 = true
+		Utils.saveGame()
+		get_tree().change_scene_to_file("res://Levels/title_screen.tscn")
+		#isEnteringName = true
+		#var final_time:Label = $GameOver/FinalTime
+		#label.text = ""
+		#label.grab_focus()
+		#final_time.text = totalTime
+		#player1.position = $GameOver.position
+		#camera.zoom = Vector2(1.2, 1.2)
+		#player1.set_camera_limits(187.5, -10, 953, 650)
 
 
 func format_time():
@@ -153,8 +165,8 @@ func update_time(name):
 	score_name = name
 	var score_data = score_name + " " + totalTime
 	var url = "https://api.lootlocker.io/game/leaderboards/21217/submit"
-	print(Game.playerToken)
-	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.playerToken]
+	print(Game.plyrToken)
+	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.plyrToken]
 	var method = HTTPClient.METHOD_POST
 	var request_data = {
 		"score": round(time * 100),
@@ -177,31 +189,36 @@ func _on_bed_detector_body_entered(body):
 		body.sleeping = true
 		playerSleeping = true
 		if capturedChickens == totalChickens:
-			player.show_e_key()
+			player1.show_e_key()
+			player2.show_e_key()
 
 
 func _on_bed_detector_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 	if "Player" in body.name:
 		body.sleeping = false
 		playerSleeping = false
-		player.hide_e_key()
+		player1.hide_e_key()
+		player2.hide_e_key()
 
 
 func _on_arrow_bed_area_body_entered(body):
-	player.hide_arrow()
+	player1.hide_arrow()
+	player2.hide_arrow()
 
 
 func _on_arrow_bed_area_body_exited(body):
 	if capturedChickens == totalChickens:
-		player.show_arrow()
+		player1.show_arrow()
+		player2.show_arrow()
 
 
 func pause_game():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	paused = true
-	$Pause/Buttons.position = player.get_camera_position()
+	$Pause/Buttons.position = player1.get_camera_position()
 	$Pause.visible = true
-	player.pause()
+	player1.pause()
+	player2.pause()
 	for cow in cows:
 		cow.pause()
 	for chicken in chickens:
@@ -210,7 +227,8 @@ func pause_game():
 
 func play_game():
 	$Pause.visible = false
-	player.play()
+	player1.play()
+	player2.play()
 	for cow in cows:
 		cow.play()
 	for chicken in chickens:
@@ -253,7 +271,7 @@ func _on_reconnect_http_request_request_completed(result, response_code, headers
 		$ErrorMessage.visible = true
 	elif Game.hasConnected:
 		Game.isOffline = false
-		print("Player token: ", Game.playerToken)
+		print("Player token: ", Game.plyrToken)
 		retry_score()
 	else:
 		Game.isOffline = false
@@ -261,16 +279,16 @@ func _on_reconnect_http_request_request_completed(result, response_code, headers
 		var json_object = JSON.new()
 		body = body.get_string_from_utf8()
 		json_object.parse(body)
-		Game.playerToken = json_object.get_data()["session_token"]
-		print("Player token: ", Game.playerToken)
+		Game.plyrToken = json_object.get_data()["session_token"]
+		print("Player token: ", Game.plyrToken)
 		retry_score()
 
 
 func retry_score():
 	var score_data = score_name + " " + totalTime
 	var url = "https://api.lootlocker.io/game/leaderboards/21217/submit"
-	print(Game.playerToken)
-	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.playerToken]
+	print(Game.plyrToken)
+	var header = ["Content-Type: application/json", "x-session-token: %s" % Game.plyrToken]
 	var method = HTTPClient.METHOD_POST
 	var request_data = {
 		"score": round(time * 100),

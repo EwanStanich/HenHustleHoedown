@@ -8,7 +8,7 @@ func _ready():
 
 
 func _on_area_2d_body_entered(body):
-	if body.name == "Player":
+	if "Player" in body.name:
 		play("Open")
 		if is_playing():
 			set_frame_and_progress(1, 0)
@@ -17,7 +17,7 @@ func _on_area_2d_body_entered(body):
 
 
 func _on_area_2d_body_exited(body):
-	if body.name == "Player":
+	if "Player" in body.name:
 		play("Close")
 		if is_playing():
 			set_frame_and_progress(1, 0)
